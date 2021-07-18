@@ -1,0 +1,141 @@
+import 'package:admin_panel/data/firebase/detection.dart';
+
+
+var options = <QuestionOption>[
+  QuestionOption(text: "পুরোপুরি সম্মতি প্রদান", value: 0),
+  QuestionOption(text: "প্রায় সবসময়ই সম্মত হই", value: 1),
+  QuestionOption(text: "হঠাৎ অসম্মতি প্রদান করি", value: 2),
+  QuestionOption(text: "প্রায় প্রায়ই অসম্মত", value: 3),
+  QuestionOption(text: "প্রায় সবসময়ই অসম্মত", value: 4),
+  QuestionOption(text: "পুরোপুরি অসম্মত", value: 5)
+];
+
+var marital_problem = <FirebaseQuestionDetection>[
+  FirebaseQuestionDetection(
+    text: "সংসারের আর্থিক অবস্থা পরিচালনার ক্ষেত্রে",
+    q_key: "",
+    img_key: null,
+    q_val: 0,
+    level: 1,
+    optionList: options,
+  ),
+  FirebaseQuestionDetection(
+    text: "বিনোদনের বিষয় সমূহের ক্ষেএে",
+    q_key: "",
+    img_key: null,
+    q_val: 0,
+    level: 1,
+    optionList: options,
+  ),
+  FirebaseQuestionDetection(
+    text: "অনুভূতি প্রয়োগের ক্ষেএে",
+    q_key: "",
+    img_key: null,
+    q_val: 0,
+    level: 2,
+    optionList: options,
+  ),
+  FirebaseQuestionDetection(
+    text: "বন্ধুত্বের ক্ষেএে",
+    q_key: "",
+    img_key: null,
+    q_val: 0,
+    level: 1,
+    optionList: options,
+  ),
+  FirebaseQuestionDetection(
+    text: "যৌন সম্পর্কের ক্ষেএে",
+    q_key: "",
+    img_key: null,
+    q_val: 0,
+    level: 1,
+    optionList: options,
+  ),
+  FirebaseQuestionDetection(
+    text: "পারিবারিক অবস্থা ( সঠিক অথবা ঠিকমতো সব কিছু পরিচালনা বিষয়ক )",
+    q_key: "",
+    img_key: null,
+    q_val: 0,
+    level: 1,
+    optionList: options,
+  ),
+  FirebaseQuestionDetection(
+    text: "জীবন দর্শনের ক্ষেএে",
+    q_key: "",
+    img_key: null,
+    q_val: 0,
+    level: 1,
+    optionList: options,
+  ),
+  FirebaseQuestionDetection(
+    text: "শ্বশুর শাশুড়ী সম্পর্কিত বিষয়",
+    q_key: "",
+    img_key: null,
+    q_val: 0,
+    level: 1,
+    optionList: options,
+  ),
+  FirebaseQuestionDetection(
+    text: "যখন কোন বিষয়ে মতের পার্থক্য হয় তখন কে সিদ্ধান্ত নেয়?",
+    q_key: "",
+    img_key: null,
+    q_val: 0,
+    level: 1,
+    optionList: [
+      QuestionOption(text: "দুজনে", value: 0),
+      QuestionOption(text: "স্বামী", value: 2),
+      QuestionOption(text: "স্ত্রী", value: 2),
+    ],
+  ),
+  FirebaseQuestionDetection(
+      text: "বাইরের কাজের ক্ষেত্রে স্বামী স্ত্রী একসাথে অনশগ্রহন করেন কি?",
+      q_key: "",
+      img_key: null,
+      q_val: 0,
+      level: 1,
+      optionList: [
+        QuestionOption(text: "সর্বক্ষেত্রে একসাথে কাজ করি", value: 0),
+        QuestionOption(text: "কিছু কিছু ক্ষেত্রে", value: 1),
+        QuestionOption(text: "খুব কম ক্ষেত্রে", value: 2),
+        QuestionOption(text: "কখনই না", value: 3),
+      ],
+  ),
+  FirebaseQuestionDetection(
+    text: "আপনি কি কখনো বিয়ে না করার ইচ্ছা পোষন করেছেন?",
+    q_key: "",
+    img_key: null,
+    q_val: 0,
+    level: 1,
+    optionList: [
+      QuestionOption(text: "কখনই না", value: 0),
+      QuestionOption(text: "কদাচিৎ", value: 2),
+      QuestionOption(text: "মাঝে মাঝে", value: 4),
+      QuestionOption(text: "খুব বেশি", value: 6),
+    ],
+  ),
+  FirebaseQuestionDetection(
+    text: "আপনি কি আপনার স্বামী /স্ত্রী কে বিশ্বাস করে কিছু বলেন?",
+    q_key: "",
+    img_key: null,
+    q_val: 0,
+    level: 1,
+    optionList: [
+      QuestionOption(text: "কখনই না", value: 10),
+      QuestionOption(text: "কদাচিৎ", value: 10),
+      QuestionOption(text: "বেশিরভাগ ক্ষেত্রে", value: 2),
+      QuestionOption(text: "সব ক্ষেত্রে", value: 0),
+    ],
+  ),
+  FirebaseQuestionDetection(
+    text: "আপনি যদি আর একটি জীবন পান তাহলে কি করবেন?",
+    q_key: "",
+    img_key: null,
+    q_val: 0,
+    level: 1,
+    optionList: [
+      QuestionOption(text: "বর্তমান স্বামী/স্ত্রী কেই বিয়ে করবেন", value: -8),
+      QuestionOption(text: "অন্য কাউকে বিয়ে করবেন", value: 5),
+      QuestionOption(text: "কখনো বিয়েই করবেন না", value: 1),
+    ],
+  ),
+];
