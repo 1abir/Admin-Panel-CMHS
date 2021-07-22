@@ -29,10 +29,6 @@ class DetectionModuleElement {
       ref!.doc(qd.q_key).set(qd.toMap()).catchError((onError) {
         debugPrint('Error in add Question : ' + onError.toString());
       }).then((value) {
-        // if(!keys.contains(qd.q_key)) {
-        //   questionsList!.add(qd);
-        //   keys.add(qd.q_key);
-        // }
       });
     }
   }

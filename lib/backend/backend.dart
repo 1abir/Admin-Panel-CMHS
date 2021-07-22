@@ -7,6 +7,8 @@ import 'package:admin_panel/backend/meetingmodule/meeting_info.dart';
 import 'package:admin_panel/backend/meetingmodule/meeting_module.dart';
 import 'package:admin_panel/backend/usermodule/user_info.dart';
 import 'package:admin_panel/backend/usermodule/user_module_elements.dart';
+import 'package:admin_panel/backend/videomodule/videomodulelement.dart';
+import 'package:admin_panel/backend/videomodule/videos.dart';
 import 'package:admin_panel/data/firebase/detection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -22,6 +24,7 @@ class FetchFireBaseData extends ChangeNotifier {
   UserModuleElement? userModuleElement;
   MeetingModule? meetingModuleElement;
   ArticleModuleElement? am;
+  VideoModuleElement? videoModule;
 
   FetchFireBaseData() {
     init();
@@ -33,6 +36,7 @@ class FetchFireBaseData extends ChangeNotifier {
     fetchUserModule();
     fetchMeetingModule();
     fetchArticle();
+    fetchVideo();
   }
 
   Future<void> fetchDetectionModule() async {
@@ -40,9 +44,9 @@ class FetchFireBaseData extends ChangeNotifier {
       DetectionModuleElement dm = await fetch(detectionElementNames[i]);
       detectionModule.add(dm);
       detectionModuleMap[detectionElementNames[i]] = dm;
-      dm.questionsList!.forEach((element) {
-        debugPrint(element.toMap().toString());
-      });
+      // dm.questionsList!.forEach((element) {
+      //   debugPrint(element.toMap().toString());
+      // });
     }
   }
 
@@ -79,10 +83,10 @@ class FetchFireBaseData extends ChangeNotifier {
       am!.articleCategories.clear();
       snapshot.docs.forEach((element) {
         var data = element.data();
-        debugPrint(data.toString());
+        // debugPrint(data.toString());
         Article article = Article.fromMap(data);
         article.key = element.reference.id;
-        debugPrint('Article:' + article.toMap().toString());
+        // debugPrint('Article:' + article.toMap().toString());
         am!.articleList!.add(article);
         if (article.category != '') am!.articleCategories.add(article.category);
       });
@@ -92,6 +96,30 @@ class FetchFireBaseData extends ChangeNotifier {
     am!.ref = FirebaseFirestore.instance.collection('/article');
     subscriptions.add(subscription);
     return am;
+  }
+  Future<VideoModuleElement?> fetchVideo() async {
+    videoModule = VideoModuleElement(videoList: []);
+    var subscription = FirebaseFirestore.instance
+        .collection('/video')
+        .snapshots()
+        .listen((snapshot) {
+      videoModule!.videoList!.clear();
+      videoModule!.videoCategories.clear();
+      snapshot.docs.forEach((element) {
+        var data = element.data();
+        // debugPrint(data.toString());
+        Videos vid = Videos.fromMap(data);
+        vid.key = element.reference.id;
+        // debugPrint('Video:' + vid.toMap().toString());
+        videoModule!.videoList!.add(vid);
+        if (vid.category != '') videoModule!.videoCategories.add(vid.category);
+      });
+      notifyListeners();
+    });
+    videoModule!.subscription = subscription;
+    videoModule!.ref = FirebaseFirestore.instance.collection('/video');
+    subscriptions.add(subscription);
+    return videoModule;
   }
 
   Future<void> fetchUserModule() async {
@@ -129,31 +157,10 @@ class FetchFireBaseData extends ChangeNotifier {
     }).catchError((onError) {
       debugPrint("error occured in reading rtdb: " + onError.toString());
     });
-    // userDataRef.once().then((DataSnapshot snapshot) {
-    //   snapshot.value.forEach((key, value) {
-    //     var d = Map<String, dynamic>.from(value);
-    //     UserInfoClass user = UserInfoClass.fromMap(d);
-    //     user.key = key.toString();
-    //     if (user.isDoctor == 0)
-    //       userList.add(user);
-    //     else
-    //       doctorList.add(user);
-    //   });
-    // }).whenComplete(() {
-    //   userModuleElement = UserModuleElement(
-    //       userRef: userDataRef,
-    //       dbSubscription: null,
-    //       doctors: doctorList,
-    //       users: userList);
-    //   debugPrint('Doctor List Length: ' + doctorList.length.toString());
-    //   notifyListeners();
-    // }).catchError((onError) {
-    //   debugPrint("error occured in reading rtdb: " + onError.toString());
-    // });
   }
 
   Future<void> fetchMeetingModule() async {
-    debugPrint("Fetch Meeting Called");
+    // debugPrint("Fetch Meeting Called");
     if (app == null) app = await Firebase.initializeApp();
     var dbRef = FirebaseDatabase.instance.reference();
 
@@ -167,7 +174,7 @@ class FetchFireBaseData extends ChangeNotifier {
         var d = Map<String, dynamic>.from(value);
         MeetingInfo meet = MeetingInfo.fromMap(d);
         meet.key = key.toString();
-        debugPrint("meet : "+meet.toMap().toString());
+        // debugPrint("meet : "+meet.toMap().toString());
         meetingList.add(meet);
       });
       meetingModuleElement = MeetingModule(
@@ -179,23 +186,6 @@ class FetchFireBaseData extends ChangeNotifier {
       debugPrint("error meeting Suscription : " + err.toString());
     });
     subscriptions.add(subscription);
-    // meetingDataRef.once().then((DataSnapshot snapshot) {
-    //   snapshot.value.forEach((key, value) {
-    //     var d = Map<String, dynamic>.from(value);
-    //     MeetingInfo meet = MeetingInfo.fromMap(d);
-    //     meet.key = key.toString();
-    //
-    //     meetingList.add(meet);
-    //   });
-    // }).whenComplete(() {
-    //   meetingModuleElement = MeetingModule(
-    //       sessions: meetingList, meetingReference: meetingDataRef);
-    //   debugPrint('Meeting List Length: ' + meetingList.length.toString());
-    //   notifyListeners();
-    // }).catchError((onError) {
-    //   debugPrint(
-    //       "error occured in reading rtdb meeting : " + onError.toString());
-    // });
   }
 
   void notify() {

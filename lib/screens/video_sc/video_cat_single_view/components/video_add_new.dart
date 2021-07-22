@@ -1,20 +1,21 @@
 import 'package:admin_panel/backend/articlemodule/article.dart';
 import 'package:admin_panel/backend/backend.dart';
+import 'package:admin_panel/backend/videomodule/videos.dart';
 import 'package:admin_panel/constants.dart';
 import 'package:admin_panel/forms/article_form.dart';
+import 'package:admin_panel/forms/video_form.dart';
 import 'package:admin_panel/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ArticleAddnewutton extends StatelessWidget {
-  const ArticleAddnewutton({Key? key}) : super(key: key);
+class VideoAddnewutton extends StatelessWidget {
+  const VideoAddnewutton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Consumer<FetchFireBaseData>(builder: (context, appState, _) {
-      Article article = Article.fromMap(<String,dynamic>{});
-      // article.type = 'article';
-      var temp = Article.fromMap(article.toMap());
+      Videos video = Videos.fromMap(<String,dynamic>{});
+      var temp = Videos.fromMap(video.toMap());
       return ElevatedButton.icon(
         style: TextButton.styleFrom(
           padding: EdgeInsets.symmetric(
@@ -33,15 +34,15 @@ class ArticleAddnewutton extends StatelessWidget {
               ),
               isScrollControlled: true,
               builder: (context) {
-                return ArticleForm(
-                  suggessions: appState.am!.articleCategories.toList(growable: false),
+                return appState.videoModule!=null?VideosForm(
+                  suggessions: appState.videoModule!.videoCategories.toList(growable: false),
                     temp: temp,
-                    article: article,
+                    video: video,
                     onSubmit: () async {
-                      article.copyFrom(temp);
-                      appState.am!.addArticle(article);
+                      video.copyFrom(temp);
+                      appState.videoModule!.addVideos(video);
                       // appState.notify();
-                    });
+                    }):Container();
               });
         },
         icon: Icon(Icons.add),

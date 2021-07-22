@@ -1,23 +1,31 @@
 import 'package:admin_panel/backend/articlemodule/article.dart';
+import 'package:admin_panel/backend/videomodule/videos.dart';
+import 'package:admin_panel/backend/videomodule/videos.dart';
+import 'package:admin_panel/backend/videomodule/videos.dart';
+import 'package:admin_panel/backend/videomodule/videos.dart';
+import 'package:admin_panel/backend/videomodule/videos.dart';
+import 'package:admin_panel/backend/videomodule/videos.dart';
+import 'package:admin_panel/backend/videomodule/videos.dart';
+import 'package:admin_panel/backend/videomodule/videos.dart';
 import 'package:admin_panel/constants.dart';
 import 'package:admin_panel/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
 
-class ArticleForm extends StatefulWidget {
+class VideosForm extends StatefulWidget {
   final int? catIndex;
   final int? questionIndex;
-  final Article article;
-  final Article temp;
+  final Videos video;
+  final Videos temp;
   final onSubmit;
   final onDelete;
   final suggessions;
 
-  ArticleForm(
+  VideosForm(
       {this.catIndex,
       this.questionIndex,
-      required this.article,
+      required this.video,
       required this.onSubmit,
       required this.temp,
       this.onDelete,
@@ -26,21 +34,18 @@ class ArticleForm extends StatefulWidget {
   }
 
   @override
-  _ArticleFormState createState() => _ArticleFormState();
+  _VideosFormState createState() => _VideosFormState();
 }
 
-class _ArticleFormState extends State<ArticleForm> {
+class _VideosFormState extends State<VideosForm> {
   final _formkey = GlobalKey<FormState>();
   final _controller = TextEditingController();
-  final _typecontroller = TextEditingController();
-  final HtmlEditorController controller = HtmlEditorController();
 
 
   @override
   void initState() {
     super.initState();
-    _controller.text = widget.article.category;
-    _typecontroller.text = widget.article.type;
+    _controller.text = widget.video.category;
   }
 
   @override
@@ -63,20 +68,20 @@ class _ArticleFormState extends State<ArticleForm> {
                     children: <Widget>[
                       Opacity(
                         opacity: 0.95,
-                        child: InputWidget(
+                        child: _InputWidget(
                           onChanged: (value) {
-                            widget.temp.head = value;
+                            widget.temp.caption = value;
                             // temp2.text = value.toString();
-                            debugPrint(widget.temp.head);
+                            debugPrint(widget.temp.caption);
                             debugPrint(widget.temp.hashCode.toString());
                             debugPrint("main hash: " +
-                                widget.article.hashCode.toString());
+                                widget.video.hashCode.toString());
                           },
-                          text: widget.article.head,
-                          title: 'Head',
+                          text: widget.video.caption,
+                          title: 'Caption',
                           validator: (value) {
                             if (value == null || value == '') {
-                              return "Please Provide Article Head Text";
+                              return "Please Provide Video Caption";
                             }
                             return null;
                           },
@@ -87,13 +92,32 @@ class _ArticleFormState extends State<ArticleForm> {
                       ),
                       Opacity(
                         opacity: 0.95,
-                        child: AutoCompleteInputWidget(
+                        child: _InputWidget(
+                          onChanged: (value) {
+                            widget.temp.description = value;
+                          },
+                          text: widget.video.description,
+                          title: 'Description',
+                          validator: (value) {
+                            if (value == null) {
+                              return "Please Provide Video Caption";
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.03,
+                      ),
+                      Opacity(
+                        opacity: 0.95,
+                        child: _AutoCompleteInputWidget(
                           typeAheadController: _controller,
                           suggessions: widget.suggessions,
                           onChanged: (value) {
                             widget.temp.category = value;
                           },
-                          text: widget.article.category,
+                          text: widget.video.category,
                           title: 'Category',
                           validator: (value) {
                             if (value == null || value == '') {
@@ -106,35 +130,14 @@ class _ArticleFormState extends State<ArticleForm> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.03,
                       ),
-                      Opacity(
-                        opacity: 0.95,
-                        child: AutoCompleteInputWidget(
-                          typeAheadController: _typecontroller,
-                          suggessions: ["full","link"],
-                          onChanged: (value) {
-                            widget.temp.type = value;
-                          },
-                          text: widget.article.type,
-                          title: 'Type',
-                          validator: (value) {
-                            if (value == null || value == '') {
-                              return "Please Provide type";
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.03,
-                      ),
                       // Align(Text('Image')),
                       Opacity(
                         opacity: 0.95,
-                        child: InputWidget(
+                        child: _InputWidget(
                           onChanged: (value) {
                             widget.temp.url = value;
                           },
-                          text: widget.article.url,
+                          text: widget.video.url,
                           title: 'URL',
                           validator: (value) {
                             if (value == null || value == '') return null;
@@ -150,19 +153,6 @@ class _ArticleFormState extends State<ArticleForm> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.03,
                       ),
-                      // HtmlEditorSection(
-                      //   controller: controller,
-                      //   initialText: widget.article.bodyHtml,
-                      // ),
-                      ExpansionTile(
-                          // initiallyExpanded: true,
-                          title: Text('Body HTML'),
-                          children: [
-                            HtmlEditorSection(
-                              controller: controller,
-                              initialText: widget.article.bodyHtml,
-                            ),
-                          ]),
                     ],
                   ),
                 ),
@@ -198,9 +188,6 @@ class _ArticleFormState extends State<ArticleForm> {
                         ),
                         onPressed: () async {
                           if (_formkey.currentState!.validate()) {
-                            widget.temp.bodyHtml =
-                                await controller.getText();
-                            debugPrint("body html:" + widget.temp.bodyHtml);
                             widget.onSubmit();
                             Navigator.of(context).maybePop();
                           } else {
@@ -255,13 +242,13 @@ class _ArticleFormState extends State<ArticleForm> {
   }
 }
 
-class InputWidget extends StatefulWidget {
+class _InputWidget extends StatefulWidget {
   final onChanged;
   final String title;
   final text;
   final Function(String?)? validator;
 
-  const InputWidget(
+  const _InputWidget(
       {Key? key,
       required this.onChanged,
       required this.text,
@@ -273,7 +260,7 @@ class InputWidget extends StatefulWidget {
   _InputWidgetState createState() => _InputWidgetState();
 }
 
-class _InputWidgetState extends State<InputWidget> {
+class _InputWidgetState extends State<_InputWidget> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: defaultPadding),
@@ -319,7 +306,7 @@ class _InputWidgetState extends State<InputWidget> {
   }
 }
 
-class AutoCompleteInputWidget extends StatefulWidget {
+class _AutoCompleteInputWidget extends StatefulWidget {
   final onChanged;
   final String title;
   final text;
@@ -327,7 +314,7 @@ class AutoCompleteInputWidget extends StatefulWidget {
   final suggessions;
   final TextEditingController typeAheadController;
 
-  AutoCompleteInputWidget(
+  _AutoCompleteInputWidget(
       {Key? key,
       required this.onChanged,
       required this.text,
@@ -357,7 +344,7 @@ class AutoCompleteInputWidget extends StatefulWidget {
   }
 }
 
-class _AutoCompleteInputWidgetState extends State<AutoCompleteInputWidget> {
+class _AutoCompleteInputWidgetState extends State<_AutoCompleteInputWidget> {
   Widget build(BuildContext context) {
     debugPrint("inside uild callack called: ");
     return Padding(
@@ -426,64 +413,5 @@ class _AutoCompleteInputWidgetState extends State<AutoCompleteInputWidget> {
         ],
       ),
     );
-  }
-}
-
-class HtmlEditorSection extends StatefulWidget {
-  final HtmlEditorController controller;
-  final String initialText;
-
-  const HtmlEditorSection(
-      {Key? key, required this.controller, required this.initialText})
-      : super(key: key);
-
-  @override
-  _HtmlEditorSectionState createState() => _HtmlEditorSectionState();
-}
-
-class _HtmlEditorSectionState extends State<HtmlEditorSection> {
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Align(
-          alignment: Alignment.topRight,
-          child: FloatingActionButton(
-            child: Icon(
-              Icons.code_rounded
-            ),
-              onPressed: () {
-            widget.controller.toggleCodeView();
-          }),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        HtmlEditor(
-          controller: widget.controller,
-          htmlEditorOptions: HtmlEditorOptions(
-            hint: "Write your Article",
-            initialText: widget.initialText,
-            // adjustHeightForKeyboard: false,
-            // autoAdjustHeight: false,
-            darkMode: true,
-            shouldEnsureVisible: true,
-          ),
-          otherOptions: OtherOptions(
-            height: 400,
-          ),
-        ),
-      ],
-    );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    // WidgetsBinding.instance!
-    //     .addPostFrameCallback((_) =>()async{
-    //   widget.controller.insertHtml(widget.initialText);
-    // });
   }
 }

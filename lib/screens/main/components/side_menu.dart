@@ -5,6 +5,7 @@ import 'package:admin_panel/screens/doctors/doctor_screen.dart';
 import 'package:admin_panel/screens/main/main_screen.dart';
 import 'package:admin_panel/screens/patients/patient_screen.dart';
 import 'package:admin_panel/screens/transaction/tx_screen.dart';
+import 'package:admin_panel/screens/video_sc/category/video_cat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -57,9 +58,24 @@ class SideMenu extends StatelessWidget {
               );
             },
           ),
-          DrawerListTile(
+          DrawerListTileIcon(
+            title: "Video",
+            icon: Icons.video_collection_rounded,
+            press: () {
+              Navigator.of(context).pushReplacement<void, void>(
+                MaterialPageRoute<void>(
+                    builder: (BuildContext context) => VideoCategoryScreen()
+                  // Provider(
+                  //   create: (context) => (),
+                  //   builder: (context, child) => ProductDetails(),
+                  // ),
+                ),
+              );
+            },
+          ),
+          DrawerListTileIcon(
             title: "Transaction",
-            svgSrc: "assets/icons/menu_tran.svg",
+            icon: Icons.attach_money_outlined,
             press: () {
               Navigator.of(context).pushReplacement<void, void>(
                 MaterialPageRoute<void>(
@@ -72,9 +88,9 @@ class SideMenu extends StatelessWidget {
               );
             },
           ),
-          DrawerListTile(
+          DrawerListTileIcon(
             title: "Users",
-            svgSrc: "assets/icons/menu_profile.svg",
+            icon: Icons.supervised_user_circle_outlined,
             press: () {
               Navigator.of(context).pushReplacement<void, void>(
                 MaterialPageRoute<void>(
@@ -83,9 +99,9 @@ class SideMenu extends StatelessWidget {
               );
             },
           ),
-          DrawerListTile(
+          DrawerListTileIcon(
             title: "Doctor",
-            svgSrc: "assets/icons/menu_doc.svg",
+            icon: Icons.volunteer_activism,
             press: () {
               Navigator.of(context).pushReplacement<void, void>(
                 MaterialPageRoute<void>(
@@ -94,13 +110,13 @@ class SideMenu extends StatelessWidget {
               );
             },
           ),
-          DrawerListTile(
-            title: "Notification",
-            svgSrc: "assets/icons/menu_notification.svg",
-            press: () {
-
-            },
-          ),
+          // DrawerListTile(
+          //   title: "Notification",
+          //   svgSrc: "assets/icons/menu_notification.svg",
+          //   press: () {
+          //
+          //   },
+          // ),
           DrawerListTile(
             title: "Questions",
             svgSrc: "assets/icons/menu_task.svg",
@@ -144,6 +160,37 @@ class DrawerListTile extends StatelessWidget {
         svgSrc,
         color: Colors.white54,
         height: 16,
+      ),
+      title: Text(
+        title,
+        style: TextStyle(color: Colors.white54),
+      ),
+    );
+  }
+}
+
+class DrawerListTileIcon extends StatelessWidget {
+  const DrawerListTileIcon({
+    Key? key,
+    // For selecting those three line once press "Command+D"
+    required this.title,
+    required this.icon,
+    required this.press,
+  }) : super(key: key);
+
+  final String title;
+  final IconData icon;
+  final VoidCallback press;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: press,
+      horizontalTitleGap: 0.0,
+      leading: Icon(
+        icon,
+        color: Colors.white54,
+        size: 16.0,
       ),
       title: Text(
         title,
