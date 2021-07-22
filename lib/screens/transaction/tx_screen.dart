@@ -1,8 +1,6 @@
-import 'package:admin_panel/controllers/MenuController.dart';
 import 'package:admin_panel/responsive.dart';
 import 'package:admin_panel/screens/transaction/components/tx_view.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../main/components/side_menu.dart';
 

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../../constants.dart';
 import 'components/header.dart';
 
-import 'components/recent_files.dart';
+import 'components/session_overview.dart';
 import 'components/storage_details.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -23,15 +23,28 @@ class DashboardScreen extends StatelessWidget {
               children: [
                 Expanded(
                   flex: 5,
-                  child: Column(
-                    children: [
-                      MyFiles(),
-                      SizedBox(height: defaultPadding),
-                      RecentFiles(),
-                      if (Responsive.isMobile(context))
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height,
+                    child: Column(
+                      children: [
+                        if (Responsive.isDesktop(context))
+                          Flexible(
+                            flex: 3,
+                            child: MyFiles(),
+                          ),
+                        if (Responsive.isMobile(context)) MyFiles(),
                         SizedBox(height: defaultPadding),
-                      if (Responsive.isMobile(context)) StarageDetails(),
-                    ],
+                        if (Responsive.isDesktop(context))
+                          Flexible(
+                            flex: 6,
+                            child: RecentSessionsView(),
+                          ),
+                        if (Responsive.isMobile(context)) RecentSessionsView(),
+                        if (Responsive.isMobile(context))
+                          SizedBox(height: defaultPadding),
+                        if (Responsive.isMobile(context)) StarageDetails(),
+                      ],
+                    ),
                   ),
                 ),
                 if (!Responsive.isMobile(context))

@@ -1,4 +1,3 @@
-import 'package:admin_panel/constants.dart';
 import 'package:flutter/material.dart';
 
 class MentalConditionOverviewInfo {

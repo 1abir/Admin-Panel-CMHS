@@ -1,6 +1,5 @@
 import 'package:admin_panel/backend/backend.dart';
 import 'package:admin_panel/constants.dart';
-import 'package:admin_panel/data/firebase/push.dart';
 import 'package:admin_panel/screens/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

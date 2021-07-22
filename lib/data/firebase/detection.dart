@@ -1,10 +1,8 @@
-import 'dart:convert';
 
 class FirebaseQuestionDetection {
   String q_key;
   String text;
   String? img_key;
-
   int q_val, level;
 
   List<QuestionOption> optionList;
@@ -31,41 +29,14 @@ class FirebaseQuestionDetection {
   static FirebaseQuestionDetection fromMap(Map<String, dynamic> data) {
     List<QuestionOption> qol = [];
     if (data.containsKey('optionList')) {
-      // (data['optionList'] as List).map((e) {
-      //   print("Inside ");
-      //   print(e.toString());
-      //   QuestionOption qo = QuestionOption.fromMap(e);
-      //   print(qo.toMap().toString());
-      //   qol.add(qo);
-      //   return e;
-      // });
-      // print("inside");
-      // final jd = jsonDecode(data['optionList']);
-      // print("JSon Decode " + jd.toString());
       final dl = [...data['optionList']];
-      // print(dl.runtimeType.toString());
-      // print("length: " + dl.length.toString());
-      // if (dl.length == 0) {
-      //   print(data['text']);
-      //   print(data['q_key']);
-      //   print(data['level']);
-      //   print("Option List" + data['optionList'].toString());
-      // } else {
-      //   print("else: " + data['text']);
-      // }
-      // print
       dl.forEach((e) {
-        // print("Inside map");
-        // print(e.toString());
         Map<String, dynamic> v = (e as Map<String, dynamic>);
-        // print(v.runtimeType.toString());
-        // print(v.toString());
         QuestionOption qo = QuestionOption.fromMap(v);
-        // print("output map: " + qo.toMap().toString());
         qol.add(qo);
       });
-      // print("finalqol:" + qol.toString());
     }
+
 
     return FirebaseQuestionDetection(
         text: data['text'] ?? '',
@@ -73,6 +44,15 @@ class FirebaseQuestionDetection {
         q_val: data['q_val'] ?? 0,
         level: data['level'] ?? 0,
         optionList: qol);
+  }
+
+  void copyFrom(FirebaseQuestionDetection fd){
+    q_key = fd.q_key;
+    text = fd.text;
+    img_key = fd.img_key;
+    q_val = fd.q_val;
+    level = fd.level;
+    optionList = fd.optionList;
   }
 }
 

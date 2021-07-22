@@ -1,11 +1,15 @@
-import 'package:admin_panel/controllers/MenuController.dart';
 import 'package:admin_panel/responsive.dart';
-import 'package:admin_panel/screens/categories/components/category_view.dart';
+import 'package:admin_panel/screens/main/components/side_menu.dart';
 import 'package:flutter/material.dart';
 
-import '../main/components/side_menu.dart';
+import 'components/question_category_view.dart';
 
-class CategoryScreen extends StatelessWidget {
+
+class QuestionCategoryScreen extends StatelessWidget {
+  final int index;
+
+  const QuestionCategoryScreen({required this.index});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +30,7 @@ class CategoryScreen extends StatelessWidget {
                 Expanded(
                   // It takes 5/6 part of the screen
                   flex: 5,
-                  child: CategoryView(),
+                  child: QuestionCategoryView(index: index,),
                 ),
               ],
             ),

@@ -1,12 +1,13 @@
 import 'package:admin_panel/backend/backend.dart';
+import 'package:admin_panel/backend/detectionmodule/detection_module.dart';
+import 'package:admin_panel/constants.dart';
 import 'package:admin_panel/models/RecentFile.dart';
+import 'package:admin_panel/responsive.dart';
 import 'package:admin_panel/screens/dashboard/components/header.dart';
-import 'package:admin_panel/screens/questions_category/question_category_screen.dart';
+import 'package:admin_panel/screens/detection_sc/questions_category/question_category_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../constants.dart';
-import '../../../responsive.dart';
 
 class CategoryView extends StatelessWidget {
   const CategoryView({
@@ -27,20 +28,21 @@ class CategoryView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(child: SearchField()),
+              // Expanded(child: SearchField()),
+              Spacer(),
               SizedBox(width: defaultPadding,),
-              ElevatedButton.icon(
-                style: TextButton.styleFrom(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: defaultPadding * 1.5,
-                    vertical:
-                    defaultPadding / (Responsive.isMobile(context) ? 2 : 1),
-                  ),
-                ),
-                onPressed: () {},
-                icon: Icon(Icons.add),
-                label: Text("Add New"),
-              ),
+              // ElevatedButton.icon(
+              //   style: TextButton.styleFrom(
+              //     padding: EdgeInsets.symmetric(
+              //       horizontal: defaultPadding * 1.5,
+              //       vertical:
+              //       defaultPadding / (Responsive.isMobile(context) ? 2 : 1),
+              //     ),
+              //   ),
+              //   onPressed: () {},
+              //   icon: Icon(Icons.add),
+              //   label: Text("Add New"),
+              // ),
               SizedBox(width: defaultPadding,),
             ],
           ),

@@ -1,12 +1,7 @@
 // import 'dart:html';
 // import 'dart:js';
 
-import 'package:admin_panel/data/firebase/detection.dart';
 import 'package:admin_panel/data/firebase/detection/depression_questions.dart';
-import 'package:admin_panel/data/firebase/detection/love_obsession.dart';
-import 'package:admin_panel/data/firebase/detection/marital_problem.dart';
-import 'package:admin_panel/data/firebase/detection/ocd_ques.dart';
-import 'package:admin_panel/data/firebase/detection/social_interaction_problem.dart';
 import 'package:admin_panel/data/firebase/moduleinfo/anxiety1.dart';
 import 'package:admin_panel/data/firebase/questions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

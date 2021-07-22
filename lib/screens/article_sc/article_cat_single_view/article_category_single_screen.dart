@@ -1,10 +1,15 @@
 import 'package:admin_panel/responsive.dart';
-import 'package:admin_panel/screens/doctors/components/doctor_view.dart';
+import 'package:admin_panel/screens/main/components/side_menu.dart';
 import 'package:flutter/material.dart';
 
-import '../main/components/side_menu.dart';
+import 'components/article_category_single_view.dart';
 
-class DoctorScreen extends StatelessWidget {
+
+class ArticleCategorySingleScreen extends StatelessWidget {
+  final String category;
+
+  const ArticleCategorySingleScreen({required this.category});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +30,7 @@ class DoctorScreen extends StatelessWidget {
                 Expanded(
                   // It takes 5/6 part of the screen
                   flex: 5,
-                  child: DoctorsView(),
+                  child: ArticleCategorySingleView(category: category,),
                 ),
               ],
             ),

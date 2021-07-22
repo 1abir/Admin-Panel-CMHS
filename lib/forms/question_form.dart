@@ -7,13 +7,19 @@ class QuestionForm extends StatefulWidget {
   final int? catIndex;
   final int? questionIndex;
   final FirebaseQuestionDetection firebaseQuestionDetection;
+  final FirebaseQuestionDetection temp;
   final onSubmit;
+  final onDelete;
 
   QuestionForm(
       {this.catIndex,
       this.questionIndex,
       required this.firebaseQuestionDetection,
-      required this.onSubmit});
+      required this.onSubmit,
+        required this.temp,
+      this.onDelete}){
+    debugPrint("Constructor Called");
+  }
 
   @override
   _QuestionFormState createState() => _QuestionFormState();
@@ -42,10 +48,22 @@ class _QuestionFormState extends State<QuestionForm> {
                         opacity: 0.95,
                         child: InputWidget(
                           onChanged: (value) {
-                            widget.firebaseQuestionDetection.text = value;
+                              widget.temp.text = value;
+                              // temp2.text = value.toString();
+                              debugPrint(widget.temp.text);
+                              debugPrint(widget.temp.hashCode.toString());
+                              debugPrint("main hash: " + widget.firebaseQuestionDetection.hashCode.toString());
                           },
                           text: widget.firebaseQuestionDetection.text,
                           title: 'Question',
+                          validator: (value){
+                            if(value == null || value == ''){
+                              return "Please Provide Question Text";
+                            }
+                            debugPrint('Inside deeebut : '+ widget.temp.text);
+
+                            return null;
+                          },
                         ),
                       ),
                       SizedBox(
@@ -56,7 +74,7 @@ class _QuestionFormState extends State<QuestionForm> {
                         opacity: 0.95,
                         child: InputWidget(
                           onChanged: (value) {
-                            widget.firebaseQuestionDetection.img_key = value;
+                            widget.temp.img_key = value;
                           },
                           text: widget.firebaseQuestionDetection.img_key,
                           title: 'Image Link',
@@ -74,13 +92,38 @@ class _QuestionFormState extends State<QuestionForm> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.03,
                       ),
+                      Opacity(
+                        opacity: 0.95,
+                        child: InputWidget(
+                          onChanged: (value) {
+                            if (value != null) {
+                              int? iv = int.tryParse(value);
+                              if (iv != null)
+                                widget.temp.level = iv;
+                            }
+                          },
+                          text: widget.firebaseQuestionDetection.level.toString(),
+                          title: 'Level',
+                          validator: (value) {
+                            if (value == null) return null;
+                            if (int.tryParse(value) == null) {
+                              return "Provide a correct integer value";
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.03,
+                      ),
                       ExpansionTile(
                           // initiallyExpanded: true,
-                          title: Text('Options'), children: [
-                        OptionList(
-                            options:
-                                widget.firebaseQuestionDetection.optionList),
-                      ]),
+                          title: Text('Options'),
+                          children: [
+                            OptionList(
+                                options: widget
+                                    .firebaseQuestionDetection.optionList),
+                          ]),
                     ],
                   ),
                 ),
@@ -114,8 +157,13 @@ class _QuestionFormState extends State<QuestionForm> {
                             ),
                           ],
                         ),
-                        onPressed: () {
+                        onPressed: () async{
                           if (_formkey.currentState!.validate()) {
+                            // widget.firebaseQuestionDetection.copyFrom(temp2);
+                            widget.firebaseQuestionDetection.copyFrom(widget.temp);
+                            debugPrint('hi: '+ widget.firebaseQuestionDetection.text);
+                            debugPrint("temp after: "+widget.temp.hashCode.toString());
+                            debugPrint("main hash after: " + widget.firebaseQuestionDetection.hashCode.toString());
                             widget.onSubmit();
                             Navigator.of(context).maybePop();
                           } else {
@@ -125,6 +173,39 @@ class _QuestionFormState extends State<QuestionForm> {
                           }
                         },
                       ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      if (widget.onDelete != null)
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.white,
+                            elevation: 2.0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Text(
+                                'Delete',
+                                style: TextStyle(color: Color(0xFF1E7879)),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Icon(
+                                Icons.delete_forever_rounded,
+                                color: Color(0xFF1E7879),
+                              ),
+                            ],
+                          ),
+                          onPressed: () {
+                            if (widget.onDelete != null) widget.onDelete();
+                            Navigator.of(context).maybePop();
+                          },
+                        )
                     ],
                   ),
                 ),
@@ -144,10 +225,6 @@ class OptionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("debugprint: " + options.length.toString());
-    options.forEach((element) {
-      debugPrint(element.toMap().toString());
-    });
     List<Widget> opsWidgets = [];
     for (int i = 0; i < options.length; i++) {
       opsWidgets.add(Align(
@@ -157,7 +234,7 @@ class OptionList extends StatelessWidget {
           color: Colors.orangeAccent,
           borderOnForeground: true,
           child: Container(
-            margin: EdgeInsets.all(defaultPadding/2),
+            margin: EdgeInsets.all(defaultPadding / 2),
             child: Text(
               "${i + 1}",
               style: Theme.of(context).textTheme.button,
@@ -204,7 +281,7 @@ class OptionList extends StatelessWidget {
   }
 }
 
-class InputWidget extends StatelessWidget {
+class InputWidget extends StatefulWidget {
   final onChanged;
   final String title;
   final text;
@@ -218,6 +295,11 @@ class InputWidget extends StatelessWidget {
       this.validator})
       : super(key: key);
 
+  @override
+  _InputWidgetState createState() => _InputWidgetState();
+}
+
+class _InputWidgetState extends State<InputWidget> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: defaultPadding),
@@ -229,7 +311,7 @@ class InputWidget extends StatelessWidget {
             child: Container(
               margin: EdgeInsets.all(defaultPadding),
               child: Text(
-                title,
+                widget.title,
                 style: Theme.of(context).textTheme.button,
               ),
             ),
@@ -240,20 +322,20 @@ class InputWidget extends StatelessWidget {
           Expanded(
             child: TextFormField(
               onChanged: (value) {
-                onChanged(value);
+                widget.onChanged(value);
               },
-              initialValue: text,
+              initialValue: widget.text,
               decoration: InputDecoration(
                 border: UnderlineInputBorder(),
                 contentPadding: EdgeInsets.symmetric(horizontal: 45),
-                hintText: title,
+                hintText: widget.title,
                 hintStyle: TextStyle(
                   color: Colors.white,
                 ),
               ),
               validator: (value) {
-                if (validator == null) return null;
-                return validator!(value);
+                if (widget.validator == null) return null;
+                return widget.validator!(value);
               },
             ),
           ),

@@ -1,4 +1,6 @@
-import 'package:admin_panel/screens/categories/category_screen.dart';
+
+import 'package:admin_panel/screens/article_sc/category/article_cat_screen.dart';
+import 'package:admin_panel/screens/detection_sc/categories/category_screen.dart';
 import 'package:admin_panel/screens/doctors/doctor_screen.dart';
 import 'package:admin_panel/screens/main/main_screen.dart';
 import 'package:admin_panel/screens/patients/patient_screen.dart';
@@ -36,6 +38,21 @@ class SideMenu extends StatelessWidget {
               Navigator.of(context).pushReplacement<void, void>(
                 MaterialPageRoute<void>(
                   builder: (BuildContext context) => MainScreen(),
+                ),
+              );
+            },
+          ),
+          DrawerListTile(
+            title: "Article",
+            svgSrc: "assets/icons/menu_tran.svg",
+            press: () {
+              Navigator.of(context).pushReplacement<void, void>(
+                MaterialPageRoute<void>(
+                    builder: (BuildContext context) => ArticleCategoryScreen()
+                  // Provider(
+                  //   create: (context) => (),
+                  //   builder: (context, child) => ProductDetails(),
+                  // ),
                 ),
               );
             },
