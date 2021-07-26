@@ -1,5 +1,7 @@
 import 'package:admin_panel/backend/backend.dart';
+import 'package:admin_panel/backend/detectionmodule/detection_module.dart';
 import 'package:admin_panel/backend/usermodule/user_info.dart';
+import 'package:admin_panel/forms/user_form.dart';
 import 'package:admin_panel/models/RecentFile.dart';
 import 'package:admin_panel/screens/dashboard/components/header.dart';
 import 'package:flutter/material.dart';
@@ -46,10 +48,28 @@ class DoctorsView extends StatelessWidget {
                         ),
                       ),
                       onPressed: (){
-                        appState.fetchUserModule();
+                        UserInfoClass temp = UserInfoClass.fromMap({});
+                        temp.type = 1;
+                        var suggessions = {
+                          'user': appState.userModuleElement!.userIDs,
+                          'specialization' : detectionElementNames,
+                        };
+                        showModalBottomSheet(
+                            isScrollControlled: true,
+                            context: context,
+                            builder: (context) {
+                              return UserForm(
+                                user: temp,
+                                onSubmit: () {
+                                  appState.userModuleElement!.createUser(temp);
+                                },
+                                temp: temp,
+                                suggessions: suggessions,
+                              );
+                            });
                       },
-                      icon: Icon(Icons.refresh),
-                      label: Text("Refresh"),
+                      icon: Icon(Icons.add),
+                      label: Text("Add New"),
                     ),
                   ),
                   SizedBox(
@@ -84,10 +104,12 @@ class DoctorsView extends StatelessWidget {
                         ),
                         DataColumn(label: Text("Gender")),
                         DataColumn(label: Text("Credit")),
+                        DataColumn(label: Text("Affiliation")),
+                        DataColumn(label: Text("Specialization")),
                       ],
                       rows: appState.userModuleElement==null?[]:List.generate(
                         appState.userModuleElement!.doctors.length,
-                            (index) => _datarowDoctor(index,appState.userModuleElement!.doctors),
+                            (index) => _datarowDoctor(index,appState.userModuleElement!.doctors,appState,context),
                       ),
                     ),
                   ),
@@ -102,27 +124,53 @@ class DoctorsView extends StatelessWidget {
 }
 
 
-DataRow _datarowDoctor(int index, List<UserInfoClass> docotrs,) {
+DataRow _datarowDoctor(int index, List<UserInfoClass> doctors,FetchFireBaseData appState, BuildContext context) {
   return DataRow(
     cells: [
       DataCell(
-        Row(
-          children: [
-            SvgPicture.asset(
-              "assets/icons/media_file.svg",
-              height: 30,
-              width: 30,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-              child: Text(docotrs[index].name),
-            ),
-          ],
+        InkWell(
+          onTap: (){
+            UserInfoClass temp = UserInfoClass.fromMap(doctors[index].toMap());
+            temp.key = doctors[index].key;
+            temp.isDoctor = 1;
+            var suggessions = {
+              'user': appState.userModuleElement!.doctorsIDs,
+              'specialization':detectionElementNames,
+            };
+            showModalBottomSheet(
+                isScrollControlled: true,
+                context: context,
+                builder: (context) {
+                  return UserForm(
+                    user: temp,
+                    onSubmit: () {
+                      appState.userModuleElement!.updateElement(temp);
+                    },
+                    temp: temp,
+                    suggessions: suggessions,
+                  );
+                });
+          },
+          child: Row(
+            children: [
+              SvgPicture.asset(
+                "assets/icons/media_file.svg",
+                height: 30,
+                width: 30,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
+                child: Text(doctors[index].name),
+              ),
+            ],
+          ),
         ),
       ),
-      DataCell(Text(docotrs[index].byear.toString())),
-      DataCell(Text(docotrs[index].gender)),
-      DataCell(Text(docotrs[index].credit.toString())),
+      DataCell(Text(doctors[index].byear.toString())),
+      DataCell(Text(doctors[index].gender)),
+      DataCell(Text(doctors[index].credit.toString())),
+      DataCell(Text(doctors[index].affiliation)),
+      DataCell(Text(doctors[index].specialization??'')),
     ],
   );
 }

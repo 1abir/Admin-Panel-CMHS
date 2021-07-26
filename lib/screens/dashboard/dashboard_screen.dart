@@ -29,34 +29,43 @@ class DashboardScreen extends StatelessWidget {
                       children: [
                         if (Responsive.isDesktop(context))
                           Flexible(
-                            flex: 3,
+                            flex: 2,
                             child: MyFiles(),
                           ),
-                        if (Responsive.isMobile(context)) MyFiles(),
-                        SizedBox(height: defaultPadding),
                         if (Responsive.isDesktop(context))
                           Flexible(
                             flex: 6,
                             child: RecentSessionsView(),
                           ),
-                        if (Responsive.isMobile(context)) RecentSessionsView(),
-                        if (Responsive.isMobile(context))
-                          SizedBox(height: defaultPadding),
-                        if (Responsive.isMobile(context)) StarageDetails(),
                       ],
                     ),
                   ),
                 ),
                 if (!Responsive.isMobile(context))
-                  SizedBox(width: defaultPadding),
-                // On Mobile means if the screen is less than 850 we dont want to show it
+                  SizedBox(height: defaultPadding),
+                // On Mobile we don't want to show it here
                 if (!Responsive.isMobile(context))
                   Expanded(
                     flex: 2,
                     child: StarageDetails(),
                   ),
               ],
-            )
+            ),
+            if (Responsive.isMobile(context)) SizedBox(height: defaultPadding),
+            // On Mobile m we want to show it here
+            if (Responsive.isMobile(context))
+              Container(
+                width: MediaQuery.of(context).size.width,
+                child: Expanded(
+                  child: StarageDetails(),
+                ),
+              ),
+            if (Responsive.isMobile(context)) MyFiles(),
+            if (Responsive.isMobile(context)) SizedBox(height: defaultPadding),
+            if (Responsive.isMobile(context)) RecentSessionsView(),
+            if (Responsive.isMobile(context)) SizedBox(height: defaultPadding),
+            if (Responsive.isMobile(context)) StarageDetails(),
+            if (!Responsive.isMobile(context)) SizedBox(width: defaultPadding),
           ],
         ),
       ),

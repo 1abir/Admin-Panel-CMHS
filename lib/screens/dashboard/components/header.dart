@@ -11,23 +11,37 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: [
-        if (!Responsive.isDesktop(context))
-          IconButton(
-            icon: Icon(Icons.menu),
-            onPressed: (){}//context.read<MenuController>().controlMenu,
-          ),
-        if (!Responsive.isMobile(context))
-          Text(
-            "Dashboard",
-            style: Theme.of(context).textTheme.headline6,
-          ),
-        if (!Responsive.isMobile(context))
-          Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
-        // Expanded(child: SearchField()),
-        Expanded(child: SizedBox(width: 5,)),
-        ProfileCard()
+        Row(
+          children: [
+            if (Responsive.isTablet(context))
+              IconButton(
+                icon: Icon(Icons.menu),
+                onPressed: (){
+                  if(!Scaffold.of(context).isDrawerOpen)
+                    Scaffold.of(context).openDrawer();
+                  // else Scaffold.of(context).
+                }//context.read<MenuController>().controlMenu,
+              ),
+            if (Responsive.isDesktop(context))
+              Text(
+                "Dashboard",
+                style: Theme.of(context).textTheme.headline6,
+              ),
+            if (!Responsive.isMobile(context))
+              Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
+            // Expanded(child: SearchField()),
+            Expanded(child: SizedBox(width: 5,)),
+            if(Responsive.isDesktop(context))ProfileCard(),
+          ],
+        ),
+        if(Responsive.isMobile(context))
+          Column(
+            children: [
+
+            ],
+          )
       ],
     );
   }

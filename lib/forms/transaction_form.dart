@@ -1,44 +1,54 @@
 import 'package:admin_panel/backend/articlemodule/article.dart';
+import 'package:admin_panel/backend/transactionmodule/tansaction.dart';
+import 'package:admin_panel/backend/transactionmodule/tansaction.dart';
+import 'package:admin_panel/backend/videomodule/videos.dart';
+import 'package:admin_panel/backend/videomodule/videos.dart';
+import 'package:admin_panel/backend/videomodule/videos.dart';
+import 'package:admin_panel/backend/videomodule/videos.dart';
+import 'package:admin_panel/backend/videomodule/videos.dart';
+import 'package:admin_panel/backend/videomodule/videos.dart';
+import 'package:admin_panel/backend/videomodule/videos.dart';
+import 'package:admin_panel/backend/videomodule/videos.dart';
 import 'package:admin_panel/constants.dart';
 import 'package:admin_panel/responsive.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
+import 'package:intl/intl.dart';
 
-class ArticleForm extends StatefulWidget {
-  final int? catIndex;
-  final int? questionIndex;
-  final Article article;
-  final Article temp;
+class TransactionForm extends StatefulWidget {
+  final TransactionInfo transaction;
+  final TransactionInfo temp;
   final onSubmit;
   final onDelete;
   final suggessions;
 
-  ArticleForm(
-      {this.catIndex,
-      this.questionIndex,
-      required this.article,
+  const TransactionForm(
+      {required this.transaction,
       required this.onSubmit,
       required this.temp,
       this.onDelete,
-      this.suggessions}) ;
+      required this.suggessions}) ;
 
   @override
-  _ArticleFormState createState() => _ArticleFormState();
+  _TransactionFormState createState() => _TransactionFormState();
 }
 
-class _ArticleFormState extends State<ArticleForm> {
+class _TransactionFormState extends State<TransactionForm> {
   final _formkey = GlobalKey<FormState>();
-  final _controller = TextEditingController();
-  final _typecontroller = TextEditingController();
-  final HtmlEditorController controller = HtmlEditorController();
-
+  final _userController = TextEditingController();
+  final _doctorController = TextEditingController();
+  final _meetingController = TextEditingController();
+  final _typeController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _controller.text = widget.article.category;
-    _typecontroller.text = widget.article.type;
+    _userController.text = widget.transaction.from_id;
+    _doctorController.text = widget.transaction.to_id ?? '';
+    _typeController.text = widget.transaction.type;
+    _meetingController.text = widget.transaction.meeting_id ?? '';
   }
 
   @override
@@ -59,24 +69,18 @@ class _ArticleFormState extends State<ArticleForm> {
                 Form(
                   key: _formkey,
                   child: Column(
-                    mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       Opacity(
                         opacity: 0.95,
-                        child: InputWidget(
+                        child: _InputWidget(
                           onChanged: (value) {
-                            widget.temp.head = value;
-                            // temp2.text = value.toString();
-                            debugPrint(widget.temp.head);
-                            debugPrint(widget.temp.hashCode.toString());
-                            debugPrint("main hash: " +
-                                widget.article.hashCode.toString());
+                            widget.temp.txID = value;
                           },
-                          text: widget.article.head,
-                          title: 'Head',
+                          text: widget.transaction.txID,
+                          title: 'Txid',
                           validator: (value) {
                             if (value == null || value == '') {
-                              return "Please Provide Article Head Text";
+                              return "Please Provide Video Caption";
                             }
                             return null;
                           },
@@ -87,20 +91,15 @@ class _ArticleFormState extends State<ArticleForm> {
                       ),
                       Opacity(
                         opacity: 0.95,
-                        child: AutoCompleteInputWidget(
-                          typeAheadController: _controller,
-                          suggessions: widget.suggessions,
-                          onChanged: (value) {
-                            widget.temp.category = value;
-                          },
-                          text: widget.article.category,
-                          title: 'Category',
-                          validator: (value) {
-                            if (value == null || value == '') {
-                              return "Please Provide Category";
-                            }
-                            return null;
-                          },
+                        child: Padding(
+                          padding: const EdgeInsets.all(defaultPadding),
+                          child: BasicDateTimeField(
+                            initialValue_: widget.transaction.dateTime,
+                            onChanged: (value) {
+                              widget.temp.dateTime = value;
+                            },
+                            title: 'Date',
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -108,17 +107,18 @@ class _ArticleFormState extends State<ArticleForm> {
                       ),
                       Opacity(
                         opacity: 0.95,
-                        child: AutoCompleteInputWidget(
-                          typeAheadController: _typecontroller,
-                          suggessions: ["full","link"],
+                        child: _AutoCompleteInputWidget(
+                          typeAheadController: _typeController,
+                          suggessions: ['Credit', 'Debit'],
                           onChanged: (value) {
-                            widget.temp.type = value;
+                            if (value != null || value != '')
+                              widget.temp.type = value;
                           },
-                          text: widget.article.type,
+                          text: widget.transaction.type,
                           title: 'Type',
                           validator: (value) {
                             if (value == null || value == '') {
-                              return "Please Provide type";
+                              return "Please Provide Credit of Debit";
                             }
                             return null;
                           },
@@ -127,42 +127,104 @@ class _ArticleFormState extends State<ArticleForm> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.03,
                       ),
-                      // Align(Text('Image')),
                       Opacity(
                         opacity: 0.95,
-                        child: InputWidget(
+                        child: _AutoCompleteInputWidget(
+                          typeAheadController: _userController,
+                          suggessions: widget.suggessions['user'] +
+                              widget.suggessions['doctor'],
                           onChanged: (value) {
-                            widget.temp.url = value;
+                            if (value != null || value != '')
+                              widget.temp.from_id = value;
                           },
-                          text: widget.article.url,
-                          title: 'URL',
+                          text: widget.transaction.from_id,
+                          title: 'Sender ID',
                           validator: (value) {
-                            if (value == null || value == '') return null;
-                            var urlPattern =
-                                r"(https?|http)://([-A-Z0-9.]+)(/[-A-Z0-9+&@#/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#/%=~_|!:‌​,.;]*)?";
-                            bool hasM = RegExp(urlPattern, caseSensitive: false)
-                                .hasMatch(value);
-                            if (hasM) return null;
-                            return "Provide a valid URL";
+                            if (value == null || value == '') {
+                              return "Please Provide Sender UserID";
+                            } else if (!widget.suggessions['user']
+                                    .contains(value) &&
+                                !widget.suggessions['doctor'].contains(value)) {
+                              return "Please Provide Correct UserID";
+                            }
+                            return null;
                           },
                         ),
                       ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.03,
                       ),
-                      // HtmlEditorSection(
-                      //   controller: controller,
-                      //   initialText: widget.article.bodyHtml,
-                      // ),
-                      ExpansionTile(
-                          // initiallyExpanded: true,
-                          title: Text('Body HTML'),
-                          children: [
-                            HtmlEditorSection(
-                              controller: controller,
-                              initialText: widget.article.bodyHtml,
-                            ),
-                          ]),
+                      Opacity(
+                        opacity: 0.95,
+                        child: _AutoCompleteInputWidget(
+                          typeAheadController: _doctorController,
+                          suggessions: widget.suggessions['doctor'] +
+                              widget.suggessions['user'],
+                          onChanged: (value) {
+                            if (value != null || value != '')
+                              widget.temp.to_id = value;
+                          },
+                          text: widget.transaction.to_id,
+                          title: 'Receiver ID ',
+                          validator: (value) {
+                            if (value == null || value == '') {
+                              return "Please Provide Sender UserID";
+                            } else if (!widget.suggessions['user']
+                                    .contains(value) &&
+                                !widget.suggessions['doctor'].contains(value)) {
+                              return "Please Provide Correct Receiver ID";
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.03,
+                      ),
+                      Opacity(
+                        opacity: 0.95,
+                        child: _AutoCompleteInputWidget(
+                          typeAheadController: _meetingController,
+                          suggessions: widget.suggessions['meeting'],
+                          onChanged: (value) {
+                            if (value != null || value != '')
+                              widget.temp.meeting_id = value;
+                          },
+                          text: widget.transaction.meeting_id,
+                          title: 'Meeting ID',
+                          validator: (value) {
+                            if (value == null || value == '') {
+                              return "Please Provide Correct Meeting ID";
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.03,
+                      ),
+                      Opacity(
+                        opacity: 0.95,
+                        child: _InputWidget(
+                          onChanged: (value) {
+                            double? t = double.tryParse(value.toString());
+                            if (t != null) widget.temp.amount = t;
+                          },
+                          text: widget.transaction.amount.toString(),
+                          title: 'amount',
+                          validator: (value) {
+                            double? t = double.tryParse(value.toString());
+                            if (t == null) return "Enter a valid amount";
+                            return null;
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.03,
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.03,
+                      ),
                     ],
                   ),
                 ),
@@ -197,10 +259,7 @@ class _ArticleFormState extends State<ArticleForm> {
                           ],
                         ),
                         onPressed: () async {
-                          if (_formkey.currentState!.validate()) {
-                            widget.temp.bodyHtml =
-                                await controller.getText();
-                            debugPrint("body html:" + widget.temp.bodyHtml);
+                          if (_formkey.currentState!.validate()&& widget.temp.dateTime!=null) {
                             widget.onSubmit();
                             Navigator.of(context).maybePop();
                           } else {
@@ -255,13 +314,13 @@ class _ArticleFormState extends State<ArticleForm> {
   }
 }
 
-class InputWidget extends StatefulWidget {
+class _InputWidget extends StatefulWidget {
   final onChanged;
   final String title;
   final text;
   final Function(String?)? validator;
 
-  const InputWidget(
+  const _InputWidget(
       {Key? key,
       required this.onChanged,
       required this.text,
@@ -273,7 +332,7 @@ class InputWidget extends StatefulWidget {
   _InputWidgetState createState() => _InputWidgetState();
 }
 
-class _InputWidgetState extends State<InputWidget> {
+class _InputWidgetState extends State<_InputWidget> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: defaultPadding),
@@ -319,7 +378,7 @@ class _InputWidgetState extends State<InputWidget> {
   }
 }
 
-class AutoCompleteInputWidget extends StatefulWidget {
+class _AutoCompleteInputWidget extends StatefulWidget {
   final onChanged;
   final String title;
   final text;
@@ -327,7 +386,7 @@ class AutoCompleteInputWidget extends StatefulWidget {
   final suggessions;
   final TextEditingController typeAheadController;
 
-  AutoCompleteInputWidget(
+  _AutoCompleteInputWidget(
       {Key? key,
       required this.onChanged,
       required this.text,
@@ -357,7 +416,7 @@ class AutoCompleteInputWidget extends StatefulWidget {
   }
 }
 
-class _AutoCompleteInputWidgetState extends State<AutoCompleteInputWidget> {
+class _AutoCompleteInputWidgetState extends State<_AutoCompleteInputWidget> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: defaultPadding),
@@ -394,8 +453,6 @@ class _AutoCompleteInputWidgetState extends State<AutoCompleteInputWidget> {
                 ),
               ),
               suggestionsCallback: (pattern) {
-                debugPrint("suggession callack called: " +
-                    widget.getSuggestions(pattern).toString());
                 return widget.getSuggestions(pattern);
               },
               itemBuilder: (context, suggestion) {
@@ -405,14 +462,9 @@ class _AutoCompleteInputWidgetState extends State<AutoCompleteInputWidget> {
                 );
               },
               transitionBuilder: (context, suggestionsBox, controller) {
-                debugPrint("on transation callack called: ");
                 return suggestionsBox;
               },
               onSuggestionSelected: (suggestion) {
-                debugPrint("on suggession callack called: " +
-                    suggestion.runtimeType.toString() +
-                    suggestion.toString() +
-                    widget.typeAheadController.text);
                 widget.typeAheadController.text = suggestion.toString();
                 widget.onChanged(suggestion.toString());
               },
@@ -428,61 +480,61 @@ class _AutoCompleteInputWidgetState extends State<AutoCompleteInputWidget> {
   }
 }
 
-class HtmlEditorSection extends StatefulWidget {
-  final HtmlEditorController controller;
-  final String initialText;
+class BasicDateTimeField extends StatelessWidget {
+  final onChanged;
+  final title;
+  final initialValue_;
 
-  const HtmlEditorSection(
-      {Key? key, required this.controller, required this.initialText})
+  const BasicDateTimeField({Key? key, this.onChanged, this.title, this.initialValue_})
       : super(key: key);
 
   @override
-  _HtmlEditorSectionState createState() => _HtmlEditorSectionState();
-}
-
-class _HtmlEditorSectionState extends State<HtmlEditorSection> {
-
-  @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Align(
-          alignment: Alignment.topRight,
-          child: FloatingActionButton(
-            child: Icon(
-              Icons.code_rounded
-            ),
-              onPressed: () {
-            widget.controller.toggleCodeView();
-          }),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        HtmlEditor(
-          controller: widget.controller,
-          htmlEditorOptions: HtmlEditorOptions(
-            hint: "Write your Article",
-            initialText: widget.initialText,
-            // adjustHeightForKeyboard: false,
-            // autoAdjustHeight: false,
-            darkMode: true,
-            shouldEnsureVisible: true,
-          ),
-          otherOptions: OtherOptions(
-            height: 400,
+    return Row(children: <Widget>[
+      Card(
+        elevation: 5.0,
+        borderOnForeground: true,
+        child: Container(
+          margin: EdgeInsets.all(defaultPadding),
+          child: Text(
+            title,
+            style: Theme.of(context).textTheme.button,
           ),
         ),
-      ],
-    );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    // WidgetsBinding.instance!
-    //     .addPostFrameCallback((_) =>()async{
-    //   widget.controller.insertHtml(widget.initialText);
-    // });
+      ),
+      SizedBox(
+        width: 10,
+      ),
+      Container(
+        width: 500,
+        child: DateTimeField(
+          // format: DateFormat("yyyyMMddaHHmmss"),
+          initialValue: initialValue_,
+          format: DateFormat("EEEE, MMMM d, yyyy 'at' h:mma"),
+          onChanged: (datetime) {
+            if (onChanged != null) onChanged(datetime);
+          },
+          onShowPicker: (context, currentValue) async {
+            final date = await showDatePicker(
+                context: context,
+                firstDate: DateTime(1900),
+                initialDate: currentValue ?? initialValue_?? DateTime.now(),
+                lastDate: DateTime(2100));
+            if (date != null) {
+              final time = await showTimePicker(
+                context: context,
+                initialTime:
+                    TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
+              );
+              final datetime = DateTimeField.combine(date, time);
+              // if(onChanged!=null) onChanged(datetime);
+              return datetime;
+            } else {
+              return currentValue;
+            }
+          },
+        ),
+      ),
+    ]);
   }
 }

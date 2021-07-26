@@ -1,8 +1,10 @@
 import 'package:admin_panel/backend/backend.dart';
 import 'package:admin_panel/backend/usermodule/user_info.dart';
+import 'package:admin_panel/forms/user_form.dart';
 import 'package:admin_panel/models/RecentFile.dart';
 import 'package:admin_panel/responsive.dart';
 import 'package:admin_panel/screens/dashboard/components/header.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -46,10 +48,27 @@ class PatientView extends StatelessWidget {
                         ),
                       ),
                       onPressed: (){
-                        appState.fetchUserModule();
+                        UserInfoClass temp = UserInfoClass.fromMap({});
+                        temp.type = 1;
+                        var suggessions = {
+                          'user': appState.userModuleElement!.userIDs,
+                        };
+                        showModalBottomSheet(
+                            isScrollControlled: true,
+                            context: context,
+                            builder: (context) {
+                              return UserForm(
+                                user: temp,
+                                onSubmit: () {
+                                  appState.userModuleElement!.createUser(temp);
+                                },
+                                temp: temp,
+                                suggessions: suggessions,
+                              );
+                            });
                       },
-                      icon: Icon(Icons.refresh),
-                      label: Text("Refresh"),
+                      icon: Icon(Icons.add),
+                      label: Text("Add New"),
                     ),
                   ),
                   SizedBox(
@@ -87,7 +106,7 @@ class PatientView extends StatelessWidget {
                       ],
                       rows: appState.userModuleElement==null?[]:List.generate(
                         appState.userModuleElement!.users.length,
-                        (index) => _datarowPatient(index,appState.userModuleElement!.users),
+                        (index) => _datarowPatient(index,appState.userModuleElement!.users,appState,context),
                       ),
                     ),
                   ),
@@ -101,22 +120,44 @@ class PatientView extends StatelessWidget {
   }
 }
 
-DataRow _datarowPatient(int index, List<UserInfoClass> users,) {
+DataRow _datarowPatient(int index, List<UserInfoClass> users,FetchFireBaseData appState,BuildContext context) {
   return DataRow(
     cells: [
       DataCell(
-        Row(
-          children: [
-            SvgPicture.asset(
-              "assets/icons/media_file.svg",
-              height: 30,
-              width: 30,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-              child: Text(users[index].name),
-            ),
-          ],
+        InkWell(
+          onTap: (){
+            UserInfoClass temp = UserInfoClass.fromMap(users[index].toMap());
+            temp.key = users[index].key;
+            var suggessions = {
+              'user': appState.userModuleElement!.userIDs,
+            };
+            showModalBottomSheet(
+                isScrollControlled: true,
+                context: context,
+                builder: (context) {
+                  return UserForm(
+                    user: temp,
+                    onSubmit: () {
+                      appState.userModuleElement!.updateElement(temp);
+                    },
+                    temp: temp,
+                    suggessions: suggessions,
+                  );
+                });
+          },
+          child: Row(
+            children: [
+              SvgPicture.asset(
+                "assets/icons/media_file.svg",
+                height: 30,
+                width: 30,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
+                child: Text(users[index].name),
+              ),
+            ],
+          ),
         ),
       ),
       DataCell(Text(users[index].byear.toString())),

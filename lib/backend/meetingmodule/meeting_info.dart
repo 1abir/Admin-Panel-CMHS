@@ -2,25 +2,28 @@ class MeetingInfo {
   late String? key;
   String doctor_id;
   String patient_id;
-  DateTime meetingTime;
+  DateTime? meetingTime;
   int duration;
   int type;
+  String? problem;
 
   MeetingInfo({this.key,
     required this.doctor_id,
     required this.patient_id,
     required this.meetingTime,
     required this.duration,
-    required this.type});
+    required this.type,
+    this.problem,
+  });
 
   static MeetingInfo fromMap(Map<String, dynamic> data) {
     return MeetingInfo(
-      doctor_id: data['doctor'],
-      patient_id: data['patient'],
-      meetingTime: DateTime.tryParse(data['meeting_time'].toString()) ??
-          DateTime(0),
-      type: data['type'],
+      doctor_id: data['doctor']??'',
+      patient_id: data['patient']??'',
+      meetingTime: DateTime.tryParse(data['meeting_time'].toString()),
+      type: data['type']??0,
       duration: data['duration'] ?? 0,
+      problem: data['problem'],
     );
   }
 
@@ -30,7 +33,8 @@ class MeetingInfo {
       'patient' : patient_id,
       'meeting_time' : meetingTime,
       'duration' : duration,
-      'type' : type
+      'type' : type,
+      'problem' : problem,
     };
   }
 }

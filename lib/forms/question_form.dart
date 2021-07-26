@@ -17,10 +17,7 @@ class QuestionForm extends StatefulWidget {
       required this.firebaseQuestionDetection,
       required this.onSubmit,
         required this.temp,
-      this.onDelete}){
-    debugPrint("Constructor Called");
-  }
-
+      this.onDelete});
   @override
   _QuestionFormState createState() => _QuestionFormState();
 }
@@ -49,10 +46,6 @@ class _QuestionFormState extends State<QuestionForm> {
                         child: InputWidget(
                           onChanged: (value) {
                               widget.temp.text = value;
-                              // temp2.text = value.toString();
-                              debugPrint(widget.temp.text);
-                              debugPrint(widget.temp.hashCode.toString());
-                              debugPrint("main hash: " + widget.firebaseQuestionDetection.hashCode.toString());
                           },
                           text: widget.firebaseQuestionDetection.text,
                           title: 'Question',

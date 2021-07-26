@@ -14,8 +14,6 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
 
 class VideosForm extends StatefulWidget {
-  final int? catIndex;
-  final int? questionIndex;
   final Videos video;
   final Videos temp;
   final onSubmit;
@@ -23,15 +21,12 @@ class VideosForm extends StatefulWidget {
   final suggessions;
 
   VideosForm(
-      {this.catIndex,
-      this.questionIndex,
+      {
       required this.video,
       required this.onSubmit,
       required this.temp,
       this.onDelete,
-      this.suggessions}) {
-    debugPrint("Constructor Called");
-  }
+      this.suggessions});
 
   @override
   _VideosFormState createState() => _VideosFormState();
@@ -51,6 +46,7 @@ class _VideosFormState extends State<VideosForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Center(
           child: Container(
@@ -346,7 +342,6 @@ class _AutoCompleteInputWidget extends StatefulWidget {
 
 class _AutoCompleteInputWidgetState extends State<_AutoCompleteInputWidget> {
   Widget build(BuildContext context) {
-    debugPrint("inside uild callack called: ");
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: defaultPadding),
       child: Row(

@@ -7,7 +7,8 @@ class UserInfoClass {
   int type;
   int isDoctor;
   String affiliation;
-  late String? key;
+  String? specialization;
+  String? key;
 
   UserInfoClass(
       {required this.byear,
@@ -17,7 +18,9 @@ class UserInfoClass {
       required this.ftype,
       required this.type,
         required this.isDoctor,
-      required this.affiliation});
+      required this.affiliation,
+      this.specialization,
+      });
 
   static UserInfoClass fromMap(Map<String, dynamic> data) {
     return UserInfoClass(
@@ -28,7 +31,9 @@ class UserInfoClass {
         type: data['type'] ?? 0,
         affiliation: data['affiliation'] ?? '',
         isDoctor: data['isDoctor']??0,
-        ftype: data['ftype']);
+        ftype: data['ftype'],
+        specialization : data['specialization'],
+    );
   }
 
   Map<String, dynamic> toMap() {
@@ -38,7 +43,9 @@ class UserInfoClass {
       'gender': gender,
       'name': name,
       'type': type,
-      'affiliation': affiliation
+      if(isDoctor==1)'affiliation': affiliation,
+      if(isDoctor==1) 'isDoctor' : isDoctor,
+      if(isDoctor==1) 'specialization' : specialization,
     };
   }
 }

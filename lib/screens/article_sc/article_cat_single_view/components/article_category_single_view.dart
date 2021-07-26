@@ -73,7 +73,6 @@ class ArticleCategorySingleView extends StatelessWidget {
                         rows: List.generate(
                           articleList.length,
                           (i) => _dataRow(
-                              "assets/icons/media_file.svg",
                               articleList[i],
                               context,
                               appState.am!,
@@ -93,7 +92,6 @@ class ArticleCategorySingleView extends StatelessWidget {
 }
 
 DataRow _dataRow(
-    String icon,
     Article article,
     BuildContext context,
     ArticleModuleElement am,
@@ -106,10 +104,11 @@ DataRow _dataRow(
       DataCell(
         Row(
           children: [
-            SvgPicture.asset(
-              icon,
-              height: 30,
-              width: 30,
+            CircleAvatar(
+              child: Card(
+                child: Icon(Icons.assignment_outlined),
+              ),
+              radius: 22,
             ),
             InkWell(
               child: Padding(

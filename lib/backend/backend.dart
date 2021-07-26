@@ -5,6 +5,8 @@ import 'package:admin_panel/backend/articlemodule/article_module.dart';
 import 'package:admin_panel/backend/detectionmodule/detection_module.dart';
 import 'package:admin_panel/backend/meetingmodule/meeting_info.dart';
 import 'package:admin_panel/backend/meetingmodule/meeting_module.dart';
+import 'package:admin_panel/backend/transactionmodule/tansaction.dart';
+import 'package:admin_panel/backend/transactionmodule/transaction_module.dart';
 import 'package:admin_panel/backend/usermodule/user_info.dart';
 import 'package:admin_panel/backend/usermodule/user_module_elements.dart';
 import 'package:admin_panel/backend/videomodule/videomodulelement.dart';
@@ -23,8 +25,10 @@ class FetchFireBaseData extends ChangeNotifier {
   List<StreamSubscription> subscriptions = [];
   UserModuleElement? userModuleElement;
   MeetingModule? meetingModuleElement;
+  TransactionModule? transactionModuleElement;
   ArticleModuleElement? am;
   VideoModuleElement? videoModule;
+
 
   FetchFireBaseData() {
     init();
@@ -37,6 +41,7 @@ class FetchFireBaseData extends ChangeNotifier {
     fetchMeetingModule();
     fetchArticle();
     fetchVideo();
+    fetchTransactionModule();
   }
 
   Future<void> fetchDetectionModule() async {
@@ -133,30 +138,57 @@ class FetchFireBaseData extends ChangeNotifier {
 
     // userDataRef.onValue.listen((event) { })
 
-    userDataRef.get().then((DataSnapshot? snapshot) {
-      if (snapshot != null) {
-        debugPrint("snapshot received");
-        snapshot.value.forEach((key, value) {
-          var d = Map<String, dynamic>.from(value);
-          UserInfoClass user = UserInfoClass.fromMap(d);
-          user.key = key.toString();
-          if (user.isDoctor == 0)
-            userList.add(user);
-          else
-            doctorList.add(user);
-        });
-      }
-    }).whenComplete(() {
+    // userDataRef.get().then((DataSnapshot? snapshot) {
+    //   if (snapshot != null) {
+    //     debugPrint("snapshot received");
+    //     snapshot.value.forEach((key, value) {
+    //       var d = Map<String, dynamic>.from(value);
+    //       UserInfoClass user = UserInfoClass.fromMap(d);
+    //       user.key = key.toString();
+    //       if (user.isDoctor == 0)
+    //         userList.add(user);
+    //       else
+    //         doctorList.add(user);
+    //     });
+    //   }
+    // }).whenComplete(() {
+    //   userModuleElement = UserModuleElement(
+    //       userRef: userDataRef,
+    //       dbSubscription: null,
+    //       doctors: doctorList,
+    //       users: userList);
+    //   debugPrint('Doctor List Length: ' + doctorList.length.toString());
+    //   notifyListeners();
+    // }).catchError((onError) {
+    //   debugPrint("error occured in reading rtdb: " + onError.toString());
+    // });
+
+    var subscription = userDataRef.onValue.listen((event) {
+      userList.clear();
+      doctorList.clear();
+      final users = Map<String, dynamic>.from(event.snapshot.value);
+      users.forEach((key, value) {
+        var d = Map<String, dynamic>.from(value);
+        UserInfoClass user = UserInfoClass.fromMap(d);
+        // debugPrint(user.toMap().toString());
+        user.key = key.toString();
+        if (user.isDoctor == 0)
+          userList.add(user);
+        else
+          doctorList.add(user);
+      });
       userModuleElement = UserModuleElement(
           userRef: userDataRef,
-          dbSubscription: null,
           doctors: doctorList,
           users: userList);
       debugPrint('Doctor List Length: ' + doctorList.length.toString());
       notifyListeners();
-    }).catchError((onError) {
-      debugPrint("error occured in reading rtdb: " + onError.toString());
     });
+
+    subscription.onError((err) {
+      debugPrint("error user Suscription : " + err.toString());
+    });
+    subscriptions.add(subscription);
   }
 
   Future<void> fetchMeetingModule() async {
@@ -168,9 +200,9 @@ class FetchFireBaseData extends ChangeNotifier {
     List<MeetingInfo> meetingList = [];
 
     var subscription = meetingDataRef.onValue.listen((event) {
+      meetingList = [];
       final meetings = Map<String, dynamic>.from(event.snapshot.value);
       meetings.forEach((key, value) {
-        meetingList = [];
         var d = Map<String, dynamic>.from(value);
         MeetingInfo meet = MeetingInfo.fromMap(d);
         meet.key = key.toString();
@@ -187,6 +219,35 @@ class FetchFireBaseData extends ChangeNotifier {
     });
     subscriptions.add(subscription);
   }
+  Future<void> fetchTransactionModule() async {
+    if (app == null) app = await Firebase.initializeApp();
+    var dbRef = FirebaseDatabase.instance.reference();
+
+    var transRef = dbRef.child('Transaction');
+    List<TransactionInfo> transactionList = [];
+
+    var subscription = transRef.onValue.listen((event) {
+      transactionList.clear();
+      final meetings = Map<String, dynamic>.from(event.snapshot.value);
+      meetings.forEach((key, value) {
+        var d = Map<String, dynamic>.from(value);
+        TransactionInfo tx = TransactionInfo.fromMap(d);
+        tx.key = key.toString();
+        debugPrint("transaction : "+tx.toMap().toString());
+        transactionList.add(tx);
+      });
+       transactionModuleElement = TransactionModule(
+          transactions : transactionList, transactionRef: transRef);
+      debugPrint('Transaction List Length: ' + transactionList.length.toString());
+      notifyListeners();
+    });
+    subscription.onError((err) {
+      debugPrint("error transaction Suscription : " + err.toString());
+    });
+    subscriptions.add(subscription);
+  }
+
+
 
   void notify() {
     notifyListeners();
