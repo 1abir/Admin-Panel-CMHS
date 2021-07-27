@@ -101,6 +101,7 @@ class FetchFireBaseData extends ChangeNotifier {
   }
 
   Future<DetectionModuleElement> fetch(String name) async {
+    var dbRef = FirebaseDatabase.instance.reference();
     DetectionModuleElement me =
         DetectionModuleElement(name: name, questionsList: []);
     var subscription = FirebaseFirestore.instance
@@ -112,7 +113,15 @@ class FetchFireBaseData extends ChangeNotifier {
       snapshot.docs.forEach((element) {
         var data = element.data();
         FirebaseQuestionDetection q = FirebaseQuestionDetection.fromMap(data);
+        q.category = name;
         me.questionsList!.add(q);
+        // var detDataRef = dbRef.child('Detection');
+        // detDataRef.child('$name'+'_'+q.level.toString()).set(q.toMap()).then((value){
+        //   debugPrint("Detection Done" + '  $name'+'_'+q.level.toString());
+        // }).catchError((onError){
+        //   debugPrint("Detection_push_error"+onError.toString());
+        // });
+
       });
       notifyListeners();
     });
@@ -122,7 +131,10 @@ class FetchFireBaseData extends ChangeNotifier {
     return me;
   }
 
+
+
   Future<ArticleModuleElement?> fetchArticle() async {
+    var dbRef = FirebaseDatabase.instance.reference();
     debugPrint("Article Category called");
     am = ArticleModuleElement(articleList: []);
     var subscription = FirebaseFirestore.instance
@@ -139,6 +151,12 @@ class FetchFireBaseData extends ChangeNotifier {
         // debugPrint('Article:' + article.toMap().toString());
         am!.articleList!.add(article);
         if (article.category != '') am!.articleCategories.add(article.category);
+        // var detDataRef = dbRef.child('Article');
+      //   detDataRef.child(element.reference.id).set(article.toMap()).then((value){
+      //       debugPrint("Article Done");
+      //   }).catchError((onError){
+      //     debugPrint("Detection_push_error"+onError.toString());
+      //   });
       });
       notifyListeners();
     });
@@ -149,6 +167,7 @@ class FetchFireBaseData extends ChangeNotifier {
   }
 
   Future<VideoModuleElement?> fetchVideo() async {
+    var dbRef = FirebaseDatabase.instance.reference();
     videoModule = VideoModuleElement(videoList: []);
     var subscription = FirebaseFirestore.instance
         .collection('/video')
@@ -164,6 +183,12 @@ class FetchFireBaseData extends ChangeNotifier {
         // debugPrint('Video:' + vid.toMap().toString());
         videoModule!.videoList!.add(vid);
         if (vid.category != '') videoModule!.videoCategories.add(vid.category);
+        // var detDataRef = dbRef.child('Video');
+        // detDataRef.child(element.reference.id).set(vid.toMap()).then((value){
+        //   debugPrint("Article Done");
+        // }).catchError((onError){
+        //   debugPrint("Detection_push_error"+onError.toString());
+        // });
       });
       notifyListeners();
     });
@@ -297,8 +322,8 @@ class FetchFireBaseData extends ChangeNotifier {
    _googleUserAccount = await _googleSignIn.signIn();
    if(_googleUserAccount==null){
       loginState = LoginStates.loggedOut;
-      clearSubscriptions();
-      notifyListeners();
+      // clearSubscriptions();
+      // notifyListeners();
    }
    else{
      if (app == null) app = await Firebase.initializeApp();

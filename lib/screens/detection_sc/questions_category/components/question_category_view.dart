@@ -11,9 +11,9 @@ import 'package:provider/provider.dart';
 
 
 class QuestionCategoryView extends StatelessWidget {
-  final int index;
+  final String category;
 
-  const QuestionCategoryView({Key? key, required this.index}) : super(key: key);
+  const QuestionCategoryView({Key? key, required this.category}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,13 +40,14 @@ class QuestionCategoryView extends StatelessWidget {
                   ),
                   Consumer<FetchFireBaseData>(builder: (context, appState, _) {
                     int key = appState
-                            .detectionModuleMap[detectionElementNames[index]]!
+                            .detectionModuleMap[category]!
                             .questionsList!
                             .length +
                         1;
                     FirebaseQuestionDetection qd = FirebaseQuestionDetection(
                         text: '',
                         q_key: key.toString(),
+                        category: category,
                         q_val: 0,
                         level: key,
                         optionList: <QuestionOption>[
@@ -80,7 +81,7 @@ class QuestionCategoryView extends StatelessWidget {
                                     debugPrint("text: " + qd.text);
                                     qd.q_key = qd.level.toString();
                                     appState.detectionModuleMap[
-                                            detectionElementNames[index]]!
+                                            category]!
                                         .addQuestion(qd);
                                     // appState.notify();
                                   });
@@ -100,7 +101,7 @@ class QuestionCategoryView extends StatelessWidget {
             Flexible(
               flex: 1,
               child: Text(
-                detectionElementNames[index].toUpperCase().replaceAll("_", " "),
+                category.toUpperCase().replaceAll("_", " "),
                 style: Theme.of(context).textTheme.subtitle1,
               ),
             ),
@@ -119,22 +120,22 @@ class QuestionCategoryView extends StatelessWidget {
                         ),
                       ],
                       rows: appState.detectionModuleMap
-                              .containsKey(detectionElementNames[index])
+                              .containsKey(category)
                           ? List.generate(
                               appState
                                   .detectionModuleMap[
-                                      detectionElementNames[index]]!
+                                      category]!
                                   .questionsList!
                                   .length,
                               (i) => _dataRow(
                                   "assets/icons/media_file.svg",
                                   appState
                                       .detectionModuleMap[
-                                          detectionElementNames[index]]!
+                                          category]!
                                       .questionsList![i],
                                   context,
                                   appState.detectionModuleMap[
-                                      detectionElementNames[index]]!,
+                                      category]!,
                                   appState),
                             )
                           : <DataRow>[],

@@ -1,9 +1,11 @@
+import 'package:admin_panel/backend/backend.dart';
 import 'package:admin_panel/backend/detectionmodule/detection_module.dart';
 import 'package:admin_panel/constants.dart';
 import 'package:admin_panel/models/RecentFile.dart';
 import 'package:admin_panel/screens/detection_sc/questions_category/question_category_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 
 class CategoryView extends StatelessWidget {
@@ -48,28 +50,32 @@ class CategoryView extends StatelessWidget {
             "Categories",
             style: Theme.of(context).textTheme.subtitle1,
           ),
-          SizedBox(
-            width: double.infinity,
-            child: DataTable(
-              horizontalMargin: 0,
-              columnSpacing: defaultPadding,
-              columns: [
-                DataColumn(
-                  label: Text("Name"),
+          Consumer<FetchFireBaseData>(
+            builder: (context, appState,child) {
+              return SizedBox(
+                width: double.infinity,
+                child: DataTable(
+                  horizontalMargin: 0,
+                  columnSpacing: defaultPadding,
+                  columns: [
+                    DataColumn(
+                      label: Text("Name"),
+                    ),
+                  ],
+                  rows: List.generate(
+                    detectionElementNames.length,
+                    (index) {
+                      String title = detectionElementNames[index].toUpperCase().replaceAll("_", " ");
+                      return _recentFileDataRow(
+                          RecentFile(
+                        title: title,
+                        icon: "assets/icons/media_file.svg",
+                      ),context,index);
+                    },
+                  ),
                 ),
-              ],
-              rows: List.generate(
-                detectionElementNames.length,
-                (index) {
-                  String title = detectionElementNames[index].toUpperCase().replaceAll("_", " ");
-                  return _recentFileDataRow(
-                      RecentFile(
-                    title: title,
-                    icon: "assets/icons/media_file.svg",
-                  ),context,index);
-                },
-              ),
-            ),
+              );
+            }
           ),
         ],
       ),
@@ -93,7 +99,7 @@ class CategoryView extends StatelessWidget {
                 onTap: (){
                   Navigator.of(context).pushReplacement<void, void>(
                     MaterialPageRoute<void>(
-                      builder: (BuildContext context) => QuestionCategoryScreen(index: index,),
+                      builder: (BuildContext context) => QuestionCategoryScreen(category: detectionElementNames[index],),
                     ),
                   );
                 },

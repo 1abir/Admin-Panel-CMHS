@@ -6,9 +6,9 @@ import 'components/question_category_view.dart';
 
 
 class QuestionCategoryScreen extends StatelessWidget {
-  final int index;
+  final String category;
 
-  const QuestionCategoryScreen({required this.index});
+  const QuestionCategoryScreen({required this.category});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class QuestionCategoryScreen extends StatelessWidget {
                 Expanded(
                   // It takes 5/6 part of the screen
                   flex: 5,
-                  child: QuestionCategoryView(index: index,),
+                  child: QuestionCategoryView(category: category,),
                 ),
               ],
             ),

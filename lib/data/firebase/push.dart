@@ -47,20 +47,20 @@ class ApplicationState {
     // mp_info_init();
   }
 
-  Future<void> initAnxiety() async {
-    await Firebase.initializeApp();
-    var col_ref =
-        FirebaseFirestore.instance.collection('/detection/anxiety/scale1');
-
-    for (int i = 0; i < questions_anxiety.length; i++) {
-      var q = questions_anxiety[i];
-
-      q.level = i + 1;
-      q.q_key = q.level.toString();
-
-      col_ref.doc(q.q_key).set(q.toMap());
-    }
-  }
+  // Future<void> initAnxiety() async {
+  //   await Firebase.initializeApp();
+  //   var col_ref =
+  //       FirebaseFirestore.instance.collection('/detection/anxiety/scale1');
+  //
+  //   for (int i = 0; i < questions_anxiety.length; i++) {
+  //     var q = questions_anxiety[i];
+  //
+  //     q.level = i + 1;
+  //     q.q_key = q.level.toString();
+  //
+  //     col_ref.doc(q.q_key).set(q.toMap());
+  //   }
+  // }
 
   Future<void> initDepressionInfo() async {
     await Firebase.initializeApp();
@@ -70,37 +70,37 @@ class ApplicationState {
     col_ref.add(depression1_info);
   }
 
-  Future<void> initDepression() async {
-    await Firebase.initializeApp();
-
-    var col_ref =
-        FirebaseFirestore.instance.collection('/detection/depression/scale1');
-
-    for (int i = 0; i < questions_depression.length; i++) {
-      var q = questions_depression[i];
-
-      q.level = i + 1;
-      q.q_key = q.level.toString();
-
-      col_ref.doc(q.q_key).set(q.toMap());
-    }
-  }
+  // Future<void> initDepression() async {
+  //   await Firebase.initializeApp();
+  //
+  //   var col_ref =
+  //       FirebaseFirestore.instance.collection('/detection/depression/scale1');
+  //
+  //   for (int i = 0; i < questions_depression.length; i++) {
+  //     var q = questions_depression[i];
+  //
+  //     q.level = i + 1;
+  //     q.q_key = q.level.toString();
+  //
+  //     col_ref.doc(q.q_key).set(q.toMap());
+  //   }
+  // }
 
   //
-  Future<void> initSip() async {
-    // await Firebase.initializeApp();
-
-    var col_ref = FirebaseFirestore.instance
-        .collection('/detection/social_interaction_problem/scale1');
-
-    for (int i = 0; i < social_int_problem.length; i++) {
-      var q = social_int_problem[i];
-
-      q.level = i + 1;
-      q.q_key = q.level.toString();
-
-      col_ref.doc(q.q_key).set(q.toMap());
-    }
+  // Future<void> initSip() async {
+  //   // await Firebase.initializeApp();
+  //
+  //   var col_ref = FirebaseFirestore.instance
+  //       .collection('/detection/social_interaction_problem/scale1');
+  //
+  //   for (int i = 0; i < social_int_problem.length; i++) {
+  //     var q = social_int_problem[i];
+  //
+  //     q.level = i + 1;
+  //     q.q_key = q.level.toString();
+  //
+  //     col_ref.doc(q.q_key).set(q.toMap());
+  //   }
     //
     //   // col_ref.add(q);
     //
@@ -204,7 +204,7 @@ class ApplicationState {
     //     // col_ref.add(q.toMap());
     //     col_ref.doc(q.level.toString()).set(q.toMap());
     //   }
-  }
+  // }
 }
 
 void push() {
