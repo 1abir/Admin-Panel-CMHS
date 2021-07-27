@@ -149,6 +149,7 @@ DataRow _meetingDataRow(
                   return MeetingForm(
                     meeting: meet,
                     onSubmit: () {
+
                       appState.meetingModuleElement!.updateMeeting(temp);
                     },
                     temp: temp,

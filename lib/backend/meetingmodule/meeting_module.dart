@@ -1,5 +1,6 @@
 import 'package:admin_panel/backend/meetingmodule/meeting_info.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
 
 class MeetingModule {
   List<MeetingInfo> sessions = [];
@@ -15,11 +16,17 @@ class MeetingModule {
   }
 
   Future<bool> updateMeeting(MeetingInfo info) {
-    if (info.key == null) return Future.value(false);
+    debugPrint("updateMeetingCalled");
+    if (info.key == null) {
+      debugPrint("null key");
+      return Future.value(false);
+    }
     bool noerr = true;
     meetingReference.child(info.key!).update(info.toMap()).then((value) {
+      debugPrint("success");
       noerr = true;
     }).catchError((onError) {
+      debugPrint("error"+onError.toString());
       noerr = false;
     });
     return Future.value(noerr);

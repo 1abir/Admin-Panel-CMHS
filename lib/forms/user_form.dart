@@ -49,7 +49,7 @@ class _UserFormState extends State<UserForm> {
   Widget build(BuildContext context) {
     int year = DateTime.now().year;
     var years = [for (var i = 1920; i <= year; i += 1) i.toString()];
-    debugPrint(years.toString());
+    // debugPrint(years.toString());
     return Scaffold(
       // resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -70,7 +70,7 @@ class _UserFormState extends State<UserForm> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.03,
                       ),
-                      if (widget.onDelete == null)
+                      if (widget.onDelete != null)
                         Opacity(
                           opacity: 0.95,
                           child: _AutoCompleteInputWidget(
@@ -403,7 +403,7 @@ class _AutoCompleteInputWidget extends StatefulWidget {
     var ret = <String>[];
     if (suggessions != null) {
       for (var i in suggessions) {
-        debugPrint(i);
+        // debugPrint(i);
         if (i
             .toString()
             .toLowerCase()

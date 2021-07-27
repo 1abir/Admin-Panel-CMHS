@@ -8,7 +8,7 @@ class TransactionModule {
 
   TransactionModule({required this.transactions, required this.transactionRef}){
     for(var i in transactions){
-      if(i.txID!=null){
+      if(i.txID!=''){
         txIds.add(i.txID);
       }
     }

@@ -40,7 +40,7 @@ class ApplicationState {
     // initAnxiety();
     // initDepression();
     // init3();
-    init_sip();
+    // init_sip();
     // love_init();
     // ocd_init();
     // sip_info_init();
@@ -87,7 +87,7 @@ class ApplicationState {
   }
 
   //
-  Future<void> init_sip() async {
+  Future<void> initSip() async {
     // await Firebase.initializeApp();
 
     var col_ref = FirebaseFirestore.instance
@@ -145,14 +145,14 @@ class ApplicationState {
     //
     // }
     //
-    Future<void> sip_info_init() async {
-      await Firebase.initializeApp();
-
-      var col_ref = FirebaseFirestore.instance
-          .collection('/detection/social_interaction_problem/info');
-      await col_ref.add(social_int_info);
-      print("done");
-    }
+    // Future<void> sip_info_init() async {
+    //   await Firebase.initializeApp();
+    //
+    //   var col_ref = FirebaseFirestore.instance
+    //       .collection('/detection/social_interaction_problem/info');
+    //   await col_ref.add(social_int_info);
+    //   print("done");
+    // }
     //
     // Future<void> mp_info_init() async {
     //   await Firebase.initializeApp();

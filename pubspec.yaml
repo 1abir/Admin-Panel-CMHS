@@ -41,6 +41,8 @@ dependencies:
   html_editor_enhanced: ^2.1.1
   datetime_picker_formfield: ^2.0.0
   intl: ^0.17.0
+  google_sign_in: ^5.0.5
+  font_awesome_flutter: ^9.1.0
 
 
 dev_dependencies:

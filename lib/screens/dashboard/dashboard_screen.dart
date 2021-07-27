@@ -24,7 +24,7 @@ class DashboardScreen extends StatelessWidget {
                 Expanded(
                   flex: 5,
                   child: SizedBox(
-                    height: MediaQuery.of(context).size.height,
+                    height: MediaQuery.of(context).size.height*.9,
                     child: Column(
                       children: [
                         if (Responsive.isDesktop(context))
@@ -34,20 +34,21 @@ class DashboardScreen extends StatelessWidget {
                           ),
                         if (Responsive.isDesktop(context))
                           Flexible(
-                            flex: 6,
+                            flex: 5,
                             child: RecentSessionsView(),
                           ),
                       ],
                     ),
                   ),
                 ),
-                if (!Responsive.isMobile(context))
-                  SizedBox(height: defaultPadding),
                 // On Mobile we don't want to show it here
                 if (!Responsive.isMobile(context))
                   Expanded(
                     flex: 2,
-                    child: StarageDetails(),
+                    child: Padding(
+                      padding: const EdgeInsets.all(defaultPadding),
+                      child: StarageDetails(),
+                    ),
                   ),
               ],
             ),

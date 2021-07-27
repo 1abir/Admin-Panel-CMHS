@@ -1,3 +1,5 @@
+import 'package:admin_panel/backend/utils/formatter.dart';
+
 class TransactionInfo {
   String? key;
   String txID;
@@ -8,14 +10,15 @@ class TransactionInfo {
   String? to_id;
   String? meeting_id;
 
-  TransactionInfo({this.key,
-    required this.txID,
-    required this.dateTime,
-    required this.amount,
-    required this.type,
-    required this.from_id,
-    this.to_id,
-    this.meeting_id});
+  TransactionInfo(
+      {this.key,
+      required this.txID,
+      required this.dateTime,
+      required this.amount,
+      required this.type,
+      required this.from_id,
+      this.to_id,
+      this.meeting_id});
 
   Map<String, dynamic> toMap() {
     return {
@@ -30,8 +33,10 @@ class TransactionInfo {
   }
 
   static TransactionInfo fromMap(Map<String, dynamic> data) {
-    return TransactionInfo(txID: data['txID'] ?? '',
-      dateTime: DateTime.tryParse(data['dateTime'].toString()) ,
+    return TransactionInfo(
+      txID: data['txID'] ?? '',
+      dateTime: DateTime.tryParse(data['dateTime'].toString()) ??
+          FormattedDate.parse(data['dateTime'].toString()),
       amount: double.tryParse(data['amount'].toString()) ?? 0.0,
       type: data['type'] ?? '',
       from_id: data['from_id'] ?? '',
@@ -40,7 +45,7 @@ class TransactionInfo {
     );
   }
 
-  void copyFrom(TransactionInfo other){
+  void copyFrom(TransactionInfo other) {
     key = other.key;
     txID = other.txID;
     dateTime = other.dateTime;

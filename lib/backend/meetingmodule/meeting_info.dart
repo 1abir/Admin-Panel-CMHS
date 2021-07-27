@@ -1,3 +1,5 @@
+import 'package:admin_panel/backend/utils/formatter.dart';
+
 class MeetingInfo {
   late String? key;
   String doctor_id;
@@ -20,7 +22,7 @@ class MeetingInfo {
     return MeetingInfo(
       doctor_id: data['doctor']??'',
       patient_id: data['patient']??'',
-      meetingTime: DateTime.tryParse(data['meeting_time'].toString()),
+      meetingTime: DateTime.tryParse(data['meeting_time'].toString())??FormattedDate.parse(data['meeting_time'].toString()),
       type: data['type']??0,
       duration: data['duration'] ?? 0,
       problem: data['problem'],
@@ -31,7 +33,7 @@ class MeetingInfo {
     return {
       'doctor' : doctor_id,
       'patient' : patient_id,
-      'meeting_time' : meetingTime,
+      'meeting_time' : FormattedDate.format(meetingTime),
       'duration' : duration,
       'type' : type,
       'problem' : problem,

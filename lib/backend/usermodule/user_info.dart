@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class UserInfoClass {
   int byear;
   double credit;
@@ -6,6 +8,7 @@ class UserInfoClass {
   String? ftype;
   int type;
   int isDoctor;
+  int isAdmin;
   String affiliation;
   String? specialization;
   String? key;
@@ -20,9 +23,11 @@ class UserInfoClass {
         required this.isDoctor,
       required this.affiliation,
       this.specialization,
+        required this.isAdmin,
       });
 
   static UserInfoClass fromMap(Map<String, dynamic> data) {
+    // debugPrint("Error was here");
     return UserInfoClass(
         byear: int.tryParse(data['byear'].toString())??0,
         credit: double.tryParse(data['credit'].toString()) ?? 0,
@@ -33,6 +38,7 @@ class UserInfoClass {
         isDoctor: data['isDoctor']??0,
         ftype: data['ftype'],
         specialization : data['specialization'],
+        isAdmin: data['isAdmin']??0,
     );
   }
 
@@ -46,6 +52,7 @@ class UserInfoClass {
       if(isDoctor==1)'affiliation': affiliation,
       if(isDoctor==1) 'isDoctor' : isDoctor,
       if(isDoctor==1) 'specialization' : specialization,
+      if(isAdmin == 1) 'isAdmin' : isAdmin,
     };
   }
 }

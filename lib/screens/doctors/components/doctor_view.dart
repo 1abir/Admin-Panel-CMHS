@@ -2,8 +2,6 @@ import 'package:admin_panel/backend/backend.dart';
 import 'package:admin_panel/backend/detectionmodule/detection_module.dart';
 import 'package:admin_panel/backend/usermodule/user_info.dart';
 import 'package:admin_panel/forms/user_form.dart';
-import 'package:admin_panel/models/RecentFile.dart';
-import 'package:admin_panel/screens/dashboard/components/header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';

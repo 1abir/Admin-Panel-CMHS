@@ -1,16 +1,11 @@
 import 'package:admin_panel/backend/backend.dart';
-import 'package:admin_panel/backend/detectionmodule/detection_module.dart';
-import 'package:admin_panel/models/RecentFile.dart';
 import 'package:admin_panel/screens/article_sc/article_cat_single_view/article_category_single_screen.dart';
 import 'package:admin_panel/screens/article_sc/article_cat_single_view/components/article_add_new.dart';
-import 'package:admin_panel/screens/article_sc/category/article_cat_screen.dart';
-import 'package:admin_panel/screens/dashboard/components/header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
-import '../../../responsive.dart';
 
 class ArticleCategoryView extends StatelessWidget {
   const ArticleCategoryView({

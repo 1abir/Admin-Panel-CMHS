@@ -1,9 +1,6 @@
-import 'package:admin_panel/backend/backend.dart';
 import 'package:admin_panel/backend/detectionmodule/detection_module.dart';
 import 'package:admin_panel/constants.dart';
 import 'package:admin_panel/models/RecentFile.dart';
-import 'package:admin_panel/responsive.dart';
-import 'package:admin_panel/screens/dashboard/components/header.dart';
 import 'package:admin_panel/screens/detection_sc/questions_category/question_category_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';

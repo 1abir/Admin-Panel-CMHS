@@ -3,11 +3,9 @@ import 'package:admin_panel/backend/articlemodule/article_module.dart';
 import 'package:admin_panel/backend/backend.dart';
 import 'package:admin_panel/constants.dart';
 import 'package:admin_panel/forms/article_form.dart';
-import 'package:admin_panel/responsive.dart';
 import 'package:admin_panel/screens/article_sc/article_cat_single_view/components/article_add_new.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class ArticleCategorySingleView extends StatelessWidget {

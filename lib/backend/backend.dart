@@ -13,10 +13,18 @@ import 'package:admin_panel/backend/videomodule/videomodulelement.dart';
 import 'package:admin_panel/backend/videomodule/videos.dart';
 import 'package:admin_panel/data/firebase/detection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+enum LoginStates {
+ loggedIn,
+ loggedOut,
+ loggingIn,
+}
 
 class FetchFireBaseData extends ChangeNotifier {
   FirebaseApp? app;
@@ -28,10 +36,47 @@ class FetchFireBaseData extends ChangeNotifier {
   TransactionModule? transactionModuleElement;
   ArticleModuleElement? am;
   VideoModuleElement? videoModule;
+  GoogleSignInAccount? _googleUserAccount;
+  StreamSubscription<User?>? _authSubscription;
 
+  LoginStates loginState = LoginStates.loggedOut;
+  final _googleSignIn = GoogleSignIn();
 
   FetchFireBaseData() {
+    initAuth();
     init();
+  }
+
+  Future<void>initAuth()async{
+    if (app == null) app = await Firebase.initializeApp();
+    StreamSubscription<User?> authSubscription = FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        loginState = LoginStates.loggedOut;
+        clearSubscriptions();
+        notifyListeners();
+      } else {
+        final uuid = user.uid;
+        var dbRef = FirebaseDatabase.instance.reference().child('Users');
+        dbRef.once().then((DataSnapshot? snapshot) {
+            if (snapshot != null) {
+              debugPrint("snapshot received");
+              snapshot.value.forEach((key, value) {
+                var d = Map<String, dynamic>.from(value);
+                UserInfoClass user = UserInfoClass.fromMap(d);
+                user.key = key.toString();
+                if(user.key == uuid && user.isAdmin==1){
+                  loginState = LoginStates.loggedIn;
+                  notifyListeners();
+                  return;
+                }
+              });
+            }
+          });
+
+      }
+    });
+    subscriptions.add(authSubscription);
+    // _authSubscription = authSubscription;
   }
 
   Future<void> init() async {
@@ -102,6 +147,7 @@ class FetchFireBaseData extends ChangeNotifier {
     subscriptions.add(subscription);
     return am;
   }
+
   Future<VideoModuleElement?> fetchVideo() async {
     videoModule = VideoModuleElement(videoList: []);
     var subscription = FirebaseFirestore.instance
@@ -192,7 +238,7 @@ class FetchFireBaseData extends ChangeNotifier {
   }
 
   Future<void> fetchMeetingModule() async {
-    // debugPrint("Fetch Meeting Called");
+    debugPrint("Fetch Meeting Called");
     if (app == null) app = await Firebase.initializeApp();
     var dbRef = FirebaseDatabase.instance.reference();
 
@@ -247,16 +293,49 @@ class FetchFireBaseData extends ChangeNotifier {
     subscriptions.add(subscription);
   }
 
+  Future<void> login()async{
+   _googleUserAccount = await _googleSignIn.signIn();
+   if(_googleUserAccount==null){
+      loginState = LoginStates.loggedOut;
+      clearSubscriptions();
+      notifyListeners();
+   }
+   else{
+     if (app == null) app = await Firebase.initializeApp();
+     final googleAuth = await _googleUserAccount!.authentication;
+     final credential = GoogleAuthProvider.credential(
+       accessToken: googleAuth.accessToken,
+       idToken: googleAuth.idToken,
+     );
+     await FirebaseAuth.instance.signInWithCredential(credential);
+   }
 
+  }
 
   void notify() {
     notifyListeners();
   }
 
   void dispose() {
-    for (var s in subscriptions) {
+    clearSubscriptions();
+    for(var s in subscriptions){
       s.cancel();
     }
+    subscriptions.clear();
+    _authSubscription?.cancel();
     super.dispose();
+  }
+
+  void logout() async{
+    await FirebaseAuth.instance.signOut();
+    await _googleSignIn.disconnect();
+    // clearSubscriptions();
+  }
+
+  void clearSubscriptions(){
+    // for(var s in subscriptions){
+    //   s.cancel();
+    // }
+    // subscriptions.clear();
   }
 }

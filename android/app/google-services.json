@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "916347443251-u7f8ivk3v4sve96svqlcoir9slofci44.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "buet.research.admin_panel",
+            "certificate_hash": "04678cf86dad7cd5e1e8abdc271960aaf9e53f6a"
+          }
+        },
+        {
           "client_id": "916347443251-vvip2l7mg4sssqgmkconh2g20gsjpuci.apps.googleusercontent.com",
           "client_type": 3
         }
