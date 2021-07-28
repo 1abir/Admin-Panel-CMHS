@@ -17,18 +17,12 @@ class Header extends StatelessWidget {
     return Stack(
       // fit: StackFit.passthrough,
       children: [
-        DashBoardMats(
-          // key: GlobalKey(),
-        ),
-        Positioned(
-          // key: GlobalKey(),
-          // alignment: Alignment.topRight,
-          bottom:20,
-          left:50,
-          // top: defaultPadding,
-          // right: defaultPadding,
-          child: ProfileCard(),
-        ),
+        DashBoardMats(),
+        // Positioned(
+        //   top: defaultPadding,
+        //   right: defaultPadding,
+        //   child: ProfileCard(),
+        // ),
       ],
     );
   }
@@ -57,15 +51,14 @@ class DashBoardMats extends StatelessWidget {
                 "Dashboard",
                 style: Theme.of(context).textTheme.headline6,
               ),
-            if (!Responsive.isMobile(context))
-              Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
+            // if (!Responsive.isMobile(context))
+            //   Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
             // Expanded(child: SearchField()),
             Expanded(
                 child: SizedBox(
                   width: 5,
                 )),
             // if(Responsive.isDesktop(context))ProfileCard(),
-            if(Responsive.isDesktop(context))Container(height: 80,width: 200,),
           ],
         ),
         if (Responsive.isMobile(context))
@@ -88,7 +81,7 @@ class ProfileCard extends StatelessWidget {
       height: 150,
       width: 350,
       child: ExpansionTile(
-        initiallyExpanded: true,
+        initiallyExpanded: false,
         title: Container(
           margin: EdgeInsets.only(left: defaultPadding),
           padding: EdgeInsets.symmetric(
@@ -108,8 +101,8 @@ class ProfileCard extends StatelessWidget {
               ),
               if (!Responsive.isMobile(context))
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: defaultPadding / 2),
+                  padding: const EdgeInsets.only(
+                      left: defaultPadding),
                   child: Text("Sanjinur Islam"),
                 ),
             ],
@@ -150,8 +143,8 @@ class SearchField extends StatelessWidget {
         suffixIcon: InkWell(
           onTap: () {},
           child: Container(
-            padding: EdgeInsets.all(defaultPadding * 0.75),
-            margin: EdgeInsets.symmetric(horizontal: defaultPadding / 2),
+            // padding: EdgeInsets.all(defaultPadding * 0.75),
+            // margin: EdgeInsets.symmetric(horizontal: defaultPadding / 2),
             decoration: BoxDecoration(
               color: primaryColor,
               borderRadius: const BorderRadius.all(Radius.circular(10)),

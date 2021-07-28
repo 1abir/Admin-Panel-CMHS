@@ -1,5 +1,6 @@
 import 'package:admin_panel/backend/transactionmodule/tansaction.dart';
 import 'package:admin_panel/constants.dart';
+import 'package:admin_panel/forms/uuid_gen.dart';
 import 'package:admin_panel/responsive.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,7 @@ class _TransactionFormState extends State<TransactionForm> {
   final _formkey = GlobalKey<FormState>();
   final _userController = TextEditingController();
   final _doctorController = TextEditingController();
+  final _txController = TextEditingController();
   final _meetingController = TextEditingController();
   final _typeController = TextEditingController();
 
@@ -38,6 +40,7 @@ class _TransactionFormState extends State<TransactionForm> {
     _doctorController.text = widget.transaction.to_id ?? '';
     _typeController.text = widget.transaction.type;
     _meetingController.text = widget.transaction.meeting_id ?? '';
+    _txController.text = widget.transaction.txID;
   }
 
   @override
@@ -61,15 +64,20 @@ class _TransactionFormState extends State<TransactionForm> {
                     children: <Widget>[
                       Opacity(
                         opacity: 0.95,
-                        child: _InputWidget(
+                        child: _AutoCompleteInputWidget(
+                          typeAheadController: _txController,
+                          suggessions: [
+                            UidGen.uuid.v4(),
+                          ],
                           onChanged: (value) {
-                            widget.temp.txID = value;
+                            if (value != null || value != '')
+                              widget.temp.txID = value;
                           },
-                          text: widget.transaction.txID,
-                          title: 'Txid',
+                          text: widget.temp.txID,
+                          title: 'TxID ',
                           validator: (value) {
                             if (value == null || value == '') {
-                              return "Please Provide Video Caption";
+                              return "Please Provide valid TxID";
                             }
                             return null;
                           },
@@ -85,7 +93,8 @@ class _TransactionFormState extends State<TransactionForm> {
                           child: BasicDateTimeField(
                             initialValue_: widget.transaction.dateTime,
                             onChanged: (value) {
-                              widget.temp.dateTime = value;
+                              if(value!=null)
+                                widget.temp.dateTime = value;
                             },
                             title: 'Date',
                           ),
@@ -120,21 +129,19 @@ class _TransactionFormState extends State<TransactionForm> {
                         opacity: 0.95,
                         child: _AutoCompleteInputWidget(
                           typeAheadController: _userController,
-                          suggessions: widget.suggessions['user'] +
-                              widget.suggessions['doctor'],
+                          suggessions: widget.suggessions['me'],
                           onChanged: (value) {
                             if (value != null || value != '')
                               widget.temp.from_id = value;
                           },
-                          text: widget.transaction.from_id,
+                          text: widget.temp.from_id,
                           title: 'Sender ID',
                           validator: (value) {
                             if (value == null || value == '') {
                               return "Please Provide Sender UserID";
-                            } else if (!widget.suggessions['user']
-                                    .contains(value) &&
-                                !widget.suggessions['doctor'].contains(value)) {
-                              return "Please Provide Correct UserID";
+                            } else if (!widget.suggessions['me']
+                                    .contains(value) ) {
+                              return "Please Provide Ur UserID";
                             }
                             return null;
                           },
@@ -157,7 +164,7 @@ class _TransactionFormState extends State<TransactionForm> {
                           title: 'Receiver ID ',
                           validator: (value) {
                             if (value == null || value == '') {
-                              return "Please Provide Sender UserID";
+                              return "Please Provide Receiver UserID";
                             } else if (!widget.suggessions['user']
                                     .contains(value) &&
                                 !widget.suggessions['doctor'].contains(value)) {
@@ -182,9 +189,9 @@ class _TransactionFormState extends State<TransactionForm> {
                           text: widget.transaction.meeting_id,
                           title: 'Meeting ID',
                           validator: (value) {
-                            if (value == null || value == '') {
-                              return "Please Provide Correct Meeting ID";
-                            }
+                            // if (value == null || value == '') {
+                            //   return "Please Provide Correct Meeting ID";
+                            // }
                             return null;
                           },
                         ),
@@ -248,7 +255,7 @@ class _TransactionFormState extends State<TransactionForm> {
                           ],
                         ),
                         onPressed: () async {
-                          if (_formkey.currentState!.validate()&& widget.temp.dateTime!=null) {
+                          if (_formkey.currentState!.validate() && widget.temp.dateTime!=null) {
                             widget.onSubmit();
                             Navigator.of(context).maybePop();
                           } else {

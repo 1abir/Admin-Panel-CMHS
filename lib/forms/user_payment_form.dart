@@ -1,6 +1,4 @@
-import 'dart:math';
-
-import 'package:admin_panel/backend/usermodule/user_info.dart';
+import 'package:admin_panel/backend/transactionmodule/tansaction.dart';
 import 'package:admin_panel/constants.dart';
 import 'package:admin_panel/forms/uuid_gen.dart';
 import 'package:admin_panel/responsive.dart';
@@ -10,50 +8,42 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
-class UserForm extends StatefulWidget {
-  final UserInfoClass user;
-  final UserInfoClass temp;
+class UserPaymentForm extends StatefulWidget {
+  final TransactionInfo temp;
   final onSubmit;
   final onDelete;
   final suggessions;
 
-  const UserForm(
-      {required this.user,
-      required this.onSubmit,
-      required this.temp,
-      this.onDelete,
-      required this.suggessions});
+  const UserPaymentForm(
+      { required this.onSubmit,
+        required this.temp,
+        this.onDelete,
+        required this.suggessions}) ;
 
   @override
-  _UserFormState createState() => _UserFormState();
+  _UserPaymentFormState createState() => _UserPaymentFormState();
 }
 
-class _UserFormState extends State<UserForm> {
+class _UserPaymentFormState extends State<UserPaymentForm> {
   final _formkey = GlobalKey<FormState>();
   final _userController = TextEditingController();
-  final _genderController = TextEditingController();
+  final _txController = TextEditingController();
+  final _meetingController = TextEditingController();
   final _typeController = TextEditingController();
-  final _birthController = TextEditingController();
-
-  final _specializationController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _typeController.text = widget.user.type.toString();
-    _userController.text = widget.user.key ?? '';
-    _genderController.text = widget.user.gender;
-    _birthController.text = widget.user.byear.toString();
-    _specializationController.text = widget.user.specialization??'';
+    _userController.text = widget.temp.from_id;
+    _txController.text = widget.temp.txID;
+    _typeController.text = widget.temp.type;
+    _meetingController.text = widget.temp.meeting_id ?? '';
   }
 
   @override
   Widget build(BuildContext context) {
-    int year = DateTime.now().year;
-    var years = [for (var i = 1920; i <= year; i += 1) i.toString()];
-    // debugPrint(years.toString());
     return Scaffold(
-      // resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Center(
           child: Container(
@@ -69,31 +59,68 @@ class _UserFormState extends State<UserForm> {
                   key: _formkey,
                   child: Column(
                     children: <Widget>[
+                      Opacity(
+                        opacity: 0.95,
+                        child: _AutoCompleteInputWidget(
+                          typeAheadController: _txController,
+                          suggessions: [
+                            UidGen.uuid.v4(),
+                          ],
+                          onChanged: (value) {
+                            if (value != null || value != '')
+                              widget.temp.txID = value;
+                          },
+                          text: widget.temp.txID ,
+                          title: 'TxID ',
+                          validator: (value) {
+                            if (value == null || value == '') {
+                              return "Please Provide valid TxID";
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.03,
                       ),
-                      if (widget.onDelete != null)
-                        Opacity(
-                          opacity: 0.95,
-                          child: _AutoCompleteInputWidget(
-                            typeAheadController: _userController,
-                            suggessions: [
-                              UidGen.uuid.v4(),
-                            ],
+                      Opacity(
+                        opacity: 0.95,
+                        child: Padding(
+                          padding: const EdgeInsets.all(defaultPadding),
+                          child: BasicDateTimeField(
+                            initialValue_: widget.temp.dateTime??(widget.temp.dateTime = DateTime.now()),
                             onChanged: (value) {
-                              if (value != null || value != '')
-                                widget.temp.key = value;
+                              widget.temp.dateTime = value;
                             },
-                            text: widget.user.key ?? '',
-                            title: 'ID ',
-                            validator: (value) {
-                              if (value == null || value == '') {
-                                return "Please Provide valid ID";
-                              }
-                              return null;
-                            },
+                            title: 'Time',
                           ),
                         ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.03,
+                      ),
+                      Opacity(
+                        opacity: 0.95,
+                        child: _AutoCompleteInputWidget(
+                          typeAheadController: _userController,
+                          suggessions: widget.suggessions['user'],
+                          onChanged: (value) {
+                            if (value != null || value != '')
+                              widget.temp.from_id = value;
+                          },
+                          text: widget.temp.from_id,
+                          title: 'Sender ID',
+                          validator: (value) {
+                            if (value == null || value == '') {
+                              return "Please Provide Sender UserID";
+                            } else if (!widget.suggessions['user']
+                                .contains(value)) {
+                              return "Please Provide Correct UserID";
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.03,
                       ),
@@ -101,119 +128,14 @@ class _UserFormState extends State<UserForm> {
                         opacity: 0.95,
                         child: _InputWidget(
                           onChanged: (value) {
-                            if (value != null) widget.temp.name = value;
+                            double? t = double.tryParse(value.toString());
+                            if (t != null) widget.temp.amount = t;
                           },
-                          text: widget.temp.name,
-                          title: 'Name',
+                          text: widget.temp.amount.toString(),
+                          title: 'amount',
                           validator: (value) {
-                            if (value == null || value == '') {
-                              return "Please Provide Name";
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.03,
-                      ),
-                      Opacity(
-                        opacity: 0.95,
-                        child: _AutoCompleteInputWidget(
-                          typeAheadController: _genderController,
-                          suggessions: ['Male', 'Female', "Other"],
-                          onChanged: (value) {
-                            if (value != null) widget.temp.gender = value;
-                          },
-                          text: widget.user.gender,
-                          title: 'Gender',
-                          validator: (value) {
-                            if (!['Male', 'Female', "Other"].contains(value)) {
-                              return "Please Enter a correct gender";
-                            }
-                            // int? v = int.tryParse(value.toString());
-                            return null;
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.03,
-                      ),
-                      Opacity(
-                        opacity: 0.95,
-                        child: _AutoCompleteInputWidget(
-                          typeAheadController: _birthController,
-                          suggessions: years,
-                          onChanged: (value) {
-                            int? v = int.tryParse(value.toString());
-                            if (v != null) widget.temp.byear = v;
-                          },
-                          text: widget.user.byear.toString(),
-                          title: 'Birth Year',
-                          validator: (value) {
-                            if (!years.contains(value)) {
-                              return "Please Enter a correct year";
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.03,
-                      ),
-                      // Opacity(
-                      //   opacity: 0.95,
-                      //   child: _InputWidget(
-                      //     onChanged: (value) {
-                      //       double? t = double.tryParse(value.toString());
-                      //       if (t != null) widget.temp.credit = t;
-                      //     },
-                      //     text: widget.temp.credit.toString(),
-                      //     title: 'Credit',
-                      //     validator: (value) {
-                      //       double? t = double.tryParse(value.toString());
-                      //       if (t == null) return "Enter a valid amount";
-                      //       return null;
-                      //     },
-                      //   ),
-                      // ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.03,
-                      ),
-                      if (widget.temp.isDoctor == 1)
-                        Opacity(
-                          opacity: 0.95,
-                          child: _InputWidget(
-                            onChanged: (value) {
-                              if (value != null) widget.temp.affiliation = value;
-                            },
-                            text: widget.temp.affiliation,
-                            title: 'Affiliation',
-                            validator: (value) {
-                              if (value == null || value == '') {
-                                return "Please Provide Affiliation";
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.03,
-                      ),
-                      if(widget.temp.isDoctor == 1) Opacity(
-                        opacity: 0.95,
-                        child: _AutoCompleteInputWidget(
-                          typeAheadController: _specializationController,
-                          suggessions: widget.suggessions['specialization'],
-                          onChanged: (value) {
-                            if(value!=null)
-                              widget.temp.specialization = value;
-                          },
-                          text: widget.temp.specialization ?? '',
-                          title: 'Specialization',
-                          validator: (value) {
-                            if (value == null || value == '') {
-                              return "Please Provide Specialization";
-                            }
+                            double? t = double.tryParse(value.toString());
+                            if (t == null) return "Enter a valid amount";
                             return null;
                           },
                         ),
@@ -245,7 +167,7 @@ class _UserFormState extends State<UserForm> {
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             Text(
-                              'Update',
+                              'Pay',
                               style: TextStyle(color: Color(0xFF1E7879)),
                             ),
                             SizedBox(
@@ -258,7 +180,7 @@ class _UserFormState extends State<UserForm> {
                           ],
                         ),
                         onPressed: () async {
-                          if (_formkey.currentState!.validate()) {
+                          if (_formkey.currentState!.validate()&& widget.temp.dateTime!=null) {
                             widget.onSubmit();
                             Navigator.of(context).maybePop();
                           } else {
@@ -271,36 +193,6 @@ class _UserFormState extends State<UserForm> {
                       SizedBox(
                         height: 10,
                       ),
-                      if (widget.onDelete != null)
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.white,
-                            elevation: 2.0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Text(
-                                'Delete',
-                                style: TextStyle(color: Color(0xFF1E7879)),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Icon(
-                                Icons.delete_forever_rounded,
-                                color: Color(0xFF1E7879),
-                              ),
-                            ],
-                          ),
-                          onPressed: () {
-                            if (widget.onDelete != null) widget.onDelete();
-                            Navigator.of(context).maybePop();
-                          },
-                        )
                     ],
                   ),
                 ),
@@ -321,10 +213,10 @@ class _InputWidget extends StatefulWidget {
 
   const _InputWidget(
       {Key? key,
-      required this.onChanged,
-      required this.text,
-      required this.title,
-      this.validator})
+        required this.onChanged,
+        required this.text,
+        required this.title,
+        this.validator})
       : super(key: key);
 
   @override
@@ -387,12 +279,12 @@ class _AutoCompleteInputWidget extends StatefulWidget {
 
   _AutoCompleteInputWidget(
       {Key? key,
-      required this.onChanged,
-      required this.text,
-      required this.title,
-      this.validator,
-      this.suggessions,
-      required this.typeAheadController})
+        required this.onChanged,
+        required this.text,
+        required this.title,
+        this.validator,
+        this.suggessions,
+        required this.typeAheadController})
       : super(key: key);
 
   @override
@@ -403,12 +295,11 @@ class _AutoCompleteInputWidget extends StatefulWidget {
     var ret = <String>[];
     if (suggessions != null) {
       for (var i in suggessions) {
-        // debugPrint(i);
         if (i
             .toString()
             .toLowerCase()
             .contains(pattern.toString().toLowerCase())) {
-          ret.add(i.toString());
+          ret.add(i);
         }
       }
     }
@@ -485,8 +376,7 @@ class BasicDateTimeField extends StatelessWidget {
   final title;
   final initialValue_;
 
-  const BasicDateTimeField(
-      {Key? key, this.onChanged, this.title, this.initialValue_})
+  const BasicDateTimeField({Key? key, this.onChanged, this.title, this.initialValue_})
       : super(key: key);
 
   @override
@@ -519,13 +409,13 @@ class BasicDateTimeField extends StatelessWidget {
             final date = await showDatePicker(
                 context: context,
                 firstDate: DateTime(1900),
-                initialDate: currentValue ?? initialValue_ ?? DateTime.now(),
+                initialDate: currentValue ?? initialValue_?? DateTime.now(),
                 lastDate: DateTime(2100));
             if (date != null) {
               final time = await showTimePicker(
                 context: context,
                 initialTime:
-                    TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
+                TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
               );
               final datetime = DateTimeField.combine(date, time);
               // if(onChanged!=null) onChanged(datetime);

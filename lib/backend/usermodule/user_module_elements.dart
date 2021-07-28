@@ -53,7 +53,7 @@ class UserModuleElement {
     return Future.value(noerr);
   }
   Future<bool> createUser(UserInfoClass info){
-    if(info.key==null) return Future.value(false);
+    if(info.key==null) info.key = userRef.push().key;
     bool noerr = true;
     userRef.child(info.key!).set(info.toMap()).then((value){
       noerr = true;

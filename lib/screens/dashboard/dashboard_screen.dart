@@ -1,5 +1,6 @@
 import 'package:admin_panel/responsive.dart';
 import 'package:admin_panel/screens/dashboard/components/my_fields.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants.dart';
@@ -24,7 +25,7 @@ class DashboardScreen extends StatelessWidget {
                 Expanded(
                   flex: 5,
                   child: SizedBox(
-                    height: MediaQuery.of(context).size.height*.9,
+                    height: MediaQuery.of(context).size.height * .9,
                     child: Column(
                       children: [
                         if (Responsive.isDesktop(context))
@@ -46,8 +47,16 @@ class DashboardScreen extends StatelessWidget {
                   Expanded(
                     flex: 2,
                     child: Padding(
-                      padding: const EdgeInsets.all(defaultPadding),
-                      child: StarageDetails(),
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top:defaultPadding),
+                            child: ProfileCard(),
+                          ),
+                          StarageDetails(),
+                        ],
+                      ),
                     ),
                   ),
               ],

@@ -22,10 +22,21 @@ class MeetingInfo {
     return MeetingInfo(
       doctor_id: data['doctor']??'',
       patient_id: data['patient']??'',
-      meetingTime: DateTime.tryParse(data['meeting_time'].toString())??FormattedDate.parse(data['meeting_time'].toString()),
+      meetingTime: DateTime.tryParse(data['meeting_time'].toString())??FormattedDate.parse(data['meeting_time']),
       type: data['type']??0,
       duration: data['duration'] ?? 0,
       problem: data['problem'],
+    );
+  }
+
+  static MeetingInfo fromMap2(Map<String, dynamic> data) {
+    return MeetingInfo(
+      doctor_id: data['id']??'',
+      patient_id: data['patient']??'',
+      meetingTime: DateTime.tryParse(data['time'].toString())??FormattedDate.parse(data['time']),
+      type: data['type']??0,
+      duration: data['duration'] ?? 0,
+      problem: data['comment'],
     );
   }
 
@@ -37,6 +48,16 @@ class MeetingInfo {
       'duration' : duration,
       'type' : type,
       'problem' : problem,
+    };
+  }
+
+  Map<String, dynamic> toMap2(){
+    return {
+      'id' : doctor_id,
+      'time' : FormattedDate.format(meetingTime),
+      'duration' : duration,
+      'type' : type,
+      'comment' : problem,
     };
   }
 }

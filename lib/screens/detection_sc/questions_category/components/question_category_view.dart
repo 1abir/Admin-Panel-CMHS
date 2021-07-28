@@ -172,7 +172,7 @@ DataRow _dataRow(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
                 child: Text(
-                  qd.text,
+                  '${qd.level}.    ${qd.text}',
                   overflow: TextOverflow.fade,
                 ),
               ),

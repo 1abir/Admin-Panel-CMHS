@@ -23,7 +23,7 @@ class TransactionInfo {
   Map<String, dynamic> toMap() {
     return {
       'txID': txID,
-      'dateTime': dateTime,
+      'dateTime': FormattedDate.format(dateTime)??FormattedDate.format(DateTime.now()),
       'amount': amount,
       'type': type,
       'from_id': from_id,
@@ -36,12 +36,12 @@ class TransactionInfo {
     return TransactionInfo(
       txID: data['txID'] ?? '',
       dateTime: DateTime.tryParse(data['dateTime'].toString()) ??
-          FormattedDate.parse(data['dateTime'].toString()),
+          FormattedDate.parse(data['dateTime'])??DateTime.now(),
       amount: double.tryParse(data['amount'].toString()) ?? 0.0,
       type: data['type'] ?? '',
       from_id: data['from_id'] ?? '',
-      to_id: data['to_id'],
-      meeting_id: data['meeting_id'],
+      to_id: data['to_id']??'',
+      meeting_id: data['meeting_id']??'',
     );
   }
 

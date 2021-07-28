@@ -1,7 +1,9 @@
 import 'package:admin_panel/backend/backend.dart';
 import 'package:admin_panel/backend/detectionmodule/detection_module.dart';
+import 'package:admin_panel/backend/transactionmodule/tansaction.dart';
 import 'package:admin_panel/backend/usermodule/user_info.dart';
 import 'package:admin_panel/forms/user_form.dart';
+import 'package:admin_panel/forms/user_payment_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -48,6 +50,8 @@ class DoctorsView extends StatelessWidget {
                       onPressed: (){
                         UserInfoClass temp = UserInfoClass.fromMap({});
                         temp.type = 1;
+                        temp.isDoctor = 1;
+
                         var suggessions = {
                           'user': appState.userModuleElement!.userIDs,
                           'specialization' : detectionElementNames,
@@ -104,6 +108,7 @@ class DoctorsView extends StatelessWidget {
                         DataColumn(label: Text("Credit")),
                         DataColumn(label: Text("Affiliation")),
                         DataColumn(label: Text("Specialization")),
+                        DataColumn(label: Text("Pay Due")),
                       ],
                       rows: appState.userModuleElement==null?[]:List.generate(
                         appState.userModuleElement!.doctors.length,
@@ -123,6 +128,12 @@ class DoctorsView extends StatelessWidget {
 
 
 DataRow _datarowDoctor(int index, List<UserInfoClass> doctors,FetchFireBaseData appState, BuildContext context) {
+  UserInfoClass user = doctors[index];
+  TransactionInfo tempTx = TransactionInfo.fromMap({});
+  tempTx.to_id = user.key;
+  tempTx.from_id = appState.adminUser?.key??'';
+  tempTx.amount = user.credit * -1;
+  tempTx.type = "Debit";
   return DataRow(
     cells: [
       DataCell(
@@ -169,6 +180,26 @@ DataRow _datarowDoctor(int index, List<UserInfoClass> doctors,FetchFireBaseData 
       DataCell(Text(doctors[index].credit.toString())),
       DataCell(Text(doctors[index].affiliation)),
       DataCell(Text(doctors[index].specialization??'')),
+      if (doctors[index].credit < 0)
+        DataCell(OutlinedButton(
+          onPressed: () {
+            showModalBottomSheet(
+                isScrollControlled: true,
+                context: context,
+                builder: (context) {
+                  return UserPaymentForm(
+                      onSubmit: () async{
+                        user.credit += tempTx.amount;
+                        appState.userModuleElement!.updateElement(user);
+                        appState.transactionModuleElement!.createMeeting(tempTx);
+                      }, temp: tempTx, suggessions: {
+                    'user':[appState.adminUser?.key]
+                  });
+                });
+          },
+          child: Text('Pay'),
+        )),
+      if (!(doctors[index].credit < 0)) DataCell(Text('')),
     ],
   );
 }

@@ -58,6 +58,9 @@ class CategoryView extends StatelessWidget {
                   horizontalMargin: 0,
                   columnSpacing: defaultPadding,
                   columns: [
+                    // DataColumn(
+                    //   label: Text("No. "),
+                    // ),
                     DataColumn(
                       label: Text("Name"),
                     ),
@@ -105,7 +108,7 @@ class CategoryView extends StatelessWidget {
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-                  child: Text(fileInfo.title!),
+                  child: Text('${fileInfo.title!}'),
                 ),
               ),
             ],

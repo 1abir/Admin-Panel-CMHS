@@ -22,12 +22,15 @@ class MeetingModule {
       return Future.value(false);
     }
     bool noerr = true;
-    meetingReference.child(info.key!).update(info.toMap()).then((value) {
-      debugPrint("success");
-      noerr = true;
-    }).catchError((onError) {
-      debugPrint("error"+onError.toString());
-      noerr = false;
+    // meetingReference.child(info.key!).update(info.toMap()).then((value) {
+    //   debugPrint("success");
+    //   noerr = true;
+    // }).catchError((onError) {
+    //   debugPrint("error"+onError.toString());
+    //   noerr = false;
+    // });
+    FirebaseDatabase.instance.reference().child('UserData/${info.patient_id}/Meeting_History/${info.key.toString()}').set(info.toMap2()).then((value) {
+      print("done WithdrawHistory");
     });
     return Future.value(noerr);
   }
@@ -35,10 +38,13 @@ class MeetingModule {
   Future<bool> deleteMeeting(MeetingInfo info) {
     if (info.key == null) return Future.value(false);
     bool noerr = true;
-    meetingReference.child(info.key!).remove().then((value) {
-      noerr = true;
-    }).catchError((onError) {
-      noerr = false;
+    // meetingReference.child(info.key!).remove().then((value) {
+    //   noerr = true;
+    // }).catchError((onError) {
+    //   noerr = false;
+    // });
+    FirebaseDatabase.instance.reference().child('UserData/${info.patient_id}/Meeting_History/${info.key.toString()}').remove().then((value) {
+      print("done WithdrawHistory");
     });
     return Future.value(noerr);
   }
@@ -46,10 +52,13 @@ class MeetingModule {
   Future<bool> createMeeting(MeetingInfo info) {
     // if(info.key==null) return Future.value(false);
     bool noerr = true;
-    meetingReference.push().set(info.toMap()).then((value) {
-      noerr = true;
-    }).catchError((onError) {
-      noerr = false;
+    // meetingReference.push().set(info.toMap()).then((value) {
+    //   noerr = true;
+    // }).catchError((onError) {
+    //   noerr = false;
+    // });
+    FirebaseDatabase.instance.reference().child('UserData/${info.patient_id}/Meeting_History/${info.key.toString()}').set(info.toMap2()).then((value) {
+      print("done WithdrawHistory");
     });
     return Future.value(noerr);
   }

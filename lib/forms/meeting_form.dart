@@ -1,4 +1,5 @@
 import 'package:admin_panel/backend/meetingmodule/meeting_info.dart';
+import 'package:admin_panel/backend/utils/formatter.dart';
 import 'package:admin_panel/constants.dart';
 import 'package:admin_panel/responsive.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
@@ -67,9 +68,11 @@ class _MeetingFormState extends State<MeetingForm> {
                         child: Padding(
                           padding: const EdgeInsets.all(defaultPadding),
                           child: BasicDateTimeField(
-                            initialValue_: widget.meeting.meetingTime,
+                            initialValue_: widget.temp.meetingTime??(widget.temp.meetingTime=DateTime.now()),
                             onChanged: (value) {
-                              widget.temp.meetingTime = value;
+                              debugPrint("On changed meeting called" + FormattedDate.format(widget.temp.meetingTime).toString());
+                              if(value!=null)
+                                widget.temp.meetingTime = value;
                             },
                             title: 'Meeting Time',
                           ),
@@ -125,6 +128,7 @@ class _MeetingFormState extends State<MeetingForm> {
                           },
                         ),
                       ),
+
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.03,
                       ),
@@ -135,7 +139,7 @@ class _MeetingFormState extends State<MeetingForm> {
                           suggessions: ['1', '2'],
                           onChanged: (value) {
                             int? v = int.tryParse(value.toString());
-                            if (v != null) widget.temp.type = value;
+                            if (v != null) widget.temp.type = v;
                           },
                           text: widget.meeting.type,
                           title: 'Type',
@@ -155,6 +159,30 @@ class _MeetingFormState extends State<MeetingForm> {
                       ),
                       Opacity(
                         opacity: 0.95,
+                        child: _InputWidget(
+                          onChanged: (value) {
+                            if (value != null) {
+                              int? iv = int.tryParse(value);
+                              if (iv != null)
+                                widget.temp.duration = iv;
+                            }
+                          },
+                          text: widget.temp.duration.toString(),
+                          title: 'Duration',
+                          validator: (value) {
+                            if (value == null) return null;
+                            if (int.tryParse(value) == null) {
+                              return "Provide a correct integer value";
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.03,
+                      ),
+                      Opacity(
+                        opacity: 0.95,
                         child: _AutoCompleteInputWidget(
                           typeAheadController: _problemController,
                           suggessions: widget.suggessions['problem'],
@@ -163,7 +191,7 @@ class _MeetingFormState extends State<MeetingForm> {
                               widget.temp.problem = value;
                           },
                           text: widget.meeting.problem ?? '',
-                          title: 'Problem',
+                          title: 'Comment',
                           validator: (value) {
                             return null;
                           },
@@ -209,7 +237,10 @@ class _MeetingFormState extends State<MeetingForm> {
                           ],
                         ),
                         onPressed: () async {
-                          if (_formkey.currentState!.validate() && widget.temp.meetingTime!=null) {
+                          if (_formkey.currentState!.validate()) {
+                            if(widget.temp.meetingTime==null){
+                              debugPrint("meetingTime:Null");
+                            }
                             widget.onSubmit();
                             Navigator.of(context).maybePop();
                           } else {

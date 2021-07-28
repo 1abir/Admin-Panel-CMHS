@@ -1,4 +1,3 @@
-
 import 'package:admin_panel/screens/article_sc/category/article_cat_screen.dart';
 import 'package:admin_panel/screens/detection_sc/categories/category_screen.dart';
 import 'package:admin_panel/screens/doctors/doctor_screen.dart';
@@ -8,6 +7,7 @@ import 'package:admin_panel/screens/transaction/tx_screen.dart';
 import 'package:admin_panel/screens/video_sc/category/video_cat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({
@@ -21,16 +21,23 @@ class SideMenu extends StatelessWidget {
         children: [
           DrawerHeader(
             child:
-            //Image.asset("assets/images/logo.png"),
-            Center(
-              child: Text(
-                "Complete Mental Health Solution",
-                style: Theme.of(context).textTheme.headline6!.copyWith(
-                  color: Colors.white70,
+                //Image.asset("assets/images/logo.png"),
+                Stack(
+              children: [
+                Opacity(
+                  opacity: .25,
+                  child: Center(child: FaIcon(FontAwesomeIcons.headSideVirus,size: 120,)),
                 ),
-
-              ),
-            )
+                Center(
+                  child: Text(
+                    "Complete Mental Health Solution",
+                    style: Theme.of(context).textTheme.headline6!.copyWith(
+                          color: Colors.white70,
+                        ),
+                  ),
+                ),
+              ],
+            ),
           ),
           DrawerListTile(
             title: "Dashboard",
@@ -50,11 +57,11 @@ class SideMenu extends StatelessWidget {
               Navigator.of(context).pushReplacement<void, void>(
                 MaterialPageRoute<void>(
                     builder: (BuildContext context) => ArticleCategoryScreen()
-                  // Provider(
-                  //   create: (context) => (),
-                  //   builder: (context, child) => ProductDetails(),
-                  // ),
-                ),
+                    // Provider(
+                    //   create: (context) => (),
+                    //   builder: (context, child) => ProductDetails(),
+                    // ),
+                    ),
               );
             },
           ),
@@ -65,11 +72,11 @@ class SideMenu extends StatelessWidget {
               Navigator.of(context).pushReplacement<void, void>(
                 MaterialPageRoute<void>(
                     builder: (BuildContext context) => VideoCategoryScreen()
-                  // Provider(
-                  //   create: (context) => (),
-                  //   builder: (context, child) => ProductDetails(),
-                  // ),
-                ),
+                    // Provider(
+                    //   create: (context) => (),
+                    //   builder: (context, child) => ProductDetails(),
+                    // ),
+                    ),
               );
             },
           ),
@@ -79,12 +86,12 @@ class SideMenu extends StatelessWidget {
             press: () {
               Navigator.of(context).pushReplacement<void, void>(
                 MaterialPageRoute<void>(
-                  builder: (BuildContext context) => TransactionScreen()
-                  // Provider(
-                  //   create: (context) => (),
-                  //   builder: (context, child) => ProductDetails(),
-                  // ),
-                ),
+                    builder: (BuildContext context) => TransactionScreen()
+                    // Provider(
+                    //   create: (context) => (),
+                    //   builder: (context, child) => ProductDetails(),
+                    // ),
+                    ),
               );
             },
           ),

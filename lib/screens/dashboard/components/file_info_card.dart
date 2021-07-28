@@ -15,6 +15,8 @@ class MentalConditionOverviewInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 400,
+      width: 400,
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
         color: secondaryColor,
@@ -56,7 +58,7 @@ class MentalConditionOverviewInfoCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "${info.percentage}%",
+                "${info.percentage_info}",
                 style: Theme.of(context)
                     .textTheme
                     .caption!

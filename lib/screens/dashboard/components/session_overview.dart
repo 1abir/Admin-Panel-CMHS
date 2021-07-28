@@ -2,6 +2,7 @@ import 'package:admin_panel/backend/backend.dart';
 import 'package:admin_panel/backend/detectionmodule/detection_module.dart';
 import 'package:admin_panel/backend/meetingmodule/meeting_info.dart';
 import 'package:admin_panel/forms/meeting_form.dart';
+import 'package:admin_panel/forms/uuid_gen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -45,6 +46,8 @@ class RecentSessionsView extends StatelessWidget {
                       ),
                       onPressed: () {
                         MeetingInfo temp = MeetingInfo.fromMap({});
+                        temp.meetingTime = DateTime.now();
+                        temp.key = UidGen.uuid.v4();
                         temp.type = 1;
                         var suggessions = {
                           'user': appState.userModuleElement!.userIDs,
@@ -83,7 +86,7 @@ class RecentSessionsView extends StatelessWidget {
                     columnSpacing: defaultPadding,
                     columns: [
                       DataColumn(
-                        label: Text("Doctor's Name"),
+                        label: Text("Doctor's id"),
                       ),
                       DataColumn(
                         label: Text("Patient's Name"),
@@ -149,7 +152,6 @@ DataRow _meetingDataRow(
                   return MeetingForm(
                     meeting: meet,
                     onSubmit: () {
-
                       appState.meetingModuleElement!.updateMeeting(temp);
                     },
                     temp: temp,
@@ -178,7 +180,7 @@ DataRow _meetingDataRow(
       DataCell(Text(pname)),
       meet.meetingTime != null
           ? DataCell(
-              Text(DateFormat('yyyy/MM/dd-hh:mma').format(meet.meetingTime!)))
+              Text(DateFormat("EEEE, MMMM d, yyyy 'at' h:mma").format(meet.meetingTime!)))
           : DataCell(Text('')),
       DataCell(Text(_printDuration(Duration(seconds: meet.duration)))),
     ],
