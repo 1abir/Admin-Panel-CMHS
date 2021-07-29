@@ -12,6 +12,7 @@ import 'package:admin_panel/backend/usermodule/user_info.dart';
 import 'package:admin_panel/backend/usermodule/user_module_elements.dart';
 import 'package:admin_panel/backend/videomodule/videomodulelement.dart';
 import 'package:admin_panel/backend/videomodule/videos.dart';
+import 'package:admin_panel/forms/uuid_gen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -61,6 +62,16 @@ class FetchFireBaseData extends ChangeNotifier {
       } else {
         final uuid = user.uid;
         var dbRef = FirebaseDatabase.instance.reference().child('Users');
+        // The below Four line
+        adminUser = UserInfoClass.fromMap({
+          'name' : googleUserAccount != null ? googleUserAccount!.displayName : 'Pseudo Admin',
+          'isAdmin':1,
+        });
+        adminUser!.key = UidGen.uuid.v4();
+        loginState = LoginStates.loggedIn;
+        init();
+        notifyListeners();
+        return;
         dbRef.once().then((DataSnapshot? snapshot) {
           if (snapshot != null) {
             try {
@@ -430,6 +441,9 @@ class FetchFireBaseData extends ChangeNotifier {
         idToken: googleAuth.idToken,
       );
       await FirebaseAuth.instance.signInWithCredential(credential);
+      debugPrint("gootle name"+ googleUserAccount!.displayName.toString());
+      debugPrint("gootle url"+googleUserAccount!.photoUrl.toString());
+
     }
   }
 

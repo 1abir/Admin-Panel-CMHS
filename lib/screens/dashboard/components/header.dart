@@ -91,7 +91,8 @@ class ProfileCard extends StatelessWidget {
           ),
           child:
               Consumer<FetchFireBaseData>(builder: (context, appState, child) {
-            return appState.adminUser == null
+            return GoogleProfilePic(appState: appState,);
+              appState.adminUser == null
                 ? GoogleProfilePic(appState: appState)
                 : FutureBuilder<String>(
                     future: appState.getProfilePicture(),
@@ -154,7 +155,7 @@ class GoogleProfilePic extends StatelessWidget {
           Padding(
             padding:
             const EdgeInsets.only(left: defaultPadding),
-            child: Text("Sanjinur Islam"),
+            child: Text(appState.googleUserAccount!.displayName),
           ),
       ],
     )
