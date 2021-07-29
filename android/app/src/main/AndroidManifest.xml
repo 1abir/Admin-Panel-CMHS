@@ -2,7 +2,7 @@
     package="buet.research.admin_panel">
    <application
         android:label="admin_panel"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/cmhs_admin_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
