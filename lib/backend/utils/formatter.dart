@@ -21,7 +21,6 @@ class FormattedDate{
 
   static DateTime? parse(String? dateString){
     if(dateString==null || dateString == 'null') return null;
-    String s = dateString;
     try {
       String dateWithT = dateString.substring(0, 8) + 'T' + dateString.substring(10);
       DateTime dateTime = DateTime.parse(dateWithT);

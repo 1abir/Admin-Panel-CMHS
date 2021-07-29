@@ -98,7 +98,7 @@ class FileInfoCardGridView extends StatelessWidget {
                                   color: Color((Random().nextDouble() * 0xFFFFFF).toInt())
                                       .withOpacity(1.0),
                                   percentage: (ndoc * 100.0 / (ndoc + nuser)).ceil(),
-                                  percentage_info: "1 : $ratio",
+                                  percentageInfo: "1 : $ratio",
                                 ),
                               ),
                             ),
@@ -114,7 +114,7 @@ class FileInfoCardGridView extends StatelessWidget {
                                         .withOpacity(1.0),
                                     percentage: (narticlecat * 100.0 /
                                         (narticle + narticlecat)).ceil(),
-                                    percentage_info: "1 : $ratioar"
+                                    percentageInfo: "1 : $ratioar"
                                 ),
                               ),
                             ),
@@ -130,7 +130,7 @@ class FileInfoCardGridView extends StatelessWidget {
                                         .withOpacity(1.0),
                                     percentage: (nvidcat * 100.0 / (nvideo + nvidcat))
                                         .ceil(),
-                                    percentage_info: "1 : $ratiovid"
+                                    percentageInfo: "1 : $ratiovid"
                                 ),
                               ),
                             ),
@@ -145,7 +145,7 @@ class FileInfoCardGridView extends StatelessWidget {
                                     color: Color((Random().nextDouble() * 0xFFFFFF).toInt())
                                         .withOpacity(1.0),
                                     percentage: 100,
-                                    percentage_info : "",
+                                    percentageInfo : "",
                                 ),
                               ),
                             ),

@@ -1,6 +1,4 @@
-import 'package:admin_panel/data/firebase/detection.dart';
 
-import '../questions.dart';
 
 // var questions_depression = <FirebaseQuestionDetection>[
 //   FirebaseQuestionDetection(

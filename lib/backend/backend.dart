@@ -11,7 +11,7 @@ import 'package:admin_panel/backend/usermodule/user_info.dart';
 import 'package:admin_panel/backend/usermodule/user_module_elements.dart';
 import 'package:admin_panel/backend/videomodule/videomodulelement.dart';
 import 'package:admin_panel/backend/videomodule/videos.dart';
-import 'package:admin_panel/data/firebase/detection.dart';
+import 'package:admin_panel/backend/detectionmodule/detection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -46,7 +46,6 @@ class FetchFireBaseData extends ChangeNotifier {
 
   FetchFireBaseData() {
     initAuth();
-    // init();
   }
 
   Future<void> initAuth() async {
@@ -273,41 +272,41 @@ class FetchFireBaseData extends ChangeNotifier {
     });
     subscriptions.add(subscription);
   }
-
-  Future<void> _fetchMeetingModule() async {
-    debugPrint("Fetch Meeting Called");
-    if (app == null) app = await Firebase.initializeApp();
-    var dbRef = FirebaseDatabase.instance.reference();
-
-    var meetingDataRef = dbRef.child('Meeting');
-    List<MeetingInfo> meetingList = [];
-
-    var subscription = meetingDataRef.onValue.listen((event) {
-      meetingList = [];
-      try {
-        final meetings = Map<String, dynamic>.from(event.snapshot.value);
-        meetings.forEach((key, value) {
-                var d = Map<String, dynamic>.from(value);
-                MeetingInfo meet = MeetingInfo.fromMap(d);
-                meet.key = key.toString();
-                // debugPrint("meet : "+meet.toMap().toString());
-                meetingList.add(meet);
-              });
-        meetingModuleElement = MeetingModule(
-                  sessions: meetingList, meetingReference: meetingDataRef);
-        debugPrint('Meeting List Length: ' + meetingList.length.toString());
-        notifyListeners();
-      } catch (e) {
-        meetingModuleElement = MeetingModule(
-            sessions: meetingList, meetingReference: meetingDataRef);
-        print(e);
-      }
-    });
-    subscription.onError((err) {
-      debugPrint("error meeting Suscription : " + err.toString());
-    });
-    subscriptions.add(subscription);
-  }
+  //
+  // Future<void> _fetchMeetingModule() async {
+  //   debugPrint("Fetch Meeting Called");
+  //   if (app == null) app = await Firebase.initializeApp();
+  //   var dbRef = FirebaseDatabase.instance.reference();
+  //
+  //   var meetingDataRef = dbRef.child('Meeting');
+  //   List<MeetingInfo> meetingList = [];
+  //
+  //   var subscription = meetingDataRef.onValue.listen((event) {
+  //     meetingList = [];
+  //     try {
+  //       final meetings = Map<String, dynamic>.from(event.snapshot.value);
+  //       meetings.forEach((key, value) {
+  //               var d = Map<String, dynamic>.from(value);
+  //               MeetingInfo meet = MeetingInfo.fromMap(d);
+  //               meet.key = key.toString();
+  //               // debugPrint("meet : "+meet.toMap().toString());
+  //               meetingList.add(meet);
+  //             });
+  //       meetingModuleElement = MeetingModule(
+  //                 sessions: meetingList, meetingReference: meetingDataRef);
+  //       debugPrint('Meeting List Length: ' + meetingList.length.toString());
+  //       notifyListeners();
+  //     } catch (e) {
+  //       meetingModuleElement = MeetingModule(
+  //           sessions: meetingList, meetingReference: meetingDataRef);
+  //       print(e);
+  //     }
+  //   });
+  //   subscription.onError((err) {
+  //     debugPrint("error meeting Suscription : " + err.toString());
+  //   });
+  //   subscriptions.add(subscription);
+  // }
 
   Future<void> _fetchMeetingModule2()async{
     debugPrint("Fetch meeting2 Called");
@@ -335,7 +334,7 @@ class FetchFireBaseData extends ChangeNotifier {
               d.forEach((key3, value3) {
                 var ff = Map<String, dynamic>.from(value3);
                 MeetingInfo meet = MeetingInfo.fromMap2(ff);
-                meet.patient_id = key;
+                meet.patientId = key;
                 meet.key = key3.toString();
                 meetingList.add(meet);
               });

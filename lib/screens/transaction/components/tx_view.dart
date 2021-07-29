@@ -48,7 +48,7 @@ class TransactionsView extends StatelessWidget {
                     onPressed: () {
                       TransactionInfo temp =
                           TransactionInfo.fromMap(<String, dynamic>{});
-                      temp.from_id = appState.adminUser?.key ?? '';
+                      temp.fromId = appState.adminUser?.key ?? '';
                       temp.dateTime = DateTime.now();
 
                       var suggessions = {
@@ -66,15 +66,14 @@ class TransactionsView extends StatelessWidget {
                             return TransactionForm(
                               transaction: temp,
                               onSubmit: () async {
-                                if (temp.to_id != null &&
+                                if (temp.toId != null &&
                                     appState.userModuleElement != null) {
                                   appState.transactionModuleElement!
                                       .createMeeting(temp);
-                                  String uid = temp.to_id.toString();
                                   for (var i
                                       in appState.userModuleElement!.doctors +
                                           appState.userModuleElement!.users) {
-                                    if (i.key == temp.to_id) {
+                                    if (i.key == temp.toId) {
                                       if (temp.type == "Credit") {
                                         i.credit -= temp.amount;
                                       } else if (temp.type == "Debit") {
@@ -190,11 +189,11 @@ DataRow _txDataRow(TransactionInfo txInfo, Map<String, String> nmap,
                     transaction: txInfo,
                     onSubmit: () {
                       appState.transactionModuleElement!.updateMeeting(temp);
-                      if (temp.to_id != null &&
+                      if (temp.toId != null &&
                           appState.userModuleElement != null) {
                         for (var i in appState.userModuleElement!.doctors +
                             appState.userModuleElement!.users) {
-                          if (i.key == temp.to_id) {
+                          if (i.key == temp.toId) {
                             if (temp.type == "Credit") {
                               if (prevType == "Credit") {
                                 var change = temp.amount - prevAmount;
@@ -246,8 +245,8 @@ DataRow _txDataRow(TransactionInfo txInfo, Map<String, String> nmap,
               Text(DateFormat("MMMM d, yyyy 'at' h:mma").format(txInfo.dateTime!)))
           : DataCell(Text('')),
       DataCell(Text(txInfo.amount.toString())),
-      DataCell(Text(nmap[txInfo.from_id] ?? txInfo.from_id)),
-      DataCell(Text(nmap[txInfo.to_id ?? ''] ?? txInfo.to_id ?? '')),
+      DataCell(Text(nmap[txInfo.fromId] ?? txInfo.fromId)),
+      DataCell(Text(nmap[txInfo.toId ?? ''] ?? txInfo.toId ?? '')),
       DataCell(Text(nmap[txInfo.type] ?? txInfo.type))
     ],
   );

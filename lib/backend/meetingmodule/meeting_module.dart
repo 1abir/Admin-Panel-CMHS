@@ -29,7 +29,7 @@ class MeetingModule {
     //   debugPrint("error"+onError.toString());
     //   noerr = false;
     // });
-    FirebaseDatabase.instance.reference().child('UserData/${info.patient_id}/Meeting_History/${info.key.toString()}').set(info.toMap2()).then((value) {
+    FirebaseDatabase.instance.reference().child('UserData/${info.patientId}/Meeting_History/${info.key.toString()}').set(info.toMap2()).then((value) {
       print("done WithdrawHistory");
     });
     return Future.value(noerr);
@@ -43,7 +43,7 @@ class MeetingModule {
     // }).catchError((onError) {
     //   noerr = false;
     // });
-    FirebaseDatabase.instance.reference().child('UserData/${info.patient_id}/Meeting_History/${info.key.toString()}').remove().then((value) {
+    FirebaseDatabase.instance.reference().child('UserData/${info.patientId}/Meeting_History/${info.key.toString()}').remove().then((value) {
       print("done WithdrawHistory");
     });
     return Future.value(noerr);
@@ -57,7 +57,7 @@ class MeetingModule {
     // }).catchError((onError) {
     //   noerr = false;
     // });
-    FirebaseDatabase.instance.reference().child('UserData/${info.patient_id}/Meeting_History/${info.key.toString()}').set(info.toMap2()).then((value) {
+    FirebaseDatabase.instance.reference().child('UserData/${info.patientId}/Meeting_History/${info.key.toString()}').set(info.toMap2()).then((value) {
       print("done WithdrawHistory");
     });
     return Future.value(noerr);

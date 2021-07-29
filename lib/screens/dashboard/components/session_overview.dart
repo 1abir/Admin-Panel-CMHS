@@ -126,8 +126,8 @@ String _printDuration(Duration duration) {
 DataRow _meetingDataRow(
     FetchFireBaseData appState, int index, BuildContext context) {
   var meet = appState.meetingModuleElement!.sessions[index];
-  var dname = meet.doctor_id;
-  var pname = meet.patient_id;
+  var dname = meet.doctorId;
+  var pname = meet.patientId;
   if (appState.userModuleElement != null) {
     dname = appState.userModuleElement!.idNameMap[dname] ?? dname;
     pname = appState.userModuleElement!.idNameMap[pname] ?? pname;

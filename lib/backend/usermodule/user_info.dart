@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class UserInfoClass {
   int byear;
   double credit;

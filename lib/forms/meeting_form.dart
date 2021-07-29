@@ -35,8 +35,8 @@ class _MeetingFormState extends State<MeetingForm> {
   @override
   void initState() {
     super.initState();
-    _userController.text = widget.meeting.patient_id;
-    _doctorController.text = widget.meeting.doctor_id;
+    _userController.text = widget.meeting.patientId;
+    _doctorController.text = widget.meeting.doctorId;
     _typeController.text = widget.meeting.type.toString();
     _problemController.text = widget.meeting.problem??'';
   }
@@ -68,7 +68,7 @@ class _MeetingFormState extends State<MeetingForm> {
                         child: Padding(
                           padding: const EdgeInsets.all(defaultPadding),
                           child: BasicDateTimeField(
-                            initialValue_: widget.temp.meetingTime??(widget.temp.meetingTime=DateTime.now()),
+                            initialValue: widget.temp.meetingTime??(widget.temp.meetingTime=DateTime.now()),
                             onChanged: (value) {
                               debugPrint("On changed meeting called" + FormattedDate.format(widget.temp.meetingTime).toString());
                               if(value!=null)
@@ -88,9 +88,9 @@ class _MeetingFormState extends State<MeetingForm> {
                           suggessions: widget.suggessions['doctor'],
                           onChanged: (value) {
                             if (value != null || value != '')
-                              widget.temp.doctor_id = value;
+                              widget.temp.doctorId = value;
                           },
-                          text: widget.meeting.doctor_id,
+                          text: widget.meeting.doctorId,
                           title: 'Doctor ID',
                           validator: (value) {
                             if (value == null || value == '') {
@@ -113,9 +113,9 @@ class _MeetingFormState extends State<MeetingForm> {
                           suggessions: widget.suggessions['user'],
                           onChanged: (value) {
                             if (value != null || value != '')
-                              widget.temp.patient_id = value;
+                              widget.temp.patientId = value;
                           },
-                          text: widget.meeting.patient_id,
+                          text: widget.meeting.patientId,
                           title: 'Patient ID ',
                           validator: (value) {
                             if (value == null || value == '') {
@@ -464,10 +464,10 @@ class _AutoCompleteInputWidgetState extends State<_AutoCompleteInputWidget> {
 class BasicDateTimeField extends StatelessWidget {
   final onChanged;
   final title;
-  final initialValue_;
+  final initialValue;
 
   const BasicDateTimeField(
-      {Key? key, this.onChanged, this.title, this.initialValue_})
+      {Key? key, this.onChanged, this.title, this.initialValue})
       : super(key: key);
 
   @override
@@ -491,7 +491,7 @@ class BasicDateTimeField extends StatelessWidget {
         width: 500,
         child: DateTimeField(
           // format: DateFormat("yyyyMMddaHHmmss"),
-          initialValue: initialValue_,
+          initialValue: initialValue,
           format: DateFormat("EEEE, MMMM d, yyyy 'at' h:mma"),
           onChanged: (datetime) {
             if (onChanged != null) onChanged(datetime);
@@ -500,7 +500,7 @@ class BasicDateTimeField extends StatelessWidget {
             final date = await showDatePicker(
                 context: context,
                 firstDate: DateTime(1900),
-                initialDate: currentValue ?? initialValue_ ?? DateTime.now(),
+                initialDate: currentValue ?? initialValue ?? DateTime.now(),
                 lastDate: DateTime(2100));
             if (date != null) {
               final time = await showTimePicker(

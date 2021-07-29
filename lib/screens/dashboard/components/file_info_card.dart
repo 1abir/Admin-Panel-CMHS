@@ -58,7 +58,7 @@ class MentalConditionOverviewInfoCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "${info.percentage_info}",
+                "${info.percentageInfo}",
                 style: Theme.of(context)
                     .textTheme
                     .caption!

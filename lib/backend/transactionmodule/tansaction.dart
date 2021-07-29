@@ -6,9 +6,9 @@ class TransactionInfo {
   DateTime? dateTime;
   double amount;
   String type;
-  String from_id;
-  String? to_id;
-  String? meeting_id;
+  String fromId;
+  String? toId;
+  String? meetingId;
 
   TransactionInfo(
       {this.key,
@@ -16,9 +16,9 @@ class TransactionInfo {
       required this.dateTime,
       required this.amount,
       required this.type,
-      required this.from_id,
-      this.to_id,
-      this.meeting_id});
+      required this.fromId,
+      this.toId,
+      this.meetingId});
 
   Map<String, dynamic> toMap() {
     return {
@@ -26,9 +26,9 @@ class TransactionInfo {
       'dateTime': FormattedDate.format(dateTime)??FormattedDate.format(DateTime.now()),
       'amount': amount,
       'type': type,
-      'from_id': from_id,
-      'to_id': to_id,
-      'meeting_id': meeting_id,
+      'from_id': fromId,
+      'to_id': toId,
+      'meeting_id': meetingId,
     };
   }
 
@@ -39,9 +39,9 @@ class TransactionInfo {
           FormattedDate.parse(data['dateTime'])??DateTime.now(),
       amount: double.tryParse(data['amount'].toString()) ?? 0.0,
       type: data['type'] ?? '',
-      from_id: data['from_id'] ?? '',
-      to_id: data['to_id']??'',
-      meeting_id: data['meeting_id']??'',
+      fromId: data['from_id'] ?? '',
+      toId: data['to_id']??'',
+      meetingId: data['meeting_id']??'',
     );
   }
 
@@ -51,8 +51,8 @@ class TransactionInfo {
     dateTime = other.dateTime;
     amount = other.amount;
     type = other.type;
-    from_id = other.from_id;
-    to_id = other.to_id;
-    meeting_id = other.meeting_id;
+    fromId = other.fromId;
+    toId = other.toId;
+    meetingId = other.meetingId;
   }
 }

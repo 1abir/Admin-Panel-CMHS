@@ -6,7 +6,7 @@ class MentalConditionOverviewInfo {
 
   final Color? color;
 
-  String? percentage_info;
+  String? percentageInfo;
 
   MentalConditionOverviewInfo({
     this.svgSrc,
@@ -14,7 +14,7 @@ class MentalConditionOverviewInfo {
     this.totalStorage,
     this.numOfFiles,
     this.percentage,
-    this.color, this.percentage_info,
+    this.color, this.percentageInfo,
   });
 }
 

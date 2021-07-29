@@ -28,7 +28,6 @@ class MainScreen extends StatelessWidget {
               ),
             );
         }
-        return Container();
       },
       child: Scaffold(
         // key: context.read<MenuController>().scaffoldKey,

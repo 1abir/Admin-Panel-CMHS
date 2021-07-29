@@ -1,4 +1,4 @@
-import 'package:admin_panel/data/firebase/detection.dart';
+import 'package:admin_panel/backend/detectionmodule/detection.dart';
 
 var options = <QuestionOption>[
   QuestionOption(text: "একেবারেই হয় না", value: 0),

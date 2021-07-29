@@ -1,13 +1,6 @@
 // import 'dart:html';
 // import 'dart:js';
 
-import 'package:admin_panel/data/firebase/detection/depression_questions.dart';
-import 'package:admin_panel/data/firebase/moduleinfo/anxiety1.dart';
-import 'package:admin_panel/data/firebase/questions.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-
-import 'detection/social_interaction_problem.dart';
 
 // import 'package:firebase/firebase.dart';
 // import 'package:firebase/firestore.dart' as fs;
@@ -63,11 +56,10 @@ class ApplicationState {
   // }
 
   Future<void> initDepressionInfo() async {
-    await Firebase.initializeApp();
-
-    var col_ref =
-        FirebaseFirestore.instance.collection('/detection/depression/info');
-    col_ref.add(depression1_info);
+    // await Firebase.initializeApp();
+    // var col_ref =
+    //     FirebaseFirestore.instance.collection('/detection/depression/info');
+    // col_ref.add(depression1Infonfo);
   }
 
   // Future<void> initDepression() async {

@@ -1,5 +1,5 @@
 import 'package:admin_panel/constants.dart';
-import 'package:admin_panel/data/firebase/detection.dart';
+import 'package:admin_panel/backend/detectionmodule/detection.dart';
 import 'package:admin_panel/responsive.dart';
 import 'package:flutter/material.dart';
 
@@ -67,9 +67,9 @@ class _QuestionFormState extends State<QuestionForm> {
                         opacity: 0.95,
                         child: InputWidget(
                           onChanged: (value) {
-                            widget.temp.img_key = value;
+                            widget.temp.imgKey = value;
                           },
-                          text: widget.firebaseQuestionDetection.img_key,
+                          text: widget.firebaseQuestionDetection.imgKey,
                           title: 'Image Link',
                           validator: (value) {
                             if (value == null || value == '') return null;

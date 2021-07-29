@@ -1,17 +1,17 @@
 class FirebaseQuestionDetection {
-  String q_key;
+  String qKey;
   String text;
-  String? img_key;
-  int q_val, level;
+  String? imgKey;
+  int qVal, level;
   String category;
 
   List<QuestionOption> optionList;
 
   FirebaseQuestionDetection({
     required this.text,
-    required this.q_key,
-    this.img_key,
-    required this.q_val,
+    required this.qKey,
+    this.imgKey,
+    required this.qVal,
     required this.level,
     required this.optionList,
     required this.category,
@@ -19,10 +19,10 @@ class FirebaseQuestionDetection {
 
   Map<String, dynamic> toMap() {
     return {
-      "q_key": q_key,
+      "q_key": qKey,
       "text": text,
-      "img_key": img_key,
-      "q_val": q_val,
+      "img_key": imgKey,
+      "q_val": qVal,
       "level": level,
       "category": category,
       "optionList": [...optionList.map((element) => element.toMap())]
@@ -42,8 +42,8 @@ class FirebaseQuestionDetection {
 
     return FirebaseQuestionDetection(
       text: data['text'] ?? '',
-      q_key: data['q_key'] ?? '',
-      q_val: data['q_val'] ?? 0,
+      qKey: data['q_key'] ?? '',
+      qVal: data['q_val'] ?? 0,
       level: data['level'] ?? 0,
       category: data['category'] ?? '',
       optionList: qol,
@@ -51,10 +51,10 @@ class FirebaseQuestionDetection {
   }
 
   void copyFrom(FirebaseQuestionDetection fd) {
-    q_key = fd.q_key;
+    qKey = fd.qKey;
     text = fd.text;
-    img_key = fd.img_key;
-    q_val = fd.q_val;
+    imgKey = fd.imgKey;
+    qVal = fd.qVal;
     level = fd.level;
     optionList = fd.optionList;
     category = fd.category;

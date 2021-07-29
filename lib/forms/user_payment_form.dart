@@ -6,7 +6,6 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
-import 'package:uuid/uuid.dart';
 
 class UserPaymentForm extends StatefulWidget {
   final TransactionInfo temp;
@@ -34,10 +33,10 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
   @override
   void initState() {
     super.initState();
-    _userController.text = widget.temp.from_id;
+    _userController.text = widget.temp.fromId;
     _txController.text = widget.temp.txID;
     _typeController.text = widget.temp.type;
-    _meetingController.text = widget.temp.meeting_id ?? '';
+    _meetingController.text = widget.temp.meetingId ?? '';
   }
 
   @override
@@ -88,7 +87,7 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
                         child: Padding(
                           padding: const EdgeInsets.all(defaultPadding),
                           child: BasicDateTimeField(
-                            initialValue_: widget.temp.dateTime??(widget.temp.dateTime = DateTime.now()),
+                            initialValue: widget.temp.dateTime??(widget.temp.dateTime = DateTime.now()),
                             onChanged: (value) {
                               widget.temp.dateTime = value;
                             },
@@ -106,9 +105,9 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
                           suggessions: widget.suggessions['user'],
                           onChanged: (value) {
                             if (value != null || value != '')
-                              widget.temp.from_id = value;
+                              widget.temp.fromId = value;
                           },
-                          text: widget.temp.from_id,
+                          text: widget.temp.fromId,
                           title: 'Sender ID',
                           validator: (value) {
                             if (value == null || value == '') {
@@ -374,9 +373,9 @@ class _AutoCompleteInputWidgetState extends State<_AutoCompleteInputWidget> {
 class BasicDateTimeField extends StatelessWidget {
   final onChanged;
   final title;
-  final initialValue_;
+  final initialValue;
 
-  const BasicDateTimeField({Key? key, this.onChanged, this.title, this.initialValue_})
+  const BasicDateTimeField({Key? key, this.onChanged, this.title, this.initialValue})
       : super(key: key);
 
   @override
@@ -400,7 +399,7 @@ class BasicDateTimeField extends StatelessWidget {
         width: 500,
         child: DateTimeField(
           // format: DateFormat("yyyyMMddaHHmmss"),
-          initialValue: initialValue_,
+          initialValue: initialValue,
           format: DateFormat("EEEE, MMMM d, yyyy 'at' h:mma"),
           onChanged: (datetime) {
             if (onChanged != null) onChanged(datetime);
@@ -409,7 +408,7 @@ class BasicDateTimeField extends StatelessWidget {
             final date = await showDatePicker(
                 context: context,
                 firstDate: DateTime(1900),
-                initialDate: currentValue ?? initialValue_?? DateTime.now(),
+                initialDate: currentValue ?? initialValue?? DateTime.now(),
                 lastDate: DateTime(2100));
             if (date != null) {
               final time = await showTimePicker(

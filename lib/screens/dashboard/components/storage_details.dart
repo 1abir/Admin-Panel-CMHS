@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
-import 'chart.dart';
 import 'storage_info_card.dart';
 
 class StarageDetails extends StatelessWidget {
@@ -17,7 +16,6 @@ class StarageDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<FetchFireBaseData>(
       builder: (context, appState, child) {
-        if(appState.detectionModule == null) return Container();
         return Container(
           padding: EdgeInsets.all(defaultPadding),
           decoration: BoxDecoration(

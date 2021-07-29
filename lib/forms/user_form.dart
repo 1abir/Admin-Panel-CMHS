@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:admin_panel/backend/usermodule/user_info.dart';
 import 'package:admin_panel/constants.dart';
 import 'package:admin_panel/forms/uuid_gen.dart';
@@ -8,7 +6,6 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
-import 'package:uuid/uuid.dart';
 
 class UserForm extends StatefulWidget {
   final UserInfoClass user;
@@ -483,10 +480,10 @@ class _AutoCompleteInputWidgetState extends State<_AutoCompleteInputWidget> {
 class BasicDateTimeField extends StatelessWidget {
   final onChanged;
   final title;
-  final initialValue_;
+  final initialValue;
 
   const BasicDateTimeField(
-      {Key? key, this.onChanged, this.title, this.initialValue_})
+      {Key? key, this.onChanged, this.title, this.initialValue})
       : super(key: key);
 
   @override
@@ -510,7 +507,7 @@ class BasicDateTimeField extends StatelessWidget {
         width: 500,
         child: DateTimeField(
           // format: DateFormat("yyyyMMddaHHmmss"),
-          initialValue: initialValue_,
+          initialValue: initialValue,
           format: DateFormat("EEEE, MMMM d, yyyy 'at' h:mma"),
           onChanged: (datetime) {
             if (onChanged != null) onChanged(datetime);
@@ -519,7 +516,7 @@ class BasicDateTimeField extends StatelessWidget {
             final date = await showDatePicker(
                 context: context,
                 firstDate: DateTime(1900),
-                initialDate: currentValue ?? initialValue_ ?? DateTime.now(),
+                initialDate: currentValue ?? initialValue ?? DateTime.now(),
                 lastDate: DateTime(2100));
             if (date != null) {
               final time = await showTimePicker(

@@ -18,7 +18,7 @@ class TransactionModule {
 
   Future<bool> updateMeeting(TransactionInfo info) {
     var key = info.txID;
-    var userID = info.to_id;
+    var userID = info.toId;
     if (info.key == null) return Future.value(false);
     bool noerr = true;
     transactionRef.child(key).set(info.toMap()).then((value) {
@@ -50,7 +50,7 @@ class TransactionModule {
     // if(info.key==null) return Future.value(false);
     bool noerr = true;
     var key = info.txID;
-    var userID = info.to_id;
+    var userID = info.toId;
     transactionRef.child(key).set(info.toMap()).then((value) {
       print("done transaction");
     }).catchError((onError) {

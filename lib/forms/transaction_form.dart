@@ -36,10 +36,10 @@ class _TransactionFormState extends State<TransactionForm> {
   @override
   void initState() {
     super.initState();
-    _userController.text = widget.transaction.from_id;
-    _doctorController.text = widget.transaction.to_id ?? '';
+    _userController.text = widget.transaction.fromId;
+    _doctorController.text = widget.transaction.toId ?? '';
     _typeController.text = widget.transaction.type;
-    _meetingController.text = widget.transaction.meeting_id ?? '';
+    _meetingController.text = widget.transaction.meetingId ?? '';
     _txController.text = widget.transaction.txID;
   }
 
@@ -91,7 +91,7 @@ class _TransactionFormState extends State<TransactionForm> {
                         child: Padding(
                           padding: const EdgeInsets.all(defaultPadding),
                           child: BasicDateTimeField(
-                            initialValue_: widget.transaction.dateTime,
+                            initialValue: widget.transaction.dateTime,
                             onChanged: (value) {
                               if(value!=null)
                                 widget.temp.dateTime = value;
@@ -132,9 +132,9 @@ class _TransactionFormState extends State<TransactionForm> {
                           suggessions: widget.suggessions['me'],
                           onChanged: (value) {
                             if (value != null || value != '')
-                              widget.temp.from_id = value;
+                              widget.temp.fromId = value;
                           },
-                          text: widget.temp.from_id,
+                          text: widget.temp.fromId,
                           title: 'Sender ID',
                           validator: (value) {
                             if (value == null || value == '') {
@@ -158,9 +158,9 @@ class _TransactionFormState extends State<TransactionForm> {
                               widget.suggessions['user'],
                           onChanged: (value) {
                             if (value != null || value != '')
-                              widget.temp.to_id = value;
+                              widget.temp.toId = value;
                           },
-                          text: widget.transaction.to_id,
+                          text: widget.transaction.toId,
                           title: 'Receiver ID ',
                           validator: (value) {
                             if (value == null || value == '') {
@@ -184,9 +184,9 @@ class _TransactionFormState extends State<TransactionForm> {
                           suggessions: widget.suggessions['meeting'],
                           onChanged: (value) {
                             if (value != null || value != '')
-                              widget.temp.meeting_id = value;
+                              widget.temp.meetingId = value;
                           },
-                          text: widget.transaction.meeting_id,
+                          text: widget.transaction.meetingId,
                           title: 'Meeting ID',
                           validator: (value) {
                             // if (value == null || value == '') {
@@ -479,9 +479,9 @@ class _AutoCompleteInputWidgetState extends State<_AutoCompleteInputWidget> {
 class BasicDateTimeField extends StatelessWidget {
   final onChanged;
   final title;
-  final initialValue_;
+  final initialValue;
 
-  const BasicDateTimeField({Key? key, this.onChanged, this.title, this.initialValue_})
+  const BasicDateTimeField({Key? key, this.onChanged, this.title, this.initialValue})
       : super(key: key);
 
   @override
@@ -505,7 +505,7 @@ class BasicDateTimeField extends StatelessWidget {
         width: 500,
         child: DateTimeField(
           // format: DateFormat("yyyyMMddaHHmmss"),
-          initialValue: initialValue_,
+          initialValue: initialValue,
           format: DateFormat("EEEE, MMMM d, yyyy 'at' h:mma"),
           onChanged: (datetime) {
             if (onChanged != null) onChanged(datetime);
@@ -514,7 +514,7 @@ class BasicDateTimeField extends StatelessWidget {
             final date = await showDatePicker(
                 context: context,
                 firstDate: DateTime(1900),
-                initialDate: currentValue ?? initialValue_?? DateTime.now(),
+                initialDate: currentValue ?? initialValue?? DateTime.now(),
                 lastDate: DateTime(2100));
             if (date != null) {
               final time = await showTimePicker(

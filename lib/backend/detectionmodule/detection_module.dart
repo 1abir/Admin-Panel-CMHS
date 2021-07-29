@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:admin_panel/data/firebase/detection.dart';
+import 'package:admin_panel/backend/detectionmodule/detection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +26,7 @@ class DetectionModuleElement {
     debugPrint("inside add question");
     if (ref != null) {
       debugPrint("inside add question ref");
-      ref!.doc(qd.q_key).set(qd.toMap()).catchError((onError) {
+      ref!.doc(qd.qKey).set(qd.toMap()).catchError((onError) {
         debugPrint('Error in add Question : ' + onError.toString());
       }).then((value) {
       });
@@ -37,7 +37,7 @@ class DetectionModuleElement {
     debugPrint("inside update question");
     if (ref != null) {
       debugPrint("inside update question ref");
-      ref!.doc(qd.q_key).set(qd.toMap()).catchError((onError) {
+      ref!.doc(qd.qKey).set(qd.toMap()).catchError((onError) {
         debugPrint('Errir in add Question : ' + onError.toString());
       });
     }
@@ -48,7 +48,7 @@ class DetectionModuleElement {
     if (questionsList != null) {
       debugPrint("inside delete question ref");
       questionsList!.remove(qd);
-      return ref!.doc((qd.q_key)).delete().catchError((onError) {
+      return ref!.doc((qd.qKey)).delete().catchError((onError) {
         debugPrint('Errir in delete Question : ' + onError.toString());
       });
     }

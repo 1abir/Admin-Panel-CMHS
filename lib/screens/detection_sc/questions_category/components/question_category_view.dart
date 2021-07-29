@@ -1,7 +1,7 @@
 import 'package:admin_panel/backend/backend.dart';
 import 'package:admin_panel/backend/detectionmodule/detection_module.dart';
 import 'package:admin_panel/constants.dart';
-import 'package:admin_panel/data/firebase/detection.dart';
+import 'package:admin_panel/backend/detectionmodule/detection.dart';
 import 'package:admin_panel/forms/question_form.dart';
 import 'package:admin_panel/responsive.dart';
 import 'package:flutter/cupertino.dart';
@@ -46,9 +46,9 @@ class QuestionCategoryView extends StatelessWidget {
                         1;
                     FirebaseQuestionDetection qd = FirebaseQuestionDetection(
                         text: '',
-                        q_key: key.toString(),
+                        qKey: key.toString(),
                         category: category,
-                        q_val: 0,
+                        qVal: 0,
                         level: key,
                         optionList: <QuestionOption>[
                           QuestionOption(text: "একেবারেই হয় না", value: 0),
@@ -79,7 +79,7 @@ class QuestionCategoryView extends StatelessWidget {
                                   firebaseQuestionDetection: qd,
                                   onSubmit: () async {
                                     debugPrint("text: " + qd.text);
-                                    qd.q_key = qd.level.toString();
+                                    qd.qKey = qd.level.toString();
                                     appState.detectionModuleMap[
                                             category]!
                                         .addQuestion(qd);

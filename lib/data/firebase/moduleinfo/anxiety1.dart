@@ -1,4 +1,4 @@
-var anxiety1_info = <String, dynamic>{
+var anxiety1Info = <String, dynamic>{
 
   "category" : "anxiety",
   "subcategory" : "scale1",
@@ -31,7 +31,7 @@ var anxiety1_info = <String, dynamic>{
   ]
 };
 
-var depression1_info = <String,dynamic>{
+var depression1Info = <String,dynamic>{
   "category" : "depression",
   "subcategory" : "scale1",
   "total" : 68,
@@ -64,7 +64,7 @@ var depression1_info = <String,dynamic>{
 };
 
 
-var social_int_info = <String,dynamic>{
+var socialIntInfo = <String,dynamic>{
   "category" : "social_interaction_problem",
   "subcategory" : "scale1",
   "total": 68,
@@ -97,7 +97,7 @@ var social_int_info = <String,dynamic>{
 };
 
 
-var love_obsession_info = <String,dynamic>{
+var loveObsessionInfo = <String,dynamic>{
   "category" : "love_obsession",
   "subcategory" : "scale1",
   "total": 14,
@@ -128,7 +128,7 @@ var love_obsession_info = <String,dynamic>{
   ]
 };
 
-var marital_problem_info = <String,dynamic>{
+var maritalProblemInfo = <String,dynamic>{
   "category" : "marital_problem",
   "subcategory" : "scale1",
   "total": 66,

@@ -1,4 +1,4 @@
-import 'package:admin_panel/data/firebase/detection.dart';
+import 'package:admin_panel/backend/detectionmodule/detection.dart';
 
 
 var options = <QuestionOption>[

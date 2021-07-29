@@ -130,8 +130,8 @@ class DoctorsView extends StatelessWidget {
 DataRow _datarowDoctor(int index, List<UserInfoClass> doctors,FetchFireBaseData appState, BuildContext context) {
   UserInfoClass user = doctors[index];
   TransactionInfo tempTx = TransactionInfo.fromMap({});
-  tempTx.to_id = user.key;
-  tempTx.from_id = appState.adminUser?.key??'';
+  tempTx.toId = user.key;
+  tempTx.fromId = appState.adminUser?.key??'';
   tempTx.amount = user.credit * -1;
   tempTx.type = "Debit";
   return DataRow(
