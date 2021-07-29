@@ -167,6 +167,46 @@ first try to sign with your google account, we will be notified that you are try
 
 ![Add or Edit Detection Question](./readme/21.png)
 
+---
+---
+
+
+## Terms of Use
+
+
+Version 1.0
+
+The Complete Mental Health solution website is a copyrighted work belonging to the Bangladesh University of Engineering and Technology. Certain features of the Site may be subject to additional guidelines, terms, or rules, which will be posted on the Site in connection with such features.
+
+1. Subject to these Terms. The company grants you a non-transferable, non-exclusive, revocable, limited license to access the Site solely for your own personal, noncommercial use.
+
+2. Certain Restrictions. The rights approved to you in these Terms are subject to the following restrictions: 
+```
+    a) you shall not sell, rent, lease, transfer, assign, distribute, host, or otherwise commercially exploit the Site; 
+
+    b) you shall not change, make derivative works of, disassemble, reverse compile, or reverse engineer any part of the Site; 
+
+    c) you shall not access the Site to build a similar or competitive website; and 
+
+    d) except as expressly stated herein, no part of the Site may be copied, reproduced, distributed, republished, downloaded, displayed, posted, or transmitted in any form or by any means.
+```
+
+3. Third-Party Links & Ads. The Site may contain links to third-party websites and services
+
+4. Other Users. Each Site user is solely responsible for any of its own User Content. Because we do not control User Content, you acknowledge and agree that we are not responsible for any User Content, whether provided by you or by others.
+
+Copyright Policy.
+
+The company respects the intellectual property of others and asks that users of our Site do the same. In connection with our Site, we have adopted and implemented a policy respecting copyright law that provides for the removal of any infringing materials and for the termination of users of our online Site who are repeated infringers of intellectual property rights, including copyrights. If you believe that one of our users is, through the use of our Site, unlawfully infringing the copyright(s) in a work, and wish to have the allegedly infringing material removed, the following information in the form of a written notification (under 17 U.S.C. § 512(c)) must be provided to our designated Copyright Agent:
+
+a)Your physical or electronic signature;
+
+b) Identification of the copyrighted work(s) that you claim to have been infringed;
+
+c) Identification of the material on our services that you claim is infringing and that you request us to remove;
+
+d) Sufficient information to permit us to locate such material - your address, telephone number, and e-mail address;
+
 
 
 
