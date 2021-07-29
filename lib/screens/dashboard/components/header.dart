@@ -114,7 +114,7 @@ class ProfileCard extends StatelessWidget {
                           ],
                         );
                       }
-                      return CircularProgressIndicator();
+                      return GoogleProfilePic(appState: appState);
                     },
                   );
           }),

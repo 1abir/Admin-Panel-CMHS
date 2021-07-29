@@ -41,6 +41,7 @@ class FetchFireBaseData extends ChangeNotifier {
   GoogleSignInAccount? googleUserAccount;
   DatabaseReference? dbRef;
   UserInfoClass? adminUser;
+  String? picUrl;
 
   LoginStates loginState = LoginStates.loggedOut;
   final _googleSignIn = GoogleSignIn();
@@ -402,14 +403,17 @@ class FetchFireBaseData extends ChangeNotifier {
   }
 
   Future<String> getProfilePicture() async {
+    if(picUrl!=null) return Future.value(picUrl);
     if (app == null) await Firebase.initializeApp();
-    if (adminUser != null)
-      return FirebaseStorage.instance
+    if (adminUser != null) {
+      picUrl = await FirebaseStorage.instance
           .ref()
           .child('pp')
           .child(adminUser!.key.toString() + '.jpg')
           .getDownloadURL();
-    return Future.value('');
+      return Future.value(picUrl);
+    }
+    else return Future.value('');
   }
 
   Future<void> login() async {
