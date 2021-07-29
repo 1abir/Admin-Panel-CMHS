@@ -2,14 +2,13 @@ import 'package:admin_panel/backend/backend.dart';
 import 'package:admin_panel/backend/detectionmodule/detection_module.dart';
 import 'package:admin_panel/backend/transactionmodule/tansaction.dart';
 import 'package:admin_panel/backend/usermodule/user_info.dart';
+import 'package:admin_panel/constants.dart';
 import 'package:admin_panel/forms/user_form.dart';
 import 'package:admin_panel/forms/user_payment_form.dart';
+import 'package:admin_panel/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-
-import '../../../constants.dart';
-import '../../../responsive.dart';
 
 class DoctorsView extends StatelessWidget {
   const DoctorsView({
@@ -100,6 +99,8 @@ class DoctorsView extends StatelessWidget {
                       columns: [
                         DataColumn(
                           label: Text("Name"),
+                        ),DataColumn(
+                          label: Text("ID"),
                         ),
                         DataColumn(
                           label: Text("Birth Year"),
@@ -181,6 +182,7 @@ DataRow _datarowDoctor(int index, List<UserInfoClass> doctors,
           ),
         ),
       ),
+      DataCell(Text(doctors[index].key.toString())),
       DataCell(Text(doctors[index].byear.toString())),
       DataCell(Text(doctors[index].gender)),
       DataCell(Text(doctors[index].credit.toString())),

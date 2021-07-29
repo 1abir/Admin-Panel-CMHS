@@ -1,14 +1,13 @@
 import 'package:admin_panel/backend/backend.dart';
 import 'package:admin_panel/backend/transactionmodule/tansaction.dart';
+import 'package:admin_panel/constants.dart';
 import 'package:admin_panel/forms/transaction_form.dart';
 import 'package:admin_panel/forms/uuid_gen.dart';
+import 'package:admin_panel/responsive.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
-import '../../../constants.dart';
-import '../../../responsive.dart';
 
 class TransactionsView extends StatelessWidget {
   const TransactionsView({

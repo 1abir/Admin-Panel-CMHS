@@ -1,14 +1,13 @@
 import 'package:admin_panel/backend/backend.dart';
 import 'package:admin_panel/backend/transactionmodule/tansaction.dart';
 import 'package:admin_panel/backend/usermodule/user_info.dart';
+import 'package:admin_panel/constants.dart';
 import 'package:admin_panel/forms/user_form.dart';
 import 'package:admin_panel/forms/user_payment_form.dart';
 import 'package:admin_panel/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-
-import '../../../constants.dart';
 
 class PatientView extends StatelessWidget {
   const PatientView({

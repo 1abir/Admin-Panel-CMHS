@@ -2,13 +2,13 @@ import 'dart:math';
 
 import 'package:admin_panel/backend/backend.dart';
 import 'package:admin_panel/backend/detectionmodule/detection_module.dart';
-import 'package:admin_panel/models/overview_chart_info.dart';
+import 'package:admin_panel/constants.dart';
 import 'package:admin_panel/responsive.dart';
+import 'package:admin_panel/screens/dashboard/models/overview_chart_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../constants.dart';
 import 'overview_card.dart';
 
 class ProjectInfo extends StatelessWidget {

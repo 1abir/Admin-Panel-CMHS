@@ -1,10 +1,10 @@
 import 'package:admin_panel/backend/backend.dart';
 import 'package:admin_panel/backend/detectionmodule/detection_module.dart';
+import 'package:admin_panel/constants.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../constants.dart';
 import 'detection_module_info_card.dart';
 
 class DetectionModuleInfo extends StatelessWidget {

@@ -1,11 +1,10 @@
 import 'package:admin_panel/backend/backend.dart';
+import 'package:admin_panel/constants.dart';
 import 'package:admin_panel/screens/video_sc/video_cat_single_view/components/video_add_new.dart';
 import 'package:admin_panel/screens/video_sc/video_cat_single_view/video_category_single_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-
-import '../../../constants.dart';
 
 class VideoCategoryView extends StatelessWidget {
   const VideoCategoryView({

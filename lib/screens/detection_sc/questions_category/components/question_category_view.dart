@@ -1,7 +1,7 @@
 import 'package:admin_panel/backend/backend.dart';
+import 'package:admin_panel/backend/detectionmodule/detection.dart';
 import 'package:admin_panel/backend/detectionmodule/detection_module.dart';
 import 'package:admin_panel/constants.dart';
-import 'package:admin_panel/backend/detectionmodule/detection.dart';
 import 'package:admin_panel/forms/question_form.dart';
 import 'package:admin_panel/responsive.dart';
 import 'package:flutter/cupertino.dart';

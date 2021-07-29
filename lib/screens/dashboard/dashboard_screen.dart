@@ -1,13 +1,12 @@
+import 'package:admin_panel/constants.dart';
 import 'package:admin_panel/responsive.dart';
 import 'package:admin_panel/screens/dashboard/components/project_info_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../constants.dart';
-import 'components/header.dart';
-
-import 'components/session_overview.dart';
 import 'components/detection_module_info.dart';
+import 'components/header.dart';
+import 'components/session_overview.dart';
 
 class DashboardScreen extends StatelessWidget {
   @override

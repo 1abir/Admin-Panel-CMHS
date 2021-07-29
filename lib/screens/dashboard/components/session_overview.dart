@@ -1,14 +1,13 @@
 import 'package:admin_panel/backend/backend.dart';
 import 'package:admin_panel/backend/detectionmodule/detection_module.dart';
 import 'package:admin_panel/backend/meetingmodule/meeting_info.dart';
+import 'package:admin_panel/constants.dart';
 import 'package:admin_panel/forms/meeting_form.dart';
 import 'package:admin_panel/forms/uuid_gen.dart';
+import 'package:admin_panel/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
-import '../../../constants.dart';
-import '../../../responsive.dart';
 
 class RecentSessionsView extends StatelessWidget {
   const RecentSessionsView({

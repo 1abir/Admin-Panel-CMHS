@@ -1,11 +1,10 @@
 import 'package:admin_panel/backend/backend.dart';
+import 'package:admin_panel/constants.dart';
 import 'package:admin_panel/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-
-import '../../../constants.dart';
 
 class Header extends StatelessWidget {
   const Header({
@@ -93,19 +92,7 @@ class ProfileCard extends StatelessWidget {
           child:
               Consumer<FetchFireBaseData>(builder: (context, appState, child) {
             return appState.adminUser == null
-                ? Row(
-                    children: [
-                      Image.asset(
-                        "assets/images/profile_pic.png",
-                        height: 38,
-                      ),
-                      if (!Responsive.isMobile(context))
-                        Padding(
-                          padding: const EdgeInsets.only(left: defaultPadding),
-                          child: Text("Sanjinur Islam"),
-                        ),
-                    ],
-                  )
+                ? GoogleProfilePic(appState: appState)
                 : FutureBuilder<String>(
                     future: appState.getProfilePicture(),
                     builder: (context, snapshot) {
@@ -113,8 +100,12 @@ class ProfileCard extends StatelessWidget {
                         return Row(
                           children: [
                             snapshot.data != null
-                                ? Image.network(snapshot.data!,height: 38,)
-                                : CircularProgressIndicator(),
+                                ? Image.network(
+                                    snapshot.data!,
+                                    height: 38,
+                                    errorBuilder: (context,_,__)=>GoogleProfilePic(appState: appState),
+                                  )
+                                : GoogleProfilePic(appState: appState),
                             Padding(
                               padding:
                                   const EdgeInsets.only(left: defaultPadding),
@@ -143,6 +134,34 @@ class ProfileCard extends StatelessWidget {
     );
   }
 }
+
+class GoogleProfilePic extends StatelessWidget {
+  final appState;
+  const GoogleProfilePic({Key? key, required this.appState}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return (appState.googleUserAccount != null)
+        ? Row(
+      children: [
+        if (appState.googleUserAccount!.photoUrl != null)
+          Image.network(
+            appState.googleUserAccount!.photoUrl!,
+            height: 38,
+            errorBuilder: (context,_,__)=>CircularProgressIndicator(),
+          ),
+        if (!Responsive.isMobile(context))
+          Padding(
+            padding:
+            const EdgeInsets.only(left: defaultPadding),
+            child: Text("Sanjinur Islam"),
+          ),
+      ],
+    )
+        : CircularProgressIndicator();
+  }
+}
+
 
 class SearchField extends StatelessWidget {
   const SearchField({

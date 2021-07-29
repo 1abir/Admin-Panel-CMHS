@@ -1,5 +1,5 @@
-import 'package:admin_panel/constants.dart';
 import 'package:admin_panel/backend/detectionmodule/detection.dart';
+import 'package:admin_panel/constants.dart';
 import 'package:admin_panel/responsive.dart';
 import 'package:flutter/material.dart';
 

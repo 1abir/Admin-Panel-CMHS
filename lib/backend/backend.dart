@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:admin_panel/backend/articlemodule/article.dart';
 import 'package:admin_panel/backend/articlemodule/article_module.dart';
+import 'package:admin_panel/backend/detectionmodule/detection.dart';
 import 'package:admin_panel/backend/detectionmodule/detection_module.dart';
 import 'package:admin_panel/backend/meetingmodule/meeting_info.dart';
 import 'package:admin_panel/backend/meetingmodule/meeting_module.dart';
@@ -11,7 +12,6 @@ import 'package:admin_panel/backend/usermodule/user_info.dart';
 import 'package:admin_panel/backend/usermodule/user_module_elements.dart';
 import 'package:admin_panel/backend/videomodule/videomodulelement.dart';
 import 'package:admin_panel/backend/videomodule/videos.dart';
-import 'package:admin_panel/backend/detectionmodule/detection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -38,7 +38,7 @@ class FetchFireBaseData extends ChangeNotifier {
   TransactionModule? transactionModuleElement;
   ArticleModuleElement? am;
   VideoModuleElement? videoModule;
-  GoogleSignInAccount? _googleUserAccount;
+  GoogleSignInAccount? googleUserAccount;
   DatabaseReference? dbRef;
   UserInfoClass? adminUser;
 
@@ -401,21 +401,26 @@ class FetchFireBaseData extends ChangeNotifier {
     subscriptions.add(subscription);
   }
 
-  Future<String> getProfilePicture()async{
-    if(app == null) await Firebase.initializeApp();
-    if(adminUser!=null) return FirebaseStorage.instance.ref().child('pp').child(adminUser!.key.toString()+'.jpg').getDownloadURL();
+  Future<String> getProfilePicture() async {
+    if (app == null) await Firebase.initializeApp();
+    if (adminUser != null)
+      return FirebaseStorage.instance
+          .ref()
+          .child('pp')
+          .child(adminUser!.key.toString() + '.jpg')
+          .getDownloadURL();
     return Future.value('');
   }
 
   Future<void> login() async {
-    _googleUserAccount = await _googleSignIn.signIn();
-    if (_googleUserAccount == null) {
+    googleUserAccount = await _googleSignIn.signIn();
+    if (googleUserAccount == null) {
       loginState = LoginStates.loggedOut;
       // clearSubscriptions();
       // notifyListeners();
     } else {
       if (app == null) app = await Firebase.initializeApp();
-      final googleAuth = await _googleUserAccount!.authentication;
+      final googleAuth = await googleUserAccount!.authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
