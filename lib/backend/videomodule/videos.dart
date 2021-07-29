@@ -29,11 +29,11 @@ class Videos {
         category: data['category'] ?? '');
   }
 
-  void copyFrom(Videos other){
+  void copyFrom(Videos other) {
     category = other.category;
-    caption=other.caption;
-    description=other.description;
-    url=other.url;
-    key=other.key;
+    caption = other.caption;
+    description = other.description;
+    url = other.url;
+    key = other.key;
   }
 }

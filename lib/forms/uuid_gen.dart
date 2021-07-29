@@ -1,6 +1,6 @@
 import 'package:uuid/uuid.dart';
 
-class UidGen{
+class UidGen {
   static Uuid uuid = Uuid();
 
   UidGen._();

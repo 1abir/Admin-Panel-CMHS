@@ -27,6 +27,7 @@ class Header extends StatelessWidget {
     );
   }
 }
+
 class DashBoardMats extends StatelessWidget {
   const DashBoardMats({Key? key}) : super(key: key);
 
@@ -45,7 +46,7 @@ class DashBoardMats extends StatelessWidget {
                       Scaffold.of(context).openDrawer();
                     // else Scaffold.of(context).
                   } //context.read<MenuController>().controlMenu,
-              ),
+                  ),
             if (Responsive.isDesktop(context))
               Text(
                 "Dashboard",
@@ -56,15 +57,11 @@ class DashBoardMats extends StatelessWidget {
             // Expanded(child: SearchField()),
             Expanded(
                 child: SizedBox(
-                  width: 5,
-                )),
+              width: 5,
+            )),
             // if(Responsive.isDesktop(context))ProfileCard(),
           ],
         ),
-        if (Responsive.isMobile(context))
-          Column(
-            children: [],
-          )
       ],
     );
   }
@@ -93,20 +90,43 @@ class ProfileCard extends StatelessWidget {
             borderRadius: const BorderRadius.all(Radius.circular(10)),
             border: Border.all(color: Colors.white10),
           ),
-          child: Row(
-            children: [
-              Image.asset(
-                "assets/images/profile_pic.png",
-                height: 38,
-              ),
-              if (!Responsive.isMobile(context))
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: defaultPadding),
-                  child: Text("Sanjinur Islam"),
-                ),
-            ],
-          ),
+          child:
+              Consumer<FetchFireBaseData>(builder: (context, appState, child) {
+            return appState.adminUser == null
+                ? Row(
+                    children: [
+                      Image.asset(
+                        "assets/images/profile_pic.png",
+                        height: 38,
+                      ),
+                      if (!Responsive.isMobile(context))
+                        Padding(
+                          padding: const EdgeInsets.only(left: defaultPadding),
+                          child: Text("Sanjinur Islam"),
+                        ),
+                    ],
+                  )
+                : FutureBuilder<String>(
+                    future: appState.getProfilePicture(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        return Row(
+                          children: [
+                            snapshot.data != null
+                                ? Image.network(snapshot.data!,height: 38,)
+                                : CircularProgressIndicator(),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: defaultPadding),
+                              child: Text(appState.adminUser!.name),
+                            ),
+                          ],
+                        );
+                      }
+                      return CircularProgressIndicator();
+                    },
+                  );
+          }),
         ),
         children: [
           ElevatedButton.icon(

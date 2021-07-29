@@ -6,20 +6,19 @@ import 'package:admin_panel/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class VideoAddnewutton extends StatelessWidget {
-  const VideoAddnewutton({Key? key}) : super(key: key);
+class VideoAddNewButton extends StatelessWidget {
+  const VideoAddNewButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Consumer<FetchFireBaseData>(builder: (context, appState, _) {
-      Videos video = Videos.fromMap(<String,dynamic>{});
+      Videos video = Videos.fromMap(<String, dynamic>{});
       var temp = Videos.fromMap(video.toMap());
       return ElevatedButton.icon(
         style: TextButton.styleFrom(
           padding: EdgeInsets.symmetric(
             horizontal: defaultPadding * 1.5,
-            vertical: defaultPadding /
-                (Responsive.isMobile(context) ? 2 : 1),
+            vertical: defaultPadding / (Responsive.isMobile(context) ? 2 : 1),
           ),
         ),
         onPressed: () {
@@ -32,15 +31,18 @@ class VideoAddnewutton extends StatelessWidget {
               ),
               isScrollControlled: true,
               builder: (context) {
-                return appState.videoModule!=null?VideosForm(
-                  suggessions: appState.videoModule!.videoCategories.toList(growable: false),
-                    temp: temp,
-                    video: video,
-                    onSubmit: () async {
-                      video.copyFrom(temp);
-                      appState.videoModule!.addVideos(video);
-                      // appState.notify();
-                    }):Container();
+                return appState.videoModule != null
+                    ? VideosForm(
+                        suggessions: appState.videoModule!.videoCategories
+                            .toList(growable: false),
+                        temp: temp,
+                        video: video,
+                        onSubmit: () async {
+                          video.copyFrom(temp);
+                          appState.videoModule!.addVideos(video);
+                          // appState.notify();
+                        })
+                    : Container();
               });
         },
         icon: Icon(Icons.add),

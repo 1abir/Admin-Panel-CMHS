@@ -16,8 +16,9 @@ class QuestionForm extends StatefulWidget {
       this.questionIndex,
       required this.firebaseQuestionDetection,
       required this.onSubmit,
-        required this.temp,
+      required this.temp,
       this.onDelete});
+
   @override
   _QuestionFormState createState() => _QuestionFormState();
 }
@@ -45,15 +46,15 @@ class _QuestionFormState extends State<QuestionForm> {
                         opacity: 0.95,
                         child: InputWidget(
                           onChanged: (value) {
-                              widget.temp.text = value;
+                            widget.temp.text = value;
                           },
                           text: widget.firebaseQuestionDetection.text,
                           title: 'Question',
-                          validator: (value){
-                            if(value == null || value == ''){
+                          validator: (value) {
+                            if (value == null || value == '') {
                               return "Please Provide Question Text";
                             }
-                            debugPrint('Inside deeebut : '+ widget.temp.text);
+                            debugPrint('Inside deeebut : ' + widget.temp.text);
 
                             return null;
                           },
@@ -91,11 +92,11 @@ class _QuestionFormState extends State<QuestionForm> {
                           onChanged: (value) {
                             if (value != null) {
                               int? iv = int.tryParse(value);
-                              if (iv != null)
-                                widget.temp.level = iv;
+                              if (iv != null) widget.temp.level = iv;
                             }
                           },
-                          text: widget.firebaseQuestionDetection.level.toString(),
+                          text:
+                              widget.firebaseQuestionDetection.level.toString(),
                           title: 'Level',
                           validator: (value) {
                             if (value == null) return null;
@@ -150,13 +151,18 @@ class _QuestionFormState extends State<QuestionForm> {
                             ),
                           ],
                         ),
-                        onPressed: () async{
+                        onPressed: () async {
                           if (_formkey.currentState!.validate()) {
                             // widget.firebaseQuestionDetection.copyFrom(temp2);
-                            widget.firebaseQuestionDetection.copyFrom(widget.temp);
-                            debugPrint('hi: '+ widget.firebaseQuestionDetection.text);
-                            debugPrint("temp after: "+widget.temp.hashCode.toString());
-                            debugPrint("main hash after: " + widget.firebaseQuestionDetection.hashCode.toString());
+                            widget.firebaseQuestionDetection
+                                .copyFrom(widget.temp);
+                            debugPrint(
+                                'hi: ' + widget.firebaseQuestionDetection.text);
+                            debugPrint("temp after: " +
+                                widget.temp.hashCode.toString());
+                            debugPrint("main hash after: " +
+                                widget.firebaseQuestionDetection.hashCode
+                                    .toString());
                             widget.onSubmit();
                             Navigator.of(context).maybePop();
                           } else {

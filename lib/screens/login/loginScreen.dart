@@ -1,3 +1,4 @@
+import 'package:admin_panel/responsive.dart';
 import 'package:admin_panel/screens/login/google_login.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,15 +12,6 @@ class LoginScreen extends StatelessWidget {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        // decoration: BoxDecoration(
-          // gradient: LinearGradient(
-          //   begin: Alignment.centerRight, end: Alignment.bottomLeft,
-            //For Properties for Radial Gradient
-            // radius: 3.5,
-            //center: Alignment.topRight,
-            // colors: [Colors.blueAccent, Colors.blue],
-          // ),
-        // ),
         child: Stack(children: [
           Container(
             child: Padding(
@@ -39,18 +31,20 @@ class LoginScreen extends StatelessWidget {
                         flex: 5,
                         child: FaIcon(
                           FontAwesomeIcons.headSideVirus,
-                          size: MediaQuery.of(context).size.width*.35,
+                          size: MediaQuery.of(context).size.width * .35,
                           color: Colors.white70,
                         ),
                       ),
                       // SizedBox(height: 20,),
                       Flexible(
                         flex: 1,
-                        child: Text('Complete Mental Health Solution',
-                          style: Theme.of(context).primaryTextTheme.headline1,
+                        child: Text(
+                          'Complete Mental Health Solution',
+                          style: Responsive.isDesktop(context)
+                              ? Theme.of(context).primaryTextTheme.headline1
+                              : Theme.of(context).primaryTextTheme.headline6,
                         ),
                       )
-
                     ],
                   ),
                 ),
@@ -58,9 +52,7 @@ class LoginScreen extends StatelessWidget {
             ),
           ),
           Center(
-            child: Container(
-                // width: 500,
-                child: GoogleSignUpButtonWidget()),
+            child: Container(child: GoogleSignUpButtonWidget()),
           )
         ]),
       ),

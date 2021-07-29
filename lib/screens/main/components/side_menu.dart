@@ -26,7 +26,11 @@ class SideMenu extends StatelessWidget {
               children: [
                 Opacity(
                   opacity: .25,
-                  child: Center(child: FaIcon(FontAwesomeIcons.headSideVirus,size: 120,)),
+                  child: Center(
+                      child: FaIcon(
+                    FontAwesomeIcons.headSideVirus,
+                    size: 120,
+                  )),
                 ),
                 Center(
                   child: Text(
@@ -56,12 +60,7 @@ class SideMenu extends StatelessWidget {
             press: () {
               Navigator.of(context).pushReplacement<void, void>(
                 MaterialPageRoute<void>(
-                    builder: (BuildContext context) => ArticleCategoryScreen()
-                    // Provider(
-                    //   create: (context) => (),
-                    //   builder: (context, child) => ProductDetails(),
-                    // ),
-                    ),
+                    builder: (BuildContext context) => ArticleCategoryScreen()),
               );
             },
           ),
@@ -71,12 +70,7 @@ class SideMenu extends StatelessWidget {
             press: () {
               Navigator.of(context).pushReplacement<void, void>(
                 MaterialPageRoute<void>(
-                    builder: (BuildContext context) => VideoCategoryScreen()
-                    // Provider(
-                    //   create: (context) => (),
-                    //   builder: (context, child) => ProductDetails(),
-                    // ),
-                    ),
+                    builder: (BuildContext context) => VideoCategoryScreen()),
               );
             },
           ),
@@ -86,12 +80,7 @@ class SideMenu extends StatelessWidget {
             press: () {
               Navigator.of(context).pushReplacement<void, void>(
                 MaterialPageRoute<void>(
-                    builder: (BuildContext context) => TransactionScreen()
-                    // Provider(
-                    //   create: (context) => (),
-                    //   builder: (context, child) => ProductDetails(),
-                    // ),
-                    ),
+                    builder: (BuildContext context) => TransactionScreen()),
               );
             },
           ),
@@ -117,13 +106,6 @@ class SideMenu extends StatelessWidget {
               );
             },
           ),
-          // DrawerListTile(
-          //   title: "Notification",
-          //   svgSrc: "assets/icons/menu_notification.svg",
-          //   press: () {
-          //
-          //   },
-          // ),
           DrawerListTile(
             title: "Questions",
             svgSrc: "assets/icons/menu_task.svg",
@@ -135,11 +117,6 @@ class SideMenu extends StatelessWidget {
               );
             },
           ),
-          // DrawerListTile(
-          //   title: "Settings",
-          //   svgSrc: "assets/icons/menu_setting.svg",
-          //   press: () {},
-          // ),
         ],
       ),
     );

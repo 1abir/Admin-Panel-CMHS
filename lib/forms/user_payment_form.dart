@@ -14,10 +14,10 @@ class UserPaymentForm extends StatefulWidget {
   final suggessions;
 
   const UserPaymentForm(
-      { required this.onSubmit,
-        required this.temp,
-        this.onDelete,
-        required this.suggessions}) ;
+      {required this.onSubmit,
+      required this.temp,
+      this.onDelete,
+      required this.suggessions});
 
   @override
   _UserPaymentFormState createState() => _UserPaymentFormState();
@@ -69,7 +69,7 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
                             if (value != null || value != '')
                               widget.temp.txID = value;
                           },
-                          text: widget.temp.txID ,
+                          text: widget.temp.txID,
                           title: 'TxID ',
                           validator: (value) {
                             if (value == null || value == '') {
@@ -87,7 +87,8 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
                         child: Padding(
                           padding: const EdgeInsets.all(defaultPadding),
                           child: BasicDateTimeField(
-                            initialValue: widget.temp.dateTime??(widget.temp.dateTime = DateTime.now()),
+                            initialValue: widget.temp.dateTime ??
+                                (widget.temp.dateTime = DateTime.now()),
                             onChanged: (value) {
                               widget.temp.dateTime = value;
                             },
@@ -179,7 +180,8 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
                           ],
                         ),
                         onPressed: () async {
-                          if (_formkey.currentState!.validate()&& widget.temp.dateTime!=null) {
+                          if (_formkey.currentState!.validate() &&
+                              widget.temp.dateTime != null) {
                             widget.onSubmit();
                             Navigator.of(context).maybePop();
                           } else {
@@ -212,10 +214,10 @@ class _InputWidget extends StatefulWidget {
 
   const _InputWidget(
       {Key? key,
-        required this.onChanged,
-        required this.text,
-        required this.title,
-        this.validator})
+      required this.onChanged,
+      required this.text,
+      required this.title,
+      this.validator})
       : super(key: key);
 
   @override
@@ -278,12 +280,12 @@ class _AutoCompleteInputWidget extends StatefulWidget {
 
   _AutoCompleteInputWidget(
       {Key? key,
-        required this.onChanged,
-        required this.text,
-        required this.title,
-        this.validator,
-        this.suggessions,
-        required this.typeAheadController})
+      required this.onChanged,
+      required this.text,
+      required this.title,
+      this.validator,
+      this.suggessions,
+      required this.typeAheadController})
       : super(key: key);
 
   @override
@@ -375,7 +377,8 @@ class BasicDateTimeField extends StatelessWidget {
   final title;
   final initialValue;
 
-  const BasicDateTimeField({Key? key, this.onChanged, this.title, this.initialValue})
+  const BasicDateTimeField(
+      {Key? key, this.onChanged, this.title, this.initialValue})
       : super(key: key);
 
   @override
@@ -408,13 +411,13 @@ class BasicDateTimeField extends StatelessWidget {
             final date = await showDatePicker(
                 context: context,
                 firstDate: DateTime(1900),
-                initialDate: currentValue ?? initialValue?? DateTime.now(),
+                initialDate: currentValue ?? initialValue ?? DateTime.now(),
                 lastDate: DateTime(2100));
             if (date != null) {
               final time = await showTimePicker(
                 context: context,
                 initialTime:
-                TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
+                    TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
               );
               final datetime = DateTimeField.combine(date, time);
               // if(onChanged!=null) onChanged(datetime);

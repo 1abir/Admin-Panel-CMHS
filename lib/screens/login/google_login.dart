@@ -28,7 +28,9 @@ class _GoogleSignUpButtonWidgetState extends State<GoogleSignUpButtonWidget> {
             mainAxisSize: MainAxisSize.min,
             children: [
               ColorTwinG(),
-              SizedBox(width: 20,),
+              SizedBox(
+                width: 20,
+              ),
               Text(
                 'Sign In With Google',
                 style: TextStyle(
@@ -57,20 +59,19 @@ class ColorTwinG extends StatefulWidget {
 class _ColorTwinGState extends State<ColorTwinG> {
   int colorVal = 0;
   Color color = Colors.red;
-  Timer? _timer ;
-
+  Timer? _timer;
 
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(Duration(milliseconds: 1000),_getColor);
+    _timer = Timer.periodic(Duration(milliseconds: 1000), _getColor);
   }
 
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
       child: Padding(
-        padding: EdgeInsets.all(colorVal%4),
+        padding: EdgeInsets.all(colorVal % 4),
         child: FaIcon(
           FontAwesomeIcons.google,
           color: color,

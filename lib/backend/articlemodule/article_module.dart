@@ -4,17 +4,13 @@ import 'package:flutter/material.dart';
 
 import 'article.dart';
 
-
-
 class ArticleModuleElement {
   CollectionReference? ref;
   StreamSubscription<QuerySnapshot>? subscription;
   List<Article>? articleList;
   var articleCategories = <String>{};
 
-
-  ArticleModuleElement(
-      {this.articleList, this.ref, this.subscription});
+  ArticleModuleElement({this.articleList, this.ref, this.subscription});
 
   Future<void> updateArticle(Article qd) async {
     debugPrint("inside add question");
@@ -22,8 +18,7 @@ class ArticleModuleElement {
       debugPrint("inside add question ref");
       ref!.doc(qd.key).set(qd.toMap()).catchError((onError) {
         debugPrint('Error in add Question : ' + onError.toString());
-      }).then((value) {
-      });
+      }).then((value) {});
     }
   }
 
@@ -41,7 +36,10 @@ class ArticleModuleElement {
     debugPrint("inside delete article");
     if (articleList != null) {
       debugPrint("inside delete article ref");
-      debugPrint("Article delete: " + qd.key.toString() + "\n" + qd.toMap().toString());
+      debugPrint("Article delete: " +
+          qd.key.toString() +
+          "\n" +
+          qd.toMap().toString());
       articleList!.remove(qd);
       return ref!.doc((qd.key)).delete().catchError((onError) {
         debugPrint('Error in delete Question : ' + onError.toString());
@@ -49,11 +47,11 @@ class ArticleModuleElement {
     }
   }
 
-  List<Article> getArticleSublist(String category){
-    if(!articleCategories.contains(category)) return [];
+  List<Article> getArticleSublist(String category) {
+    if (!articleCategories.contains(category)) return [];
     List<Article> al = [];
-    for(var article in articleList!){
-      if(article.category == category) al.add(article);
+    for (var article in articleList!) {
+      if (article.category == category) al.add(article);
     }
     return al;
   }

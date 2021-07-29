@@ -62,7 +62,8 @@ class RecentSessionsView extends StatelessWidget {
                               return MeetingForm(
                                 meeting: temp,
                                 onSubmit: () {
-                                  appState.meetingModuleElement!.createMeeting(temp);
+                                  appState.meetingModuleElement!
+                                      .createMeeting(temp);
                                 },
                                 temp: temp,
                                 suggessions: suggessions,
@@ -179,8 +180,8 @@ DataRow _meetingDataRow(
       ),
       DataCell(Text(pname)),
       meet.meetingTime != null
-          ? DataCell(
-              Text(DateFormat("EEEE, MMMM d, yyyy 'at' h:mma").format(meet.meetingTime!)))
+          ? DataCell(Text(DateFormat("EEEE, MMMM d, yyyy 'at' h:mma")
+              .format(meet.meetingTime!)))
           : DataCell(Text('')),
       DataCell(Text(_printDuration(Duration(seconds: meet.duration)))),
     ],

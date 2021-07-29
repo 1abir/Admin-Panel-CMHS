@@ -1,5 +1,5 @@
 import 'package:admin_panel/responsive.dart';
-import 'package:admin_panel/screens/dashboard/components/my_fields.dart';
+import 'package:admin_panel/screens/dashboard/components/project_info_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +7,7 @@ import '../../constants.dart';
 import 'components/header.dart';
 
 import 'components/session_overview.dart';
-import 'components/storage_details.dart';
+import 'components/detection_module_info.dart';
 
 class DashboardScreen extends StatelessWidget {
   @override
@@ -31,7 +31,7 @@ class DashboardScreen extends StatelessWidget {
                         if (Responsive.isDesktop(context))
                           Flexible(
                             flex: 2,
-                            child: MyFiles(),
+                            child: ProjectInfo(),
                           ),
                         if (Responsive.isDesktop(context))
                           Flexible(
@@ -51,10 +51,10 @@ class DashboardScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(top:defaultPadding),
+                            padding: const EdgeInsets.only(top: defaultPadding),
                             child: ProfileCard(),
                           ),
-                          StarageDetails(),
+                          DetectionModuleInfo(),
                         ],
                       ),
                     ),
@@ -67,14 +67,14 @@ class DashboardScreen extends StatelessWidget {
               Container(
                 width: MediaQuery.of(context).size.width,
                 child: Expanded(
-                  child: StarageDetails(),
+                  child: DetectionModuleInfo(),
                 ),
               ),
-            if (Responsive.isMobile(context)) MyFiles(),
+            if (Responsive.isMobile(context)) ProjectInfo(),
             if (Responsive.isMobile(context)) SizedBox(height: defaultPadding),
             if (Responsive.isMobile(context)) RecentSessionsView(),
             if (Responsive.isMobile(context)) SizedBox(height: defaultPadding),
-            if (Responsive.isMobile(context)) StarageDetails(),
+            if (Responsive.isMobile(context)) DetectionModuleInfo(),
             if (!Responsive.isMobile(context)) SizedBox(width: defaultPadding),
           ],
         ),

@@ -57,7 +57,8 @@ class ArticleCategorySingleView extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Consumer<FetchFireBaseData>(
                   builder: (context, appState, _) {
-                    List<Article> articleList = appState.am!.getArticleSublist(category);
+                    List<Article> articleList =
+                        appState.am!.getArticleSublist(category);
                     return SizedBox(
                       width: double.infinity,
                       child: DataTable(
@@ -71,10 +72,7 @@ class ArticleCategorySingleView extends StatelessWidget {
                         rows: List.generate(
                           articleList.length,
                           (i) => _dataRow(
-                              articleList[i],
-                              context,
-                              appState.am!,
-                              appState),
+                              articleList[i], context, appState.am!, appState),
                         ),
                       ),
                     );
@@ -89,10 +87,7 @@ class ArticleCategorySingleView extends StatelessWidget {
   }
 }
 
-DataRow _dataRow(
-    Article article,
-    BuildContext context,
-    ArticleModuleElement am,
+DataRow _dataRow(Article article, BuildContext context, ArticleModuleElement am,
     FetchFireBaseData appState) {
   var temp = Article.fromMap(article.toMap());
   temp.key = article.key;
@@ -125,7 +120,8 @@ DataRow _dataRow(
                     isScrollControlled: true,
                     builder: (context) {
                       return ArticleForm(
-                        suggessions: am.articleCategories.toList(growable: false),
+                        suggestions:
+                            am.articleCategories.toList(growable: false),
                         article: article,
                         temp: temp,
                         onSubmit: () async {

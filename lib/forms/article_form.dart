@@ -12,7 +12,7 @@ class ArticleForm extends StatefulWidget {
   final Article temp;
   final onSubmit;
   final onDelete;
-  final suggessions;
+  final suggestions;
 
   ArticleForm(
       {this.catIndex,
@@ -21,24 +21,23 @@ class ArticleForm extends StatefulWidget {
       required this.onSubmit,
       required this.temp,
       this.onDelete,
-      this.suggessions}) ;
+      this.suggestions});
 
   @override
   _ArticleFormState createState() => _ArticleFormState();
 }
 
 class _ArticleFormState extends State<ArticleForm> {
-  final _formkey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   final _controller = TextEditingController();
-  final _typecontroller = TextEditingController();
-  final HtmlEditorController controller = HtmlEditorController();
-
+  final _typeController = TextEditingController();
+  final HtmlEditorController _htmlController = HtmlEditorController();
 
   @override
   void initState() {
     super.initState();
     _controller.text = widget.article.category;
-    _typecontroller.text = widget.article.type;
+    _typeController.text = widget.article.type;
   }
 
   @override
@@ -57,7 +56,7 @@ class _ArticleFormState extends State<ArticleForm> {
             child: ListView(
               children: <Widget>[
                 Form(
-                  key: _formkey,
+                  key: _formKey,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
@@ -89,7 +88,7 @@ class _ArticleFormState extends State<ArticleForm> {
                         opacity: 0.95,
                         child: AutoCompleteInputWidget(
                           typeAheadController: _controller,
-                          suggessions: widget.suggessions,
+                          suggessions: widget.suggestions,
                           onChanged: (value) {
                             widget.temp.category = value;
                           },
@@ -109,8 +108,8 @@ class _ArticleFormState extends State<ArticleForm> {
                       Opacity(
                         opacity: 0.95,
                         child: AutoCompleteInputWidget(
-                          typeAheadController: _typecontroller,
-                          suggessions: ["full","link"],
+                          typeAheadController: _typeController,
+                          suggessions: ["full", "link"],
                           onChanged: (value) {
                             widget.temp.type = value;
                           },
@@ -159,7 +158,7 @@ class _ArticleFormState extends State<ArticleForm> {
                           title: Text('Body HTML'),
                           children: [
                             HtmlEditorSection(
-                              controller: controller,
+                              controller: _htmlController,
                               initialText: widget.article.bodyHtml,
                             ),
                           ]),
@@ -197,9 +196,9 @@ class _ArticleFormState extends State<ArticleForm> {
                           ],
                         ),
                         onPressed: () async {
-                          if (_formkey.currentState!.validate()) {
+                          if (_formKey.currentState!.validate()) {
                             widget.temp.bodyHtml =
-                                await controller.getText();
+                                await _htmlController.getText();
                             debugPrint("body html:" + widget.temp.bodyHtml);
                             widget.onSubmit();
                             Navigator.of(context).maybePop();
@@ -441,7 +440,6 @@ class HtmlEditorSection extends StatefulWidget {
 }
 
 class _HtmlEditorSectionState extends State<HtmlEditorSection> {
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -449,12 +447,10 @@ class _HtmlEditorSectionState extends State<HtmlEditorSection> {
         Align(
           alignment: Alignment.topRight,
           child: FloatingActionButton(
-            child: Icon(
-              Icons.code_rounded
-            ),
+              child: Icon(Icons.code_rounded),
               onPressed: () {
-            widget.controller.toggleCodeView();
-          }),
+                widget.controller.toggleCodeView();
+              }),
         ),
         SizedBox(
           height: 10,

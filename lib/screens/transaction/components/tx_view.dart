@@ -203,7 +203,7 @@ DataRow _txDataRow(TransactionInfo txInfo, Map<String, String> nmap,
                                 i.credit += change;
                               }
                             } else if (temp.type == "Debit") {
-                              if (prevType == "Credit"){
+                              if (prevType == "Credit") {
                                 var change = temp.amount + prevAmount;
                                 i.credit -= change;
                               } else if (prevType == "Debit") {
@@ -241,8 +241,8 @@ DataRow _txDataRow(TransactionInfo txInfo, Map<String, String> nmap,
         ),
       ),
       txInfo.dateTime != null
-          ? DataCell(
-              Text(DateFormat("MMMM d, yyyy 'at' h:mma").format(txInfo.dateTime!)))
+          ? DataCell(Text(
+              DateFormat("MMMM d, yyyy 'at' h:mma").format(txInfo.dateTime!)))
           : DataCell(Text('')),
       DataCell(Text(txInfo.amount.toString())),
       DataCell(Text(nmap[txInfo.fromId] ?? txInfo.fromId)),

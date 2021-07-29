@@ -7,8 +7,10 @@ class TransactionModule {
   final DatabaseReference transactionRef;
   final DatabaseReference rtdbRef;
 
-  TransactionModule( 
-      {required this.transactions, required this.transactionRef,required this.rtdbRef}) {
+  TransactionModule(
+      {required this.transactions,
+      required this.transactionRef,
+      required this.rtdbRef}) {
     for (var i in transactions) {
       if (i.txID != '') {
         txIds.add(i.txID);
@@ -26,9 +28,12 @@ class TransactionModule {
     }).catchError((onError) {
       noerr = false;
     });
-    rtdbRef.child('UserData/$userID/WithDrawHistory/$key').set(info.toMap()).then((value) {
+    rtdbRef
+        .child('UserData/$userID/WithDrawHistory/$key')
+        .set(info.toMap())
+        .then((value) {
       print("done WithdrawHistory");
-    }).catchError((onError){
+    }).catchError((onError) {
       print("Error in WithdrawHistory");
       print(onError);
     });
@@ -58,13 +63,16 @@ class TransactionModule {
       print(onError);
     });
 
-    rtdbRef.child('UserData/$userID/WithDrawHistory/$key').set(info.toMap()).then((value) {
+    rtdbRef
+        .child('UserData/$userID/WithDrawHistory/$key')
+        .set(info.toMap())
+        .then((value) {
       print("done WithdrawHistory");
-    }).catchError((onError){
+    }).catchError((onError) {
       print("Error in WithdrawHistory");
       print(onError);
     });
-    
+
     return Future.value(noerr);
   }
 }

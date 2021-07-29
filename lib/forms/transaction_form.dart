@@ -19,7 +19,7 @@ class TransactionForm extends StatefulWidget {
       required this.onSubmit,
       required this.temp,
       this.onDelete,
-      required this.suggessions}) ;
+      required this.suggessions});
 
   @override
   _TransactionFormState createState() => _TransactionFormState();
@@ -93,8 +93,7 @@ class _TransactionFormState extends State<TransactionForm> {
                           child: BasicDateTimeField(
                             initialValue: widget.transaction.dateTime,
                             onChanged: (value) {
-                              if(value!=null)
-                                widget.temp.dateTime = value;
+                              if (value != null) widget.temp.dateTime = value;
                             },
                             title: 'Date',
                           ),
@@ -140,7 +139,7 @@ class _TransactionFormState extends State<TransactionForm> {
                             if (value == null || value == '') {
                               return "Please Provide Sender UserID";
                             } else if (!widget.suggessions['me']
-                                    .contains(value) ) {
+                                .contains(value)) {
                               return "Please Provide Ur UserID";
                             }
                             return null;
@@ -255,7 +254,8 @@ class _TransactionFormState extends State<TransactionForm> {
                           ],
                         ),
                         onPressed: () async {
-                          if (_formkey.currentState!.validate() && widget.temp.dateTime!=null) {
+                          if (_formkey.currentState!.validate() &&
+                              widget.temp.dateTime != null) {
                             widget.onSubmit();
                             Navigator.of(context).maybePop();
                           } else {
@@ -481,7 +481,8 @@ class BasicDateTimeField extends StatelessWidget {
   final title;
   final initialValue;
 
-  const BasicDateTimeField({Key? key, this.onChanged, this.title, this.initialValue})
+  const BasicDateTimeField(
+      {Key? key, this.onChanged, this.title, this.initialValue})
       : super(key: key);
 
   @override
@@ -514,7 +515,7 @@ class BasicDateTimeField extends StatelessWidget {
             final date = await showDatePicker(
                 context: context,
                 firstDate: DateTime(1900),
-                initialDate: currentValue ?? initialValue?? DateTime.now(),
+                initialDate: currentValue ?? initialValue ?? DateTime.now(),
                 lastDate: DateTime(2100));
             if (date != null) {
               final time = await showTimePicker(

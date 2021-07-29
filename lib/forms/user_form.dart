@@ -41,7 +41,7 @@ class _UserFormState extends State<UserForm> {
     _userController.text = widget.user.key ?? '';
     _genderController.text = widget.user.gender;
     _birthController.text = widget.user.byear.toString();
-    _specializationController.text = widget.user.specialization??'';
+    _specializationController.text = widget.user.specialization ?? '';
   }
 
   @override
@@ -157,22 +157,6 @@ class _UserFormState extends State<UserForm> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.03,
                       ),
-                      // Opacity(
-                      //   opacity: 0.95,
-                      //   child: _InputWidget(
-                      //     onChanged: (value) {
-                      //       double? t = double.tryParse(value.toString());
-                      //       if (t != null) widget.temp.credit = t;
-                      //     },
-                      //     text: widget.temp.credit.toString(),
-                      //     title: 'Credit',
-                      //     validator: (value) {
-                      //       double? t = double.tryParse(value.toString());
-                      //       if (t == null) return "Enter a valid amount";
-                      //       return null;
-                      //     },
-                      //   ),
-                      // ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.03,
                       ),
@@ -181,7 +165,8 @@ class _UserFormState extends State<UserForm> {
                           opacity: 0.95,
                           child: _InputWidget(
                             onChanged: (value) {
-                              if (value != null) widget.temp.affiliation = value;
+                              if (value != null)
+                                widget.temp.affiliation = value;
                             },
                             text: widget.temp.affiliation,
                             title: 'Affiliation',
@@ -196,25 +181,26 @@ class _UserFormState extends State<UserForm> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.03,
                       ),
-                      if(widget.temp.isDoctor == 1) Opacity(
-                        opacity: 0.95,
-                        child: _AutoCompleteInputWidget(
-                          typeAheadController: _specializationController,
-                          suggessions: widget.suggessions['specialization'],
-                          onChanged: (value) {
-                            if(value!=null)
-                              widget.temp.specialization = value;
-                          },
-                          text: widget.temp.specialization ?? '',
-                          title: 'Specialization',
-                          validator: (value) {
-                            if (value == null || value == '') {
-                              return "Please Provide Specialization";
-                            }
-                            return null;
-                          },
+                      if (widget.temp.isDoctor == 1)
+                        Opacity(
+                          opacity: 0.95,
+                          child: _AutoCompleteInputWidget(
+                            typeAheadController: _specializationController,
+                            suggessions: widget.suggessions['specialization'],
+                            onChanged: (value) {
+                              if (value != null)
+                                widget.temp.specialization = value;
+                            },
+                            text: widget.temp.specialization ?? '',
+                            title: 'Specialization',
+                            validator: (value) {
+                              if (value == null || value == '') {
+                                return "Please Provide Specialization";
+                              }
+                              return null;
+                            },
+                          ),
                         ),
-                      ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.03,
                       ),

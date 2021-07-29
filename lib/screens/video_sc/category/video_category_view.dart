@@ -33,7 +33,7 @@ class VideoCategoryView extends StatelessWidget {
                 SizedBox(
                   width: defaultPadding,
                 ),
-                VideoAddnewutton(),
+                VideoAddNewButton(),
                 SizedBox(
                   width: defaultPadding,
                 ),

@@ -12,15 +12,14 @@ class ArticleAddnewutton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<FetchFireBaseData>(builder: (context, appState, _) {
-      Article article = Article.fromMap(<String,dynamic>{});
+      Article article = Article.fromMap(<String, dynamic>{});
       // article.type = 'article';
       var temp = Article.fromMap(article.toMap());
       return ElevatedButton.icon(
         style: TextButton.styleFrom(
           padding: EdgeInsets.symmetric(
             horizontal: defaultPadding * 1.5,
-            vertical: defaultPadding /
-                (Responsive.isMobile(context) ? 2 : 1),
+            vertical: defaultPadding / (Responsive.isMobile(context) ? 2 : 1),
           ),
         ),
         onPressed: () {
@@ -34,7 +33,8 @@ class ArticleAddnewutton extends StatelessWidget {
               isScrollControlled: true,
               builder: (context) {
                 return ArticleForm(
-                  suggessions: appState.am!.articleCategories.toList(growable: false),
+                    suggestions:
+                        appState.am!.articleCategories.toList(growable: false),
                     temp: temp,
                     article: article,
                     onSubmit: () async {

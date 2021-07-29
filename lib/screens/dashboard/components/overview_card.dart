@@ -1,4 +1,4 @@
-import 'package:admin_panel/models/MyFiles.dart';
+import 'package:admin_panel/models/overview_chart_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

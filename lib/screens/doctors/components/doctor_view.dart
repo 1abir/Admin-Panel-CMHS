@@ -47,14 +47,14 @@ class DoctorsView extends StatelessWidget {
                               (Responsive.isMobile(context) ? 2 : 1),
                         ),
                       ),
-                      onPressed: (){
+                      onPressed: () {
                         UserInfoClass temp = UserInfoClass.fromMap({});
                         temp.type = 1;
                         temp.isDoctor = 1;
 
                         var suggessions = {
                           'user': appState.userModuleElement!.userIDs,
-                          'specialization' : detectionElementNames,
+                          'specialization': detectionElementNames,
                         };
                         showModalBottomSheet(
                             isScrollControlled: true,
@@ -110,10 +110,16 @@ class DoctorsView extends StatelessWidget {
                         DataColumn(label: Text("Specialization")),
                         DataColumn(label: Text("Pay Due")),
                       ],
-                      rows: appState.userModuleElement==null?[]:List.generate(
-                        appState.userModuleElement!.doctors.length,
-                            (index) => _datarowDoctor(index,appState.userModuleElement!.doctors,appState,context),
-                      ),
+                      rows: appState.userModuleElement == null
+                          ? []
+                          : List.generate(
+                              appState.userModuleElement!.doctors.length,
+                              (index) => _datarowDoctor(
+                                  index,
+                                  appState.userModuleElement!.doctors,
+                                  appState,
+                                  context),
+                            ),
                     ),
                   ),
                 ),
@@ -126,25 +132,25 @@ class DoctorsView extends StatelessWidget {
   }
 }
 
-
-DataRow _datarowDoctor(int index, List<UserInfoClass> doctors,FetchFireBaseData appState, BuildContext context) {
+DataRow _datarowDoctor(int index, List<UserInfoClass> doctors,
+    FetchFireBaseData appState, BuildContext context) {
   UserInfoClass user = doctors[index];
   TransactionInfo tempTx = TransactionInfo.fromMap({});
   tempTx.toId = user.key;
-  tempTx.fromId = appState.adminUser?.key??'';
+  tempTx.fromId = appState.adminUser?.key ?? '';
   tempTx.amount = user.credit * -1;
   tempTx.type = "Debit";
   return DataRow(
     cells: [
       DataCell(
         InkWell(
-          onTap: (){
+          onTap: () {
             UserInfoClass temp = UserInfoClass.fromMap(doctors[index].toMap());
             temp.key = doctors[index].key;
             temp.isDoctor = 1;
             var suggessions = {
               'user': appState.userModuleElement!.doctorsIDs,
-              'specialization':detectionElementNames,
+              'specialization': detectionElementNames,
             };
             showModalBottomSheet(
                 isScrollControlled: true,
@@ -179,7 +185,7 @@ DataRow _datarowDoctor(int index, List<UserInfoClass> doctors,FetchFireBaseData 
       DataCell(Text(doctors[index].gender)),
       DataCell(Text(doctors[index].credit.toString())),
       DataCell(Text(doctors[index].affiliation)),
-      DataCell(Text(doctors[index].specialization??'')),
+      DataCell(Text(doctors[index].specialization ?? '')),
       if (doctors[index].credit < 0)
         DataCell(OutlinedButton(
           onPressed: () {
@@ -188,13 +194,16 @@ DataRow _datarowDoctor(int index, List<UserInfoClass> doctors,FetchFireBaseData 
                 context: context,
                 builder: (context) {
                   return UserPaymentForm(
-                      onSubmit: () async{
+                      onSubmit: () async {
                         user.credit += tempTx.amount;
                         appState.userModuleElement!.updateElement(user);
-                        appState.transactionModuleElement!.createMeeting(tempTx);
-                      }, temp: tempTx, suggessions: {
-                    'user':[appState.adminUser?.key]
-                  });
+                        appState.transactionModuleElement!
+                            .createMeeting(tempTx);
+                      },
+                      temp: tempTx,
+                      suggessions: {
+                        'user': [appState.adminUser?.key]
+                      });
                 });
           },
           child: Text('Pay'),
@@ -203,4 +212,3 @@ DataRow _datarowDoctor(int index, List<UserInfoClass> doctors,FetchFireBaseData 
     ],
   );
 }
-

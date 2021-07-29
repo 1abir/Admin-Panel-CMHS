@@ -19,7 +19,7 @@ class MeetingForm extends StatefulWidget {
       required this.onSubmit,
       required this.temp,
       this.onDelete,
-      required this.suggessions}) ;
+      required this.suggessions});
 
   @override
   _MeetingFormState createState() => _MeetingFormState();
@@ -38,7 +38,7 @@ class _MeetingFormState extends State<MeetingForm> {
     _userController.text = widget.meeting.patientId;
     _doctorController.text = widget.meeting.doctorId;
     _typeController.text = widget.meeting.type.toString();
-    _problemController.text = widget.meeting.problem??'';
+    _problemController.text = widget.meeting.problem ?? '';
   }
 
   @override
@@ -68,10 +68,13 @@ class _MeetingFormState extends State<MeetingForm> {
                         child: Padding(
                           padding: const EdgeInsets.all(defaultPadding),
                           child: BasicDateTimeField(
-                            initialValue: widget.temp.meetingTime??(widget.temp.meetingTime=DateTime.now()),
+                            initialValue: widget.temp.meetingTime ??
+                                (widget.temp.meetingTime = DateTime.now()),
                             onChanged: (value) {
-                              debugPrint("On changed meeting called" + FormattedDate.format(widget.temp.meetingTime).toString());
-                              if(value!=null)
+                              debugPrint("On changed meeting called" +
+                                  FormattedDate.format(widget.temp.meetingTime)
+                                      .toString());
+                              if (value != null)
                                 widget.temp.meetingTime = value;
                             },
                             title: 'Meeting Time',
@@ -128,7 +131,6 @@ class _MeetingFormState extends State<MeetingForm> {
                           },
                         ),
                       ),
-
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.03,
                       ),
@@ -163,8 +165,7 @@ class _MeetingFormState extends State<MeetingForm> {
                           onChanged: (value) {
                             if (value != null) {
                               int? iv = int.tryParse(value);
-                              if (iv != null)
-                                widget.temp.duration = iv;
+                              if (iv != null) widget.temp.duration = iv;
                             }
                           },
                           text: widget.temp.duration.toString(),
@@ -187,8 +188,7 @@ class _MeetingFormState extends State<MeetingForm> {
                           typeAheadController: _problemController,
                           suggessions: widget.suggessions['problem'],
                           onChanged: (value) {
-                            if(value!=null)
-                              widget.temp.problem = value;
+                            if (value != null) widget.temp.problem = value;
                           },
                           text: widget.meeting.problem ?? '',
                           title: 'Comment',
@@ -238,7 +238,7 @@ class _MeetingFormState extends State<MeetingForm> {
                         ),
                         onPressed: () async {
                           if (_formkey.currentState!.validate()) {
-                            if(widget.temp.meetingTime==null){
+                            if (widget.temp.meetingTime == null) {
                               debugPrint("meetingTime:Null");
                             }
                             widget.onSubmit();

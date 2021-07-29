@@ -9,11 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
-
 class QuestionCategoryView extends StatelessWidget {
   final String category;
 
-  const QuestionCategoryView({Key? key, required this.category}) : super(key: key);
+  const QuestionCategoryView({Key? key, required this.category})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +39,8 @@ class QuestionCategoryView extends StatelessWidget {
                     width: defaultPadding,
                   ),
                   Consumer<FetchFireBaseData>(builder: (context, appState, _) {
-                    int key = appState
-                            .detectionModuleMap[category]!
-                            .questionsList!
-                            .length +
+                    int key = appState.detectionModuleMap[category]!
+                            .questionsList!.length +
                         1;
                     FirebaseQuestionDetection qd = FirebaseQuestionDetection(
                         text: '',
@@ -80,8 +78,7 @@ class QuestionCategoryView extends StatelessWidget {
                                   onSubmit: () async {
                                     debugPrint("text: " + qd.text);
                                     qd.qKey = qd.level.toString();
-                                    appState.detectionModuleMap[
-                                            category]!
+                                    appState.detectionModuleMap[category]!
                                         .addQuestion(qd);
                                     // appState.notify();
                                   });
@@ -119,23 +116,16 @@ class QuestionCategoryView extends StatelessWidget {
                           label: Text("Question"),
                         ),
                       ],
-                      rows: appState.detectionModuleMap
-                              .containsKey(category)
+                      rows: appState.detectionModuleMap.containsKey(category)
                           ? List.generate(
-                              appState
-                                  .detectionModuleMap[
-                                      category]!
-                                  .questionsList!
-                                  .length,
+                              appState.detectionModuleMap[category]!
+                                  .questionsList!.length,
                               (i) => _dataRow(
                                   "assets/icons/media_file.svg",
-                                  appState
-                                      .detectionModuleMap[
-                                          category]!
+                                  appState.detectionModuleMap[category]!
                                       .questionsList![i],
                                   context,
-                                  appState.detectionModuleMap[
-                                      category]!,
+                                  appState.detectionModuleMap[category]!,
                                   appState),
                             )
                           : <DataRow>[],

@@ -12,8 +12,7 @@ class VideosForm extends StatefulWidget {
   final suggessions;
 
   VideosForm(
-      {
-      required this.video,
+      {required this.video,
       required this.onSubmit,
       required this.temp,
       this.onDelete,
@@ -26,7 +25,6 @@ class VideosForm extends StatefulWidget {
 class _VideosFormState extends State<VideosForm> {
   final _formkey = GlobalKey<FormState>();
   final _controller = TextEditingController();
-
 
   @override
   void initState() {

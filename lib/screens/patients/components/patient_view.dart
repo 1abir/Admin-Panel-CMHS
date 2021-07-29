@@ -106,6 +106,9 @@ class PatientView extends StatelessWidget {
                           label: Text("Name"),
                         ),
                         DataColumn(
+                          label: Text("Id"),
+                        ),
+                        DataColumn(
                           label: Text("Birth Year"),
                         ),
                         DataColumn(label: Text("Gender")),
@@ -136,7 +139,7 @@ DataRow _datarowPatient(int index, List<UserInfoClass> users,
   UserInfoClass user = users[index];
   TransactionInfo tempTx = TransactionInfo.fromMap({});
   tempTx.toId = user.key;
-  tempTx.fromId = appState.adminUser?.key??'';
+  tempTx.fromId = appState.adminUser?.key ?? '';
   tempTx.amount = user.credit * -1;
   tempTx.type = "Debit";
   return DataRow(
@@ -178,6 +181,7 @@ DataRow _datarowPatient(int index, List<UserInfoClass> users,
           ),
         ),
       ),
+      DataCell(Text(users[index].key.toString())),
       DataCell(Text(users[index].byear.toString())),
       DataCell(Text(users[index].gender)),
       DataCell(Text(users[index].credit.toString())),
@@ -189,13 +193,16 @@ DataRow _datarowPatient(int index, List<UserInfoClass> users,
                 context: context,
                 builder: (context) {
                   return UserPaymentForm(
-                      onSubmit: () async{
+                      onSubmit: () async {
                         user.credit += tempTx.amount;
                         appState.userModuleElement!.updateElement(user);
-                        appState.transactionModuleElement!.createMeeting(tempTx);
-                      }, temp: tempTx, suggessions: {
-                    'user':[appState.adminUser?.key]
-                  });
+                        appState.transactionModuleElement!
+                            .createMeeting(tempTx);
+                      },
+                      temp: tempTx,
+                      suggessions: {
+                        'user': [appState.adminUser?.key]
+                      });
                 });
           },
           child: Text('Pay'),

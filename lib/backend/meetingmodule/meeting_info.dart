@@ -9,7 +9,8 @@ class MeetingInfo {
   int type;
   String? problem;
 
-  MeetingInfo({this.key,
+  MeetingInfo({
+    this.key,
     required this.doctorId,
     required this.patientId,
     required this.meetingTime,
@@ -20,10 +21,11 @@ class MeetingInfo {
 
   static MeetingInfo fromMap(Map<String, dynamic> data) {
     return MeetingInfo(
-      doctorId: data['doctor']??'',
-      patientId: data['patient']??'',
-      meetingTime: DateTime.tryParse(data['meeting_time'].toString())??FormattedDate.parse(data['meeting_time']),
-      type: data['type']??0,
+      doctorId: data['doctor'] ?? '',
+      patientId: data['patient'] ?? '',
+      meetingTime: DateTime.tryParse(data['meeting_time'].toString()) ??
+          FormattedDate.parse(data['meeting_time']),
+      type: data['type'] ?? 0,
       duration: data['duration'] ?? 0,
       problem: data['problem'],
     );
@@ -31,10 +33,11 @@ class MeetingInfo {
 
   static MeetingInfo fromMap2(Map<String, dynamic> data) {
     return MeetingInfo(
-      doctorId: data['id']??'',
-      patientId: data['patient']??'',
-      meetingTime: DateTime.tryParse(data['time'].toString())??FormattedDate.parse(data['time']),
-      type: data['type']??0,
+      doctorId: data['id'] ?? '',
+      patientId: data['patient'] ?? '',
+      meetingTime: DateTime.tryParse(data['time'].toString()) ??
+          FormattedDate.parse(data['time']),
+      type: data['type'] ?? 0,
       duration: data['duration'] ?? 0,
       problem: data['comment'],
     );
@@ -42,22 +45,22 @@ class MeetingInfo {
 
   Map<String, dynamic> toMap() {
     return {
-      'doctor' : doctorId,
-      'patient' : patientId,
-      'meeting_time' : FormattedDate.format(meetingTime),
-      'duration' : duration,
-      'type' : type,
-      'problem' : problem,
+      'doctor': doctorId,
+      'patient': patientId,
+      'meeting_time': FormattedDate.format(meetingTime),
+      'duration': duration,
+      'type': type,
+      'problem': problem,
     };
   }
 
-  Map<String, dynamic> toMap2(){
+  Map<String, dynamic> toMap2() {
     return {
-      'id' : doctorId,
-      'time' : FormattedDate.format(meetingTime),
-      'duration' : duration,
-      'type' : type,
-      'comment' : problem,
+      'id': doctorId,
+      'time': FormattedDate.format(meetingTime),
+      'duration': duration,
+      'type': type,
+      'comment': problem,
     };
   }
 }

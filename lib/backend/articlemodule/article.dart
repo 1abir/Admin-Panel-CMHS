@@ -12,8 +12,7 @@ class Article {
       required this.type,
       required this.url,
       required this.bodyHtml,
-      this.key
-      });
+      this.key});
 
   Map<String, dynamic> toMap() {
     return {
@@ -35,12 +34,12 @@ class Article {
         key: data['key']);
   }
 
-  void copyFrom(Article another){
+  void copyFrom(Article another) {
     head = another.head;
     category = another.category;
-    type=another.type;
-    url=another.url;
-    bodyHtml=another.bodyHtml;
+    type = another.type;
+    url = another.url;
+    bodyHtml = another.bodyHtml;
     key = another.key;
   }
 }

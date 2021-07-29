@@ -1,13 +1,13 @@
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class FormattedDate{
-
+class FormattedDate {
   static DateFormat dateFormat = DateFormat("yyyyMMddaHHmmss");
 
-  static String? format(DateTime? dateTime){
-    if(dateTime == null) return null;
+  FormattedDate._();
+
+  static String? format(DateTime? dateTime) {
+    if (dateTime == null) return null;
     try {
       String ret = dateFormat.format(dateTime);
 
@@ -19,13 +19,14 @@ class FormattedDate{
     }
   }
 
-  static DateTime? parse(String? dateString){
-    if(dateString==null || dateString == 'null') return null;
+  static DateTime? parse(String? dateString) {
+    if (dateString == null || dateString == 'null') return null;
     try {
-      String dateWithT = dateString.substring(0, 8) + 'T' + dateString.substring(10);
+      String dateWithT =
+          dateString.substring(0, 8) + 'T' + dateString.substring(10);
       DateTime dateTime = DateTime.parse(dateWithT);
       return dateTime;
-    }catch(e){
+    } catch (e) {
       debugPrint("Error in parsing dateString :${dateString.toString()}:");
       debugPrint(e.toString());
       return null;

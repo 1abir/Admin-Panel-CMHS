@@ -38,7 +38,7 @@ class VideoCategorySingleView extends StatelessWidget {
                   SizedBox(
                     width: defaultPadding,
                   ),
-                  VideoAddnewutton(),
+                  VideoAddNewButton(),
                   SizedBox(
                     width: defaultPadding,
                   ),
@@ -58,7 +58,8 @@ class VideoCategorySingleView extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Consumer<FetchFireBaseData>(
                   builder: (context, appState, _) {
-                    List<Videos> videoList = appState.videoModule!.getVideosSublist(category);
+                    List<Videos> videoList =
+                        appState.videoModule!.getVideosSublist(category);
                     return SizedBox(
                       width: double.infinity,
                       child: DataTable(
@@ -91,12 +92,8 @@ class VideoCategorySingleView extends StatelessWidget {
   }
 }
 
-DataRow _dataRow(
-    String icon,
-    Videos video,
-    BuildContext context,
-    VideoModuleElement videoModule,
-    FetchFireBaseData appState) {
+DataRow _dataRow(String icon, Videos video, BuildContext context,
+    VideoModuleElement videoModule, FetchFireBaseData appState) {
   var temp = Videos.fromMap(video.toMap());
   temp.key = video.key;
 
@@ -127,7 +124,8 @@ DataRow _dataRow(
                     isScrollControlled: true,
                     builder: (context) {
                       return VideosForm(
-                        suggessions: videoModule.videoCategories.toList(growable: false),
+                        suggessions:
+                            videoModule.videoCategories.toList(growable: false),
                         video: video,
                         temp: temp,
                         onSubmit: () async {

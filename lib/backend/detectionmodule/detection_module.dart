@@ -28,8 +28,7 @@ class DetectionModuleElement {
       debugPrint("inside add question ref");
       ref!.doc(qd.qKey).set(qd.toMap()).catchError((onError) {
         debugPrint('Error in add Question : ' + onError.toString());
-      }).then((value) {
-      });
+      }).then((value) {});
     }
   }
 
